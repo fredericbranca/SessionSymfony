@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,22 @@ class Session
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
+
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'session_stagiaire')]
+    private Collection $stagiaires;
+
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?formation $formation = null;
+
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class)]
+    private Collection $programmes;
+
+    public function __construct()
+    {
+        $this->stagiaires = new ArrayCollection();
+        $this->programmes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +93,75 @@ class Session
     public function setDateFin(\DateTimeInterface $date_fin): static
     {
         $this->date_fin = $date_fin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stagiaire>
+     */
+    public function getStagiaires(): Collection
+    {
+        return $this->stagiaires;
+    }
+
+    public function addStagiaire(Stagiaire $stagiaire): static
+    {
+        if (!$this->stagiaires->contains($stagiaire)) {
+            $this->stagiaires->add($stagiaire);
+            $stagiaire->addSessionStagiaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStagiaire(Stagiaire $stagiaire): static
+    {
+        if ($this->stagiaires->removeElement($stagiaire)) {
+            $stagiaire->removeSessionStagiaire($this);
+        }
+
+        return $this;
+    }
+
+    public function getFormation(): ?formation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?formation $formation): static
+    {
+        $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Programme>
+     */
+    public function getProgrammes(): Collection
+    {
+        return $this->programmes;
+    }
+
+    public function addProgramme(Programme $programme): static
+    {
+        if (!$this->programmes->contains($programme)) {
+            $this->programmes->add($programme);
+            $programme->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgramme(Programme $programme): static
+    {
+        if ($this->programmes->removeElement($programme)) {
+            // set the owning side to null (unless already changed)
+            if ($programme->getSession() === $this) {
+                $programme->setSession(null);
+            }
+        }
 
         return $this;
     }
