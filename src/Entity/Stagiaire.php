@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\StagiaireRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Session;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StagiaireRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StagiaireRepository::class)]
 class Stagiaire
@@ -24,7 +25,7 @@ class Stagiaire
     #[ORM\Column(length: 20)]
     private ?string $telephone = null;
 
-    #[ORM\ManyToMany(targetEntity: session::class, inversedBy: 'stagiaires')]
+    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'stagiaires')]
     private Collection $session_stagiaire;
 
     public function __construct()
@@ -74,14 +75,14 @@ class Stagiaire
     }
 
     /**
-     * @return Collection<int, session>
+     * @return Collection<int, Session>
      */
     public function getSessionStagiaire(): Collection
     {
         return $this->session_stagiaire;
     }
 
-    public function addSessionStagiaire(session $sessionStagiaire): static
+    public function addSessionStagiaire(Session $sessionStagiaire): static
     {
         if (!$this->session_stagiaire->contains($sessionStagiaire)) {
             $this->session_stagiaire->add($sessionStagiaire);
@@ -90,7 +91,7 @@ class Stagiaire
         return $this;
     }
 
-    public function removeSessionStagiaire(session $sessionStagiaire): static
+    public function removeSessionStagiaire(Session $sessionStagiaire): static
     {
         $this->session_stagiaire->removeElement($sessionStagiaire);
 
