@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         }
 
         // Création de Catégorie
-        $listeCategories = ['Bureautique', 'DEV WEB', 'Comptabilité', 'Infographie'];
+        $listeCategories = ['Bureautique', 'DEV WEB', 'Comptabilité', 'Infographie', 'Vente'];
         $categories = [];
 
         foreach ($listeCategories as $cat) {
@@ -59,7 +59,7 @@ class AppFixtures extends Fixture
         }
 
         // Création de Formation
-        $listeFormations = ['Initialisation bureautique et infographie', 'Initialisation comptabilité', 'Remise à niveau numérique', 'DWWB (développeur Web / Web Mobile', 'Assistant dentaire'];
+        $listeFormations = ['Initialisation bureautique et infographie', 'Initialisation comptabilité', 'Remise à niveau numérique', 'DWWB (développeur Web / Web Mobile', 'Web Designer', 'Assistant dentaire'];
         $formations = [];
 
         foreach ($listeFormations as $cat) {
@@ -86,7 +86,13 @@ class AppFixtures extends Fixture
         }
 
         // Ajout des stagiaires dans une session
-        
+        $stagiaireSessions = [];
+        foreach ($stagiaires as $stagiaire) {
+            $stagiaireSession = $stagiaire->addSessionStagiaire($faker->randomElement($sessions));
+            $manager->persist($stagiaireSession);
+
+            $stagiaireSessions[] = $stagiaireSession;
+        }
 
         $manager->flush();
     }
