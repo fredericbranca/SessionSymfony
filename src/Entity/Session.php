@@ -109,12 +109,12 @@ class Session
         return $this;
     }
 
-    public function getFormation(): ?formation
+    public function getFormation(): ?Formation
     {
         return $this->formation;
     }
 
-    public function setFormation(?formation $formation): static
+    public function setFormation(?Formation $formation): static
     {
         $this->formation = $formation;
 
