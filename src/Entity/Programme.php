@@ -67,6 +67,6 @@ class Programme
 
     public function __toString()
     {
-        return $this->getModule();
+        return $this->getModule() . ' : ' . $this->getNbJour() . ' jours';
     }
 }
