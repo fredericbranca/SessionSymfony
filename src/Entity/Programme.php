@@ -65,8 +65,13 @@ class Programme
         return $this;
     }
 
+    public function getSessionIdAsString(): ?string
+    {
+        return $this->session ? (string) $this->session->getId() : null;
+    }
+
     public function __toString()
     {
-        return $this->getModule() . ' : ' . $this->getNbJour() . ' jours';
+        return 'Afficher';
     }
 }
