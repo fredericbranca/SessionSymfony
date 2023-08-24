@@ -6,6 +6,7 @@ use App\Entity\Stagiaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class StagiaireType extends AbstractType
 {
@@ -15,6 +16,7 @@ class StagiaireType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('telephone')
+            ->add('Valider', SubmitType::class)
             // ->add('session_stagiaire')
         ;
     }
