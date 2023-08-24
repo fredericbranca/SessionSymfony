@@ -6,11 +6,11 @@
     <h1>Catégorie</h1>
 
     <a href="{{ path('app_categorie') }}">Liste des catégories</a>
-    <a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
 
     {% if isNew %}
         <h2>Ajouter une catégorie</h2>
     {% else %}
+    <a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
         <h2>Modifier ou supprimer une catégorie</h2>
         <h1></h1>
     {% endif %}
