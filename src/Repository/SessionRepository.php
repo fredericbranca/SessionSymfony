@@ -21,6 +21,33 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
+    // Requete pour récupérer les sessions en cours
+    public function sessionsEnCours() {
+        return $this->createQueryBuilder('s')
+            ->where('s.date_debut < :today AND s.date_fin > :today')
+            ->setParameter('today', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Requete pour récupérer les sessions terminées
+    public function sessionsTerminee() {
+        return $this->createQueryBuilder('s')
+            ->where('s.date_fin < :today')
+            ->setParameter('today', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Requete pour récupérer les sessions à venir
+    public function sessionsFuture() {
+        return $this->createQueryBuilder('s')
+            ->where('s.date_debut > :today')
+            ->setParameter('today', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
