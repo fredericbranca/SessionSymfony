@@ -19,7 +19,7 @@
         {{ form_row(formAddCategorie.nom) }}
         {{ form_row(formAddCategorie.Valider) }}
         {% if isNew == false %}
-            {# <a href='{{ path('delete_categorie', {'id' : categorie.id}) }}'>Supprimer</a> #}
+            <a href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
         {% endif %}
     {{ form_end(formAddCategorie) }}
 
