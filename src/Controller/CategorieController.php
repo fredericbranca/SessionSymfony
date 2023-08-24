@@ -22,11 +22,15 @@ class CategorieController extends AbstractController
         ]);
     }
     
+
+    // Route pour ajouter ou éditer une catégorie
     #[Route('/categorie/new', name: 'new_categorie')]
     #[Route('/categorie/{id}/edit', name: 'edit_categorie')]
-    public function new(Categorie $categorie = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function new_edit(Categorie $categorie = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if (!$categorie) {
+        //Si catégorie est null, alors on créé un objet de type Catégorie
+        $isNew = !$categorie;
+        if ($isNew) {
             $categorie = new Categorie();
         }   
 
@@ -47,8 +51,19 @@ class CategorieController extends AbstractController
 
         return $this->render('categorie/new.html.twig', [
             'formAddCategorie' => $form,
-            'edit' => $categorie->getId()
+            'categorie' => $categorie->getId(),
+            'isNew' => $isNew
         ]);
         
+    }
+
+    // Route pour supprimer une catégorie
+    #[Route('/categorie/{id}/delete', name: 'delete_categorie')]
+    public function delete(Categorie $categorie = null, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($categorie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute(('app_categorie'));
     }
 }
