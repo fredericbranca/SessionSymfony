@@ -23,9 +23,12 @@ class CategorieController extends AbstractController
     }
     
     #[Route('/categorie/new', name: 'new_categorie')]
+    #[Route('/categorie/{id}/edit', name: 'edit_categorie')]
     public function new(Categorie $categorie = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $categorie = new Categorie();
+        if (!$categorie) {
+            $categorie = new Categorie();
+        }   
 
         $form = $this->createForm(CategorieType::class, $categorie);
 
@@ -43,7 +46,8 @@ class CategorieController extends AbstractController
         }
 
         return $this->render('categorie/new.html.twig', [
-            'formAddCategorie' => $form
+            'formAddCategorie' => $form,
+            'edit' => $categorie->getId()
         ]);
         
     }
