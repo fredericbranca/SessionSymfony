@@ -6,12 +6,21 @@
     <h1>Catégorie</h1>
 
     <a href="{{ path('app_categorie') }}">Liste des catégories</a>
+    <a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
 
-    <h2>Ajouter une catégorie</h2>
+    {% if isNew %}
+        <h2>Ajouter une catégorie</h2>
+    {% else %}
+        <h2>Modifier ou supprimer une catégorie</h2>
+        <h1></h1>
+    {% endif %}
 
     {{ form_start(formAddCategorie) }}
         {{ form_row(formAddCategorie.nom) }}
         {{ form_row(formAddCategorie.Valider) }}
+        {% if isNew == false %}
+            {# <a href='{{ path('delete_categorie', {'id' : categorie.id}) }}'>Supprimer</a> #}
+        {% endif %}
     {{ form_end(formAddCategorie) }}
 
 {% endblock %}
