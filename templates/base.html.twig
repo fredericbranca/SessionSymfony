@@ -11,6 +11,15 @@
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <a href="{{path('app_home') }}">Accueil</a>
+            <a href="{{path('app_formation') }}">Formation</a>
+            <a href="{{path('app_session') }}">Sessions</a>
+            <a href="{{path('app_categorie') }}">Catégorie</a>
+            <a href="">Formateurs</a>
+            <a href="{{path('app_login') }}">Connexion</a>
+            <a href="{{path('app_register') }}">Inscription</a>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>
