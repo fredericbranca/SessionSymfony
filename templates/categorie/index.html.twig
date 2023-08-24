@@ -10,6 +10,6 @@
     <h2>Les catégories</h2>
     
     {% for categorie in categories %}
-        <p>{{ categorie }}</p>
+        <p><a href="{{ path('edit_categorie', {'id' : categorie.id}) }}">{{ categorie }}</a></p>
     {% endfor %}
 {% endblock %}
