@@ -6,6 +6,7 @@ use App\Repository\ModuleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 class Module
@@ -22,7 +23,7 @@ class Module
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Programme::class)]
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Programme::class, cascade: ['remove'])]
     private Collection $programmes;
 
     public function __construct()
