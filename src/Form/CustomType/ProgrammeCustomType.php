@@ -19,6 +19,7 @@ class ProgrammeCustomType extends AbstractType
             'class' => Module::class,
             'choice_label' => 'nom', // afficher le nom du module
         ])
+        ->add('nb_jour')
         ->add('categorie', EntityType::class, [
             'class' => Categorie::class,
             'choice_label' => 'nom',
