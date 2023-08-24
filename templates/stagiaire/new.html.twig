@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if isNew %}
+		Ajouter un stagiaire
+	{% else %}
+		Editer un stagiaire
+	{% endif %}
+{% endblock %}
+{% block body %}
+	<h1>Stagiaire</h1>
+
+	<a href="{{ path('app_stagiaire') }}">Liste des stagiaires</a>
+	{% if isNew %}
+		<h2>Ajouter un stagiaire</h2>
+	{% else %}
+		<h2>Modifier ou supprimer le stagiaire</h2>
+	{% endif %}
+
+	{{ form_start(formAddStagiaire) }}
+	{{ form_row(formAddStagiaire.nom) }}
+	{{ form_row(formAddStagiaire.prenom) }}
+	{{ form_row(formAddStagiaire.telephone) }}
+	{{ form_row(formAddStagiaire.Valider) }}
+	{% if isNew == false %}
+		<a href="{{ path('infos_stagiaire', {'id' : stagiaire}) }}">Annuler</a>
+		<a href="{{ path('delete_stagiaire', {'id' : stagiaire}) }}">Supprimer</a>
+	{% else %}
+		<a href="{{ path('app_stagiaire')}}">Annuler</a>
+	{% endif %}
+	{{ form_end(formAddStagiaire) }}
+
+{% endblock %}
