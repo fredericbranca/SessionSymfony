@@ -19,8 +19,7 @@ class CategorieType extends AbstractType
                     'autocomplete' => 'off'
                 ]
             ])
-            ->add('Valider', SubmitType::class)
-        ;
+            ->add('Valider', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
