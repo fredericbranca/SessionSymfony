@@ -27,9 +27,9 @@ class SessionCrudController extends AbstractCrudController
     // Configure les champs qui doivent être affichés et comment ils doivent être traités
     public function configureFields(string $pageName): iterable
     {
-        $formationField = $pageName == Crud::PAGE_EDIT 
-        ? AssociationField::new('formation')->setDisabled() 
-        : AssociationField::new('formation');
+        $formationField = $pageName == Crud::PAGE_EDIT
+            ? AssociationField::new('formation')->setDisabled()
+            : AssociationField::new('formation');
 
         $fields = [
             // Affiche le champ ID de la session et désactive toute modification avec ->setDisabled() (ce champ n'est pas considéré dans les données soumises)
@@ -62,7 +62,7 @@ class SessionCrudController extends AbstractCrudController
                 ->allowDelete(true)
                 ->setFormTypeOptions([
                     'by_reference' => false,
-            ]),
+                ]),
 
             // Champs pour les stagiaires et programmes, uniquement affichés sur la page index. Ici ça affiche le nombre de stagière et de programme car, par défaut, EasyAdmin montre le nombre d'élément dans les relation to-many
             AssociationField::new('stagiaires')
@@ -73,5 +73,4 @@ class SessionCrudController extends AbstractCrudController
 
         return $fields;
     }
-
 }
