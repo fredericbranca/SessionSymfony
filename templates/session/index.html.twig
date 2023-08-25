@@ -4,81 +4,116 @@
 {% endblock %}
 
 {% block body %}
+
 	<h1>Sessions</h1>
 
-	{# <a href="{{ path('new_session') }}">Ajouter une sesion</a> #}
+	{# Affiche la liste des sessions #}
+	{% if session is null %}
 
-	<h2>Les sessions</h2>
 
-	<h3>Sessions en cours</h3>
-	<table>
-		<thead>
-			<th>Formation</th>
-			<th>Nombre de place</th>
-			<th>Date de début</th>
-			<th>Date de fin</th>
-		</thead>
-		{% for session in enCours %}
-			<tbody>
-				<td>
-					{{ session.formation }}</td>
-				<td>
-					{{ session.nbPlace }}</td>
-				<td>
-					{{ session.dateDebut|date("m/d/Y") }}</td>
-				<td>
-					{{ session.dateFin|date("m/d/Y") }}</td>
-			</tbody>
-			{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-			{# <p>Nombre de programme : {{ session.programme }}</p> #}
+		{# <a href="{{ path('new_session') }}">Ajouter une sesion</a> #}
+
+		<h2>Les sessions</h2>
+
+		<h3>Sessions en cours</h3>
+		<table>
+			<thead>
+				<th>Formation</th>
+				<th>Nombre de place</th>
+				<th>Date de début</th>
+				<th>Date de fin</th>
+			</thead>
+			{% for session in enCours %}
+				<tbody>
+					<td>
+						{{ session.formation }}</td>
+					<td>
+						{{ session.nbPlace }}</td>
+					<td>
+						{{ session.dateDebut|date("d/m/Y") }}</td>
+					<td>
+						{{ session.dateFin|date("d/m/Y") }}</td>
+				</tbody>
+				{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
+				{# <p>Nombre de programme : {{ session.programme }}</p> #}
+			{% endfor %}
+		</table>
+
+		<h3>Sessions Terminées</h3>
+		<table>
+			<thead>
+				<th>Formation</th>
+				<th>Nombre de place</th>
+				<th>Date de début</th>
+				<th>Date de fin</th>
+			</thead>
+			{% for session in terminees %}
+				<tbody>
+					<td>
+						{{ session.formation }}</td>
+					<td>
+						{{ session.nbPlace }}</td>
+					<td>
+						{{ session.dateDebut|date("d/m/Y") }}</td>
+					<td>
+						{{ session.dateFin|date("d/m/Y") }}</td>
+				</tbody>
+				{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
+				{# <p>Nombre de programme : {{ session.programme }}</p> #}
+			{% endfor %}
+		</table>
+
+		<h3>Sessions à venir</h3>
+		<table>
+			<thead>
+				<th>Formation</th>
+				<th>Nombre de place</th>
+				<th>Date de début</th>
+				<th>Date de fin</th>
+			</thead>
+			{% for session in future %}
+				<tbody>
+					<td>
+						{{ session.formation }}</td>
+					<td>
+						{{ session.nbPlace }}</td>
+					<td>
+						{{ session.dateDebut|date("d/m/Y") }}</td>
+					<td>
+						{{ session.dateFin|date("d/m/Y") }}</td>
+				</tbody>
+				{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
+				{# <p>Nombre de programme : {{ session.programme }}</p> #}
+			{% endfor %}
+		</table>
+
+		{# Affiche l'information d'une seule session #}
+	{% else %}
+
+		<h2>Information de la session</h2>
+		<p>Formation :
+			<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
+		</p>
+		<p>Date de début :
+			{{ session.dateDebut |format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+		<p>Date de fin :
+			{{ session.dateFin |format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+		<p>Nombre de place :
+			{{ session.nbPlace }}</p>
+
+		<h3>Liste des stagiaires inscrits</h3>
+		{% for stagiaire in session.stagiaires %}
+			<p><a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }} {{ stagiaire.prenom }}</a></p>
 		{% endfor %}
-	</table>
 
-    	<h3>Sessions Terminées</h3>
-	<table>
-		<thead>
-			<th>Formation</th>
-			<th>Nombre de place</th>
-			<th>Date de début</th>
-			<th>Date de fin</th>
-		</thead>
-		{% for session in terminees %}
-			<tbody>
-				<td>
-					{{ session.formation }}</td>
-				<td>
-					{{ session.nbPlace }}</td>
-				<td>
-					{{ session.dateDebut|date("m/d/Y") }}</td>
-				<td>
-					{{ session.dateFin|date("m/d/Y") }}</td>
-			</tbody>
-			{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-			{# <p>Nombre de programme : {{ session.programme }}</p> #}
+		<h3>Programme</h3>
+		{% for key, programme in session.programmes %}
+			<p>{{ key + 1 }}:
+				<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+				/
+				{{ programme.nbJour }}
+				jours</p>
 		{% endfor %}
-	</table>
 
-    	<h3>Sessions à venir</h3>
-	<table>
-		<thead>
-			<th>Formation</th>
-			<th>Nombre de place</th>
-			<th>Date de début</th>
-			<th>Date de fin</th>
-		</thead>
-		{% for session in future %}
-			<tbody>
-				<td>
-					{{ session.formation }}</td>
-				<td>
-					{{ session.nbPlace }}</td>
-				<td>
-					{{ session.dateDebut|date("m/d/Y") }}</td>
-				<td>
-					{{ session.dateFin|date("m/d/Y") }}</td>
-			</tbody>
-			{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-			{# <p>Nombre de programme : {{ session.programme }}</p> #}
-		{% endfor %}
-	</table>
+	{% endif %}
 {% endblock %}
