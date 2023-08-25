@@ -12,17 +12,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionController extends AbstractController
 {
-    // Route pour afficher la liste des sessions
+    // Route pour afficher la liste un ou plusieurs sessions
     #[Route('/session', name: 'app_session')]
-    public function index(SessionRepository $sessionRepository): Response
+    #[Route('/session/{id}', name: 'infos_session')]
+    public function index(SessionRepository $sessionRepository, Session $session = null): Response
     {
-        $sessionsEnCours = $sessionRepository->sessionsEnCours();
-        $sessionsTerminee = $sessionRepository->sessionsTerminee();
-        $sessionsFuture = $sessionRepository->sessionsFuture();
-        return $this->render('session/index.html.twig', [
-            'enCours' => $sessionsEnCours,
-            'terminees' => $sessionsTerminee,
-            'future' => $sessionsFuture
-        ]);
+        if ($session == null) {
+            $sessionsEnCours = $sessionRepository->sessionsEnCours();
+            $sessionsTerminee = $sessionRepository->sessionsTerminee();
+            $sessionsFuture = $sessionRepository->sessionsFuture();
+            return $this->render('session/index.html.twig', [
+                'enCours' => $sessionsEnCours,
+                'terminees' => $sessionsTerminee,
+                'future' => $sessionsFuture,
+                'session' => $session
+            ]);
+        } else {
+            $session = $sessionRepository->findOneBy(['id' => $session]);
+            return $this->render('session/index.html.twig', [
+                'session' => $session
+            ]);
+        }
     }
 }
