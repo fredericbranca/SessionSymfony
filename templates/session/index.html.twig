@@ -103,7 +103,10 @@
 
 		<h3>Liste des stagiaires inscrits</h3>
 		{% for stagiaire in session.stagiaires %}
-			<p><a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }} {{ stagiaire.prenom }}</a></p>
+			<p>
+				<a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
+					{{ stagiaire.prenom }}</a>
+			</p>
 		{% endfor %}
 
 		<h3>Programme</h3>
@@ -112,7 +115,9 @@
 				<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 				/
 				{{ programme.nbJour }}
-				jours</p>
+				jours
+				<a href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.module.id}) }}">supp</a>
+			</p>
 		{% endfor %}
 
 	{% endif %}
