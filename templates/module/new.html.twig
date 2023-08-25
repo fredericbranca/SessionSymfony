@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if isNew %}
+		Ajouter un module
+	{% else %}
+		Editer un module
+	{% endif %}
+{% endblock %}
+{% block body %}
+	<h1>Module</h1>
+
+	<a href="{{ path('app_module') }}">Liste des modules</a>
+	{% if isNew %}
+		<h2>Ajouter un module</h2>
+	{% else %}
+		<h2>Modifier ou supprimer le module</h2>
+	{% endif %}
+
+	{{ form_start(formAddModule) }}
+	{{ form_row(formAddModule.nom) }}
+	{{ form_row(formAddModule.categorie) }}
+	{{ form_row(formAddModule.Valider) }}
+	{% if isNew == false %}
+		<a href="{{ path('infos_module', {'id' : module}) }}">Annuler</a>
+		{# <a href="{{ path('delete_module', {'id' : module}) }}">Supprimer</a> #}
+	{% else %}
+		<a href="{{ path('app_module')}}">Annuler</a>
+	{% endif %}
+	{{ form_end(formAddModule) }}
+
+{% endblock %}
