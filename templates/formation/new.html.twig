@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une formation
+{% endblock %}
+
+{% block body %}
+	<h1>Formation</h1>
+
+	{% if isNew %}
+		<a href="{{ path('app_formation') }}">Retour à la liste</a>
+		<h2>Ajouter une formation</h2>
+	{% else %}
+		<a href="{{ path('app_formation') }}">Retour à la liste</a>
+		<h2>Modifier/Supprimer une formation</h2>
+
+	{% endif %}
+
+	{# Formulaire #}
+	{{ form_start(formAddFormation) }}
+	{{ form_row(formAddFormation.nom) }}
+	{{ form_row(formAddFormation.Valider) }}
+
+	{% if isNew == false %}
+		<a href="{{ path('app_formation') }}">Annuler</a>
+		<a href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
+	{% endif %}
+	{{ form_end(formAddFormation) }}
+
+{% endblock %}
