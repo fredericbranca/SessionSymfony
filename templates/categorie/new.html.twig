@@ -12,13 +12,12 @@
 	{% else %}
 		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
 		<h2>Modifier/Supprimer une catégorie</h2>
-
+	{% endif %}
+	
 		{# Formulaire #}
 		{{ form_start(formAddCategorie) }}
 		{{ form_row(formAddCategorie.nom) }}
 		{{ form_row(formAddCategorie.Valider) }}
-		
-	{% endif %}
 
 	{% if isNew == false %}
 		<a href="{{ path('app_categorie') }}">Annuler</a>
