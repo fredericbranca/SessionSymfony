@@ -25,6 +25,7 @@ class SessionRepository extends ServiceEntityRepository
     public function sessionsEnCours() {
         return $this->createQueryBuilder('s')
             ->where('s.date_debut < :today AND s.date_fin > :today')
+            ->orderBy('s.date_debut', 'ASC')
             ->setParameter('today', new \DateTime())
             ->getQuery()
             ->getResult();
@@ -34,6 +35,7 @@ class SessionRepository extends ServiceEntityRepository
     public function sessionsTerminee() {
         return $this->createQueryBuilder('s')
             ->where('s.date_fin < :today')
+            ->orderBy('s.date_debut', 'ASC')
             ->setParameter('today', new \DateTime())
             ->getQuery()
             ->getResult();
@@ -43,6 +45,7 @@ class SessionRepository extends ServiceEntityRepository
     public function sessionsFuture() {
         return $this->createQueryBuilder('s')
             ->where('s.date_debut > :today')
+            ->orderBy('s.date_debut', 'ASC')
             ->setParameter('today', new \DateTime())
             ->getQuery()
             ->getResult();

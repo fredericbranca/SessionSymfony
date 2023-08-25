@@ -63,13 +63,13 @@ class CategorieController extends AbstractController
     public function index(CategorieRepository $categorieRepository, Categorie $categorie = null, ModuleRepository $moduleRepository): Response
     {   
         if ($categorie == null) {
-            $categories = $categorieRepository->findAll();
+            $categories = $categorieRepository->findBy([], ['nom' => 'ASC']);
             return $this->render('categorie/index.html.twig', [
                 'categories' => $categories,
                 'categorie' => $categorie
             ]);
         } else {
-            $modulesCategorie = $moduleRepository->findBy(['categorie' => $categorie], );
+            $modulesCategorie = $moduleRepository->findBy(['categorie' => $categorie], ['nom' => 'ASC']);
             return $this->render('categorie/index.html.twig', [
                 'categorie' => $categorie,
                 'modulesCategorie' => $modulesCategorie

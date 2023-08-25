@@ -58,12 +58,12 @@ class FormationController extends AbstractController
         return $this->redirectToRoute(('app_formation'));
     }
 
-    #[Route('/formation', name: 'app_formation', methods: ['GET'])]
+    #[Route('/formation', name: 'app_formation')]
     #[Route('/formation/{id}', name: 'infos_formation')]
     public function index(Formation $formation = null, FormationRepository $formationRepository, SessionRepository $sessionRepository): Response
     {
         if ($formation == null) {
-            $formations = $formationRepository->findAll();
+            $formations = $formationRepository->findBy([], ['nom' => 'ASC']);
             return $this->render('formation/index.html.twig', [
                 'formations' => $formations,
                 'formation' => $formation

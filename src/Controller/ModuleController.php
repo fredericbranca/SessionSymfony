@@ -61,7 +61,7 @@ class ModuleController extends AbstractController
     #[Route('/module/{id}', name: 'infos_module')]
     public function index(ModuleRepository $moduleRepository, Module $module = null): Response
     {
-        $modules = $moduleRepository->findAll();
+        $modules = $moduleRepository->findBy([], ['nom' => 'ASC']);
         return $this->render('module/index.html.twig', [
             'modules' => $modules,
             'module' => $module
