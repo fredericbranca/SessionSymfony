@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
+use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,16 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieController extends AbstractController
 {
-    #[Route('/categorie', name: 'app_categorie')]
-    public function index(CategorieRepository $categorieRepository): Response
-    {
-        $categories = $categorieRepository->findAll();
-        return $this->render('categorie/index.html.twig', [
-            'categories' => $categories
-        ]);
-    }
-    
-
     // Route pour ajouter ou éditer une catégorie
     #[Route('/categorie/new', name: 'new_categorie')]
     #[Route('/categorie/{id}/edit', name: 'edit_categorie')]
@@ -65,5 +56,24 @@ class CategorieController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute(('app_categorie'));
+    }
+
+    #[Route('/categorie', name: 'app_categorie')]
+    #[Route('/categorie/{id}', name: 'infos_categorie')]
+    public function index(CategorieRepository $categorieRepository, Categorie $categorie = null, ModuleRepository $moduleRepository): Response
+    {   
+        if ($categorie == null) {
+            $categories = $categorieRepository->findAll();
+            return $this->render('categorie/index.html.twig', [
+                'categories' => $categories,
+                'categorie' => $categorie
+            ]);
+        } else {
+            $modulesCategorie = $moduleRepository->findBy(['categorie' => $categorie], );
+            return $this->render('categorie/index.html.twig', [
+                'categorie' => $categorie,
+                'modulesCategorie' => $modulesCategorie
+            ]);
+        }
     }
 }

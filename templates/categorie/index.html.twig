@@ -1,15 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catégorie{% endblock %}
+{% block title %}Catégorie
+{% endblock %}
 
 {% block body %}
-    <h1>Catégorie</h1>
+	<h1>Catégorie</h1>
 
-    <a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+	{% if categorie is null %}
+		<a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+		<h2>Les catégories</h2>
+		{% for categorie in categories %}
+			<p>
+				<a href="{{ path('infos_categorie', {'id' : categorie.id}) }}">{{ categorie }}</a>
+			</p>
+		{% endfor %}
 
-    <h2>Les catégories</h2>
-    
-    {% for categorie in categories %}
-        <p><a href="{{ path('edit_categorie', {'id' : categorie.id}) }}">{{ categorie }}</a></p>
-    {% endfor %}
+	{% else %}
+		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
+		<h2>{{ categorie.nom }}</h2>
+        <a href="{{ path('edit_categorie', {'id': categorie.id}) }}">Modifier</a>
+		<h3>Liste des modules</h3>
+		{% for module in modulesCategorie %}
+			<p>
+				<a href="{{ path('infos_module', {'id': module.id }) }}">{{ module }}</a>
+			</p>
+		{% endfor %}
+
+	{% endif %}
+
+
 {% endblock %}
