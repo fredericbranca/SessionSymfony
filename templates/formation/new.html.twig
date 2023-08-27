@@ -22,7 +22,7 @@
 
 	{% if isNew == false %}
 		<a href="{{ path('app_formation') }}">Annuler</a>
-		<a href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
+		<a class="confirm-delete" href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
 	{% endif %}
 	{{ form_end(formAddFormation) }}
 

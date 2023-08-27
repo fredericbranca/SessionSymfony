@@ -23,7 +23,6 @@
 	{{ form_row(formAddModule.Valider) }}
 	{% if isNew == false %}
 		<a href="{{ path('infos_module', {'id' : module}) }}">Annuler</a>
-		{# <a href="{{ path('delete_module', {'id' : module}) }}">Supprimer</a> #}
 	{% else %}
 		<a href="{{ path('app_module')}}">Annuler</a>
 	{% endif %}

@@ -24,7 +24,7 @@
 	{{ form_row(formAddStagiaire.Valider) }}
 	{% if isNew == false %}
 		<a href="{{ path('infos_stagiaire', {'id' : stagiaire}) }}">Annuler</a>
-		<a href="{{ path('delete_stagiaire', {'id' : stagiaire}) }}">Supprimer</a>
+		<a class="confirm-delete" href="{{ path('delete_stagiaire', {'id' : stagiaire}) }}">Supprimer</a>
 	{% else %}
 		<a href="{{ path('app_stagiaire')}}">Annuler</a>
 	{% endif %}

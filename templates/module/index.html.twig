@@ -23,7 +23,7 @@
 			<a href="{{ path('infos_categorie', {'id': module.categorie.id}) }}">{{ module.categorie }}</a>
 		</p>
 		<a href="{{ path('edit_module', {'id' : module.id}) }}">Modifier</a>
-		<a href="{{ path('delete_module', {'id' : module.id}) }}">Supprimer</a>
+		<a class="confirm-delete" href="{{ path('delete_module', {'id' : module.id}) }}">Supprimer</a>
 	{% endif %}
 
 

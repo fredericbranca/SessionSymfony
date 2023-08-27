@@ -21,7 +21,7 @@
 
 	{% if isNew == false %}
 		<a href="{{ path('app_categorie') }}">Annuler</a>
-		<a href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
+		<a class="confirm-delete" href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
 	{% endif %}
 	{{ form_end(formAddCategorie) }}
 
