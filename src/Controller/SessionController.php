@@ -20,8 +20,7 @@ class SessionController extends AbstractController
     public function deleteProgramme(
     #[MapEntity(id: 'id')] Session $session, #[MapEntity(id: 'idProgramme')] Programme $programme, EntityManagerInterface $entityManager) : Response
     {
-        $session->removeProgramme($programme);
-        $entityManager->persist($session);
+        $entityManager->remove($programme);
         $entityManager->flush();
 
         return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
