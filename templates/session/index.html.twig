@@ -111,14 +111,19 @@
 		<p>Nombre de place :
 			{{ session.nbPlace }}</p>
 
+		{# Liste des stagiaires #}
 		<h3>Liste des stagiaires inscrits</h3>
-		{% for stagiaire in session.stagiaires %}
-			<p>
-				<a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
-					{{ stagiaire.prenom }}</a>
-				<a class="confirm-delete" href="{{ path('deleteStagiaire_session', {'id': session.id, 'idStagiaire': stagiaire.id}) }}">Supprimer</a>
-			</p>
-		{% endfor %}
+		{% if session.stagiaires is empty %}
+			<p>Aucun stagiaire inscrits</p>
+		{% else %}
+			{% for stagiaire in session.stagiaires %}
+				<p>
+					<a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
+						{{ stagiaire.prenom }}</a>
+					<a class="confirm-delete" href="{{ path('deleteStagiaire_session', {'id': session.id, 'idStagiaire': stagiaire.id}) }}">Supprimer</a>
+				</p>
+			{% endfor %}
+		{% endif %}
 
 		<h3>Programme</h3>
 		{% if session.programmes is empty %}
