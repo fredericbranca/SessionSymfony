@@ -65,11 +65,12 @@ class SessionController extends AbstractController
     #[Route('/session/{id}', name: 'infos_session')]
     public function index(
         SessionRepository $sessionRepository,
-        Session $session = null,
+        #[MapEntity(id: 'id')] Session $session,
         Programme $programme,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
+        // S'il n'y a pas de paramètre {id} dans l'url, on affiche la liste de toutes les sessions (en cours, terminée, à venir)
         if ($session == null) {
             $sessionsEnCours = $sessionRepository->sessionsEnCours();
             $sessionsTerminee = $sessionRepository->sessionsTerminee();
@@ -80,15 +81,18 @@ class SessionController extends AbstractController
                 'future' => $sessionsFuture,
                 'session' => $session
             ]);
+            
+            // Vue d'une session spécifique grâce à son ID
         } else {
-            $isNew = !$programme;
-            if ($isNew) {
-                $programme = new Programme();
-            }   
+            // Récupère la liste des programmes non inscrit à la session
+            $programmes = $sessionRepository->findNonProgrammee($session);
             // Formulaire add programmes
-            $formProg = $this->createForm(ProgrammeType::class, $programme);
+            $formProg = $this->createForm(ProgrammeType::class, null, [
+                'modules_non_programmes' => $programmes
+            ]);
             $formProg->handleRequest($request);
 
+            // Si le formulaire pour ajouter un programme existant à la session est validé
             if ($formProg->isSubmitted() && $formProg->isValid()) {
 
                 $session->addProgramme($programme);
@@ -98,10 +102,10 @@ class SessionController extends AbstractController
                 return $this->redirectToRoute('infos_session', ['id' => $session->getId()] );
             }
 
+            // Récupère les infos de la session avec l'ID
             $session = $sessionRepository->findOneBy(['id' => $session]);
+            // Récupère la liste des stagiaires non inscrit à la session 
             $stagiaires = $sessionRepository->findNonInscrits($session);
-            $programmes = $sessionRepository->findNonProgrammee($session);
-            // dd($programmes);
 
             return $this->render('session/index.html.twig', [
                 'session' => $session,
@@ -112,3 +116,4 @@ class SessionController extends AbstractController
         }
     }
 }
+// 7 5 6
