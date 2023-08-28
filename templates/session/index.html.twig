@@ -158,6 +158,15 @@
 			{% endfor %}
 		</select>
 
+		{# Ajout programme à la session #}
+		<h3>Ajouter un programme à la session</h3>
+
+		{{ form_start(formAddProgramme) }}
+			{{ form_row(formAddProgramme.module) }}
+			{{ form_row(formAddProgramme.nb_jour) }}
+			{{ form_row(formAddProgramme.Valider) }}
+		{{ form_end(formAddProgramme) }}
+
 
 	{% endif %}
 
