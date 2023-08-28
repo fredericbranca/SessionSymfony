@@ -21,7 +21,7 @@
 	{{ form_row(formAddFormation.Valider) }}
 
 	{% if isNew == false %}
-		<a href="{{ path('app_formation') }}">Annuler</a>
+		<a href="{{ path('infos_formation', {'id': formation}) }}">Annuler</a>
 		<a class="confirm-delete" href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
 	{% endif %}
 	{{ form_end(formAddFormation) }}
