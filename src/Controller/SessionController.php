@@ -121,6 +121,7 @@ class SessionController extends AbstractController
             $session = $sessionRepository->findOneBy(['id' => $session]);
             // Récupère la liste des stagiaires non inscrit à la session 
             $stagiaires = $sessionRepository->findNonInscrits($session);
+            // $stagiaires = $sessionRepository->stagiaireNonInscrits($session);
 
             return $this->render('session/index.html.twig', [
                 'session' => $session,

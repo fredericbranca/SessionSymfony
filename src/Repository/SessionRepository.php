@@ -51,19 +51,30 @@ class SessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Requête pour récupérer les stagiaires non inscrits la session choisit
-    public function stagiaireNonInscrits($session_id) {
+    // Requête pour récupérer les stagiaires non inscrits à une session spécifique
+    public function stagiaireNonInscrits($session_id) 
+    {
         $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
     
-        return $em->createQueryBuilder()
-            ->select('s')
-            ->from('App\Entity\Stagiaire', 's')
-            ->leftJoin('s.stagiaire_session', 'ss', 'WITH', 's.id = ss.id AND ss.id = :session')
-            ->where('ss.id IS NULL')
-            ->setParameter('session', $session_id)
-            ->orderBy('s.nom')
-            ->getQuery()
-            ->getResult();
+        return $qb->select('st')
+                  ->from('App\Entity\Stagiaire', 'st')
+                  ->where(
+                      $qb->expr()->notIn(
+                          'st.id',
+                          // Sous-requête
+                          $em->createQueryBuilder()
+                             ->select('s.id')
+                             ->from('App\Entity\Stagiaire', 's')
+                             ->join('s.stagiaire_session', 'se')
+                             ->where('se.id = :id')
+                             ->getDQL()
+                      )
+                  )
+                  ->setParameter('id', $session_id)
+                  ->orderBy('st.nom')
+                  ->getQuery()
+                  ->getResult();
     }
     
 
