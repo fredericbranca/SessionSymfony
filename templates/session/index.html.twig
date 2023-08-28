@@ -99,8 +99,12 @@
 
 		{# Affiche l'information d'une seule session #}
 	{% else %}
+
 		<a href="{{ path('app_session') }}">Retour</a>
+
+		{# Infos Session #}
 		<h2>Information de la session</h2>
+
 		<p>Formation :
 			<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
 		</p>
@@ -113,9 +117,11 @@
 
 		{# Liste des stagiaires #}
 		<h3>Liste des stagiaires inscrits</h3>
+
 		{% if session.stagiaires is empty %}
 			<p>Aucun stagiaire inscrits</p>
 		{% else %}
+			{% set stagiairesSession = [] %}
 			{% for stagiaire in session.stagiaires %}
 				<p>
 					<a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
@@ -125,6 +131,7 @@
 			{% endfor %}
 		{% endif %}
 
+		{# Programme #}
 		<h3>Programme</h3>
 		{% if session.programmes is empty %}
 			<p>Cette session n'a pas de programme</p>
@@ -139,6 +146,17 @@
 				</p>
 			{% endfor %}
 		{% endif %}
+
+		{# Ajout stagiaire à la session #}
+		<h3>Ajouter un stagiaire à la session</h3>
+
+		<label for="stagiaire-select">Liste des stagiaires :</label>
+		<select name="stagiaires" id="stagiaire-select" onchange="location = this.value;">
+			<option value="">Choisir un stagiaire</option>
+			{% for stagiaire in stagiaires %}
+				<option value="{{ path('addStagiaire_session', {'id': session.id, 'id_stagiaire': stagiaire.id }) }}">{{ stagiaire }}</option>
+			{% endfor %}
+		</select>
 
 
 	{% endif %}
