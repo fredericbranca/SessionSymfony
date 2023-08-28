@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
+use App\Form\SessionType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionController extends AbstractController
 {
+    // Route pour ajouter un stagiaire à une session
+    #[Route('/session/{id}/addStagiaire/{id_stagiaire}', name: 'addStagiaire_session')]
+    public function addStagiaire(
+        #[MapEntity(id: 'id')] Session $session,
+        #[MapEntity(id: 'id_stagiaire')] Stagiaire $stagiaire,
+        EntityManagerInterface $entityManager
+    ): Response {
+
+        $session->addStagiaire($stagiaire);
+        $entityManager->persist($session);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+    }
+
     // Route pour supprimer un programme d'une session
     #[Route('/session/{id}/deleteProgramme/{idProgramme}', name: 'deleteProgramme_session')]
     public function deleteProgramme(
@@ -46,8 +62,10 @@ class SessionController extends AbstractController
     // Route pour afficher la liste un ou plusieurs sessions
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
-    public function index(SessionRepository $sessionRepository, Session $session = null): Response
-    {
+    public function index(
+        SessionRepository $sessionRepository,
+        Session $session = null,
+    ): Response {
         if ($session == null) {
             $sessionsEnCours = $sessionRepository->sessionsEnCours();
             $sessionsTerminee = $sessionRepository->sessionsTerminee();
@@ -60,8 +78,12 @@ class SessionController extends AbstractController
             ]);
         } else {
             $session = $sessionRepository->findOneBy(['id' => $session]);
+            $stagiaires = $sessionRepository->findNonInscrits($session);
+
+            
             return $this->render('session/index.html.twig', [
-                'session' => $session
+                'session' => $session,
+                'stagiaires' => $stagiaires,
             ]);
         }
     }
