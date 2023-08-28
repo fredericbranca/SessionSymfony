@@ -62,9 +62,11 @@ class SessionController extends AbstractController
     // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que les programmes
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
+    #[Route('/session/{id}/edit/{id_programme}', name: 'edit_jour_programme_session')]
     public function index(
         SessionRepository $sessionRepository,
         #[MapEntity(id: 'id')] Session $session,
+        #[MapEntity(id: 'id_programme')] Programme $programme = null,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
@@ -82,9 +84,23 @@ class SessionController extends AbstractController
             
             // Vue d'une session spécifique grâce à son ID
         } else {
+            // Changement du nombre de jour d'un programme
+            if ($programme) {
+
+                if ($request->isMethod('POST')) {
+                    $nbJour = $request->request->get('nbJour');
+                    $programme->setNbJour($nbJour);
+                    $entityManager->persist($programme);
+                    $entityManager->flush();
+                }
+    
+                return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+            }
+
             // Récupère la liste des programmes non inscrit à la session
             $programmes = $sessionRepository->findNonProgrammee($session);
-            // Formulaire add programmes
+
+            // Formulaire add programmes //
             $formProg = $this->createForm(ProgrammeType::class, null, [
                 'modules_non_programmes' => $programmes
             ]);
