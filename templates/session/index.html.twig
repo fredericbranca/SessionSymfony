@@ -133,10 +133,13 @@
 
 		{# Programme #}
 		<h3>Programme</h3>
-		{% if session.programmes is empty %}
+
+		{# Trie les modules par ordre alphabétique #}
+		{% set sortedProgrammes = session.programmes|sort((a, b) => a.module.nom <=> b.module.nom) %}
+		{% if sortedProgrammes is empty %}
 			<p>Cette session n'a pas de programme</p>
 		{% else %}
-			{% for key, programme in session.programmes %}
+			{% for key, programme in sortedProgrammes %}
 				<p>{{ key + 1 }}:
 					<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 					/
@@ -162,9 +165,15 @@
 		<h3>Ajouter un programme à la session</h3>
 
 		{{ form_start(formAddProgramme) }}
-			{{ form_row(formAddProgramme.module) }}
-			{{ form_row(formAddProgramme.nb_jour) }}
-			{{ form_row(formAddProgramme.Valider) }}
+			{{ form_label(formAddProgramme.module) }}
+			{{ form_errors(formAddProgramme.module) }}
+			{{ form_widget(formAddProgramme.module) }}
+
+			{{ form_label(formAddProgramme.nb_jour) }}
+			{{ form_errors(formAddProgramme.nb_jour) }}
+			{{ form_widget(formAddProgramme.nb_jour) }}
+
+			{{ form_widget(formAddProgramme.Valider) }}
 		{{ form_end(formAddProgramme) }}
 
 
