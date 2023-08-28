@@ -22,22 +22,29 @@
 		<a href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
 		<a class="confirm-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
 		<h3>Session :</h3>
-		{% for session in sessionsFormation %}
-			<table>
-				<thead>
-					<th>Date de début</th>
-					<th>Date de fin</th>
-					<th>Nombre de place</th>
-				</thead>
-				<tbody>
-					<td>{{ session.dateDebut|date('d/M/Y') }}</td>
-					<td>{{ session.dateFin|date('d/M/Y') }}</td>
-					<td>{{ session.nbPlace }}</td>
-				</tbody>
-			</table>
-		{% endfor %}
+		<table>
+			<thead>
+				<th>Date de début</th>
+				<th>Date de fin</th>
+				<th>Nombre de place</th>
+			</thead>
+			<tbody>
+				{% for session in sessionsFormation %}
+					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+						<td>{{ session.dateDebut|date('d/M/Y') }}</td>
+						<td>{{ session.dateFin|date('d/M/Y') }}</td>
+						<td>{{ session.nbPlace }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 	{% endif %}
+
+	{# JavaScript #}
+	{% block additional_javascripts %}
+		<script src="{{ asset('js/session.js') }}"></script>
+	{% endblock %}
 
 
 {% endblock %}
