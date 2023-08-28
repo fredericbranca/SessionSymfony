@@ -96,34 +96,35 @@ class SessionRepository extends ServiceEntityRepository
          return $query->getResult();
      }
 
-    //  Afficher les modules non programmées
-    public function findNonProgrammee($session_id)
-    {
+     public function findNonProgrammee($session_id)
+     {
         $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
-
-        $qb = $sub;
-        // sélectionner tous les programmes d'une session dont l'id est passé en paramètre
-        $qb->select('m')
-            ->from('App\Entity\Module', 'm')
-            ->leftJoin('m.programmes', 'p')
-            ->where('p.id = :id');
-        
-        $sub = $em->createQueryBuilder();
-        // sélectionner tous les programmes qui ne SONT PAS (NOT IN) dans le résultat précédent
-        // on obtient donc les programmes non programmées pour une session définie
-        $sub->select('mo')
-            ->from('App\Entity\Module', 'mo')
-            ->where($sub->expr()->notIn('mo.id', $qb->getDQL()))
-            // requête paramétrée
-            ->setParameter('id', $session_id);
-            // trier la liste des stagiaires sur le nom de famille
-            // ->orderBy('st.nom');
-        
-        // renvoyer le résultat
-        $query = $sub->getQuery();
-        return $query->getResult();
-    }
+      
+         // sélectionner tous les modules d'une session dont l'id est passé en paramètre
+         // https://www.doctrine-project.org/projects/doctrine-orm/en/2.16/reference/dql-doctrine-query-language.html
+         // IDENTITY(single_association_path_expression [, fieldMapping]) - Retrieve the foreign key column of association of the owning side
+         // The IDENTITY() DQL function also works for composite primary keys
+         $subQuery = $em->createQueryBuilder();
+         $subQuery->select('IDENTITY(p.module)')
+             ->from('App\Entity\Programme', 'p')
+             ->join('p.session', 's')
+             ->where('s.id = :session_id')
+             ->setParameter('session_id', $session_id);
+      
+             $sub = $em->createQueryBuilder();
+             // sélectionner tous les modules qui ne SONT PAS (NOT IN) dans le résultat précédent
+             // on obtient donc les modules non programmés pour une session définie
+             $qb = $em->createQueryBuilder();
+             $qb->select('m')
+                 ->from('App\Entity\Module', 'm')
+                 ->where($qb->expr()->notIn('m.id', $subQuery->getDQL()))
+                 ->setParameter('session_id', $session_id)
+                 ->orderBy('m.nom');
+             
+             // renvoyer le résultat
+             return $qb->getQuery()->getResult();
+     }
+     
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
