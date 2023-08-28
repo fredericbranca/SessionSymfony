@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
-use App\Form\SessionType;
 use App\Form\ProgrammeType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -66,7 +65,6 @@ class SessionController extends AbstractController
     public function index(
         SessionRepository $sessionRepository,
         #[MapEntity(id: 'id')] Session $session,
-        Programme $programme,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
@@ -94,8 +92,9 @@ class SessionController extends AbstractController
 
             // Si le formulaire pour ajouter un programme existant à la session est validé
             if ($formProg->isSubmitted() && $formProg->isValid()) {
+                $formData = $formProg->getData();
 
-                $session->addProgramme($programme);
+                $session->addProgramme($formData);
                 $entityManager->persist($session);
                 $entityManager->flush();
     
@@ -116,4 +115,3 @@ class SessionController extends AbstractController
         }
     }
 }
-// 7 5 6
