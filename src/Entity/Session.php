@@ -26,6 +26,7 @@ class Session
     private ?\DateTimeInterface $date_fin = null;
 
     #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'stagiaire_session')]
+    #[ORM\OrderBy(["nom" => "ASC"])]
     private Collection $stagiaires;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
