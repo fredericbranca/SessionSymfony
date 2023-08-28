@@ -6,6 +6,7 @@ use App\Entity\Programme;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ProgrammeType extends AbstractType
 {
@@ -14,7 +15,7 @@ class ProgrammeType extends AbstractType
         $builder
             ->add('nb_jour')
             ->add('module')
-            ->add('session')
+            ->add('Valider', SubmitType::class)
         ;
     }
 
