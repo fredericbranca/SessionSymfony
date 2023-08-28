@@ -6,6 +6,7 @@ use App\Entity\Session;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class SessionType extends AbstractType
 {
@@ -17,6 +18,7 @@ class SessionType extends AbstractType
             ->add('date_fin')
             ->add('stagiaires')
             ->add('formation')
+            ->add('Valider', SubmitType::class)
         ;
     }
 

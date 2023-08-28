@@ -17,7 +17,7 @@ class StagiaireType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('Valider', SubmitType::class)
-            // ->add('session_stagiaire')
+            // ->add('stagiaire_session')
         ;
     }
 

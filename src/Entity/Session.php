@@ -25,7 +25,7 @@ class Session
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'session_stagiaire')]
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, mappedBy: 'stagiaire_session')]
     private Collection $stagiaires;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]

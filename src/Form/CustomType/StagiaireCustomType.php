@@ -23,7 +23,7 @@ class StagiaireCustomType extends AbstractType
             ->add('prenom', null, ['attr' => ['readonly' => true]])
             ->add('telephone', null, ['attr' => ['readonly' => true]])
 
-            // ->add('session_stagiaire')
+            // ->add('stagiaire_session')
         ;
     }
 

@@ -28,14 +28,14 @@ class StagiaireCrudController extends AbstractCrudController
                 TextField::new('nom'),
                 TextField::new('prenom'),
                 TelephoneField::new('telephone'),
-                AssociationField::new('session_stagiaire')
+                AssociationField::new('stagiaire_session')
                     ->setLabel('Nombre de session inscrit')
                     ->onlyOnIndex()
             ];
 
             if ($pageName == Crud::PAGE_EDIT) {
 
-                $fields[] = CollectionField::new('session_stagiaire')
+                $fields[] = CollectionField::new('stagiaire_session')
                     ->onlyOnForms()
                     ->setLabel('Session')
                     ->setEntryType(SessionType::class)

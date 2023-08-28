@@ -26,11 +26,11 @@ class Stagiaire
     private ?string $telephone = null;
 
     #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'stagiaires')]
-    private Collection $session_stagiaire;
+    private Collection $stagiaire_session;
 
     public function __construct()
     {
-        $this->session_stagiaire = new ArrayCollection();
+        $this->stagiaire_session = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,13 +79,13 @@ class Stagiaire
      */
     public function getSessionStagiaire(): Collection
     {
-        return $this->session_stagiaire;
+        return $this->stagiaire_session;
     }
 
     public function addSessionStagiaire(Session $sessionStagiaire): static
     {
-        if (!$this->session_stagiaire->contains($sessionStagiaire)) {
-            $this->session_stagiaire->add($sessionStagiaire);
+        if (!$this->stagiaire_session->contains($sessionStagiaire)) {
+            $this->stagiaire_session->add($sessionStagiaire);
         }
 
         return $this;
@@ -93,7 +93,7 @@ class Stagiaire
 
     public function removeSessionStagiaire(Session $sessionStagiaire): static
     {
-        $this->session_stagiaire->removeElement($sessionStagiaire);
+        $this->stagiaire_session->removeElement($sessionStagiaire);
 
         return $this;
     }
