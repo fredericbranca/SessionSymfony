@@ -6,6 +6,7 @@ use App\Entity\Session;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
+use App\Form\ProgrammeType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,12 +60,15 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
     }
 
-    // Route pour afficher la liste un ou plusieurs sessions
+    // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que les programmes
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
     public function index(
         SessionRepository $sessionRepository,
         Session $session = null,
+        Programme $programme,
+        Request $request,
+        EntityManagerInterface $entityManager
     ): Response {
         if ($session == null) {
             $sessionsEnCours = $sessionRepository->sessionsEnCours();
@@ -77,13 +81,33 @@ class SessionController extends AbstractController
                 'session' => $session
             ]);
         } else {
+            $isNew = !$programme;
+            if ($isNew) {
+                $programme = new Programme();
+            }   
+            // Formulaire add programmes
+            $formProg = $this->createForm(ProgrammeType::class, $programme);
+            $formProg->handleRequest($request);
+
+            if ($formProg->isSubmitted() && $formProg->isValid()) {
+
+                $session->addProgramme($programme);
+                $entityManager->persist($session);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('infos_session', ['id' => $session->getId()] );
+            }
+
             $session = $sessionRepository->findOneBy(['id' => $session]);
             $stagiaires = $sessionRepository->findNonInscrits($session);
+            $programmes = $sessionRepository->findNonProgrammee($session);
+            // dd($programmes);
 
-            
             return $this->render('session/index.html.twig', [
                 'session' => $session,
                 'stagiaires' => $stagiaires,
+                'programmes' => $programmes,
+                'formAddProgramme' => $formProg
             ]);
         }
     }
