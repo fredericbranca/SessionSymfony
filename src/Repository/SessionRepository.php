@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Session;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Session>
@@ -50,6 +51,51 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    // Requête pour récupérer les stagiaires non inscrits la session choisit
+    public function stagiaireNonInscrits($session_id) {
+        $em = $this->getEntityManager();
+    
+        return $em->createQueryBuilder()
+            ->select('s')
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.stagiaire_session', 'ss', 'WITH', 's.id = ss.id AND ss.id = :session')
+            ->where('ss.id IS NULL')
+            ->setParameter('session', $session_id)
+            ->orderBy('s.nom')
+            ->getQuery()
+            ->getResult();
+    }
+    
+
+     /** Afficher les stagiaires non inscrits */
+     public function findNonInscrits($session_id)
+     {
+         $em = $this->getEntityManager();
+         $sub = $em->createQueryBuilder();
+ 
+         $qb = $sub;
+         // sélectionner tous les stagiaires d'une session dont l'id est passé en paramètre
+         $qb->select('s')
+             ->from('App\Entity\Stagiaire', 's')
+             ->leftJoin('s.stagiaire_session', 'se')
+             ->where('se.id = :id');
+         
+         $sub = $em->createQueryBuilder();
+         // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
+         // on obtient donc les stagiaires non inscrits pour une session définie
+         $sub->select('st')
+             ->from('App\Entity\Stagiaire', 'st')
+             ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+             // requête paramétrée
+             ->setParameter('id', $session_id)
+             // trier la liste des stagiaires sur le nom de famille
+             ->orderBy('st.nom');
+         
+         // renvoyer le résultat
+         $query = $sub->getQuery();
+         return $query->getResult();
+     }
 
 //    /**
 //     * @return Session[] Returns an array of Session objects
