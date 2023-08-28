@@ -141,11 +141,14 @@
 		{% else %}
 			{% for key, programme in sortedProgrammes %}
 				<p>{{ key + 1 }}:
-					<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-					/
-					{{ programme.nbJour }}
-					jours
-					<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
+					<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+						<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+						/
+						<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+						jours
+						<input type="submit" value="Mettre à jour" />
+						<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
+					</form>
 				</p>
 			{% endfor %}
 		{% endif %}
