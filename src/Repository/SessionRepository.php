@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Session;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -97,6 +96,34 @@ class SessionRepository extends ServiceEntityRepository
          return $query->getResult();
      }
 
+    //  Afficher les modules non programmées
+    public function findNonProgrammee($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        // sélectionner tous les programmes d'une session dont l'id est passé en paramètre
+        $qb->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->leftJoin('m.programmes', 'p')
+            ->where('p.id = :id');
+        
+        $sub = $em->createQueryBuilder();
+        // sélectionner tous les programmes qui ne SONT PAS (NOT IN) dans le résultat précédent
+        // on obtient donc les programmes non programmées pour une session définie
+        $sub->select('mo')
+            ->from('App\Entity\Module', 'mo')
+            ->where($sub->expr()->notIn('mo.id', $qb->getDQL()))
+            // requête paramétrée
+            ->setParameter('id', $session_id);
+            // trier la liste des stagiaires sur le nom de famille
+            // ->orderBy('st.nom');
+        
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
