@@ -19,12 +19,10 @@ class SessionType extends AbstractType
             ])
             ->add('date_debut', DateType::class, [
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable',
                 'required' => true
             ])
             ->add('date_fin', DateType::class, [
                 'widget' => 'single_text',
-                'input'  => 'datetime_immutable',
                 'required' => true
             ])
             ->add('nb_place', null, [
