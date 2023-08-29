@@ -114,6 +114,7 @@
 			{{ session.dateFin |format_datetime(pattern='d MMMM y', locale='fr') }}</p>
 		<p>Nombre de place :
 			{{ session.nbPlace }}</p>
+		<a href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a>
 
 		{# Liste des stagiaires #}
 		<h3>Liste des stagiaires inscrits</h3>
