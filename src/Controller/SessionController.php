@@ -95,6 +95,19 @@ class SessionController extends AbstractController
         ]);
     }
 
+    // Route pour supprimer un session
+    #[Route('/session/{id}/delete', name: 'delete_session')]
+    public function delete(
+        Session $session, 
+        EntityManagerInterface $entityManager
+    )
+    {
+        $entityManager->remove($session);
+        $entityManager->flush();
+
+        return $this->redirectToRoute(('app_session'));
+    }
+
     // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que les programmes
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
