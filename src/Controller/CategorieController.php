@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Form\CategorieType;
-use App\Repository\CategorieRepository;
 use App\Repository\ModuleRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategorieController extends AbstractController
@@ -17,6 +18,7 @@ class CategorieController extends AbstractController
     // Route pour ajouter ou éditer une catégorie
     #[Route('/categorie/new', name: 'new_categorie')]
     #[Route('/categorie/{id}/edit', name: 'edit_categorie')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function new_edit(Categorie $categorie = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         //Si catégorie est null, alors on créé un objet de type Catégorie
