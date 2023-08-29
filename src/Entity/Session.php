@@ -33,7 +33,7 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, cascade: ['persist', 'remove'])]
     private Collection $programmes;
 
     public function __construct()
