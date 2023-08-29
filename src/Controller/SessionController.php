@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -20,6 +21,7 @@ class SessionController extends AbstractController
 {
     // Route pour ajouter un stagiaire à une session
     #[Route('/session/{id}/addStagiaire/{id_stagiaire}', name: 'addStagiaire_session')]
+    #[IsGranted('ROLE_ADMIN')]
     public function addStagiaire(
         #[MapEntity(id: 'id')] Session $session,
         #[MapEntity(id: 'id_stagiaire')] Stagiaire $stagiaire,
@@ -35,6 +37,7 @@ class SessionController extends AbstractController
 
     // Route pour supprimer un programme d'une session
     #[Route('/session/{id}/deleteProgramme/{idProgramme}', name: 'deleteProgramme_session')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function deleteProgramme(
         #[MapEntity(id: 'id')] Session $session,
         #[MapEntity(id: 'idProgramme')] Programme $programme,
@@ -48,6 +51,7 @@ class SessionController extends AbstractController
 
     // Route pour supprimer un stagiaire d'une session
     #[Route('/session/{id}/deleteStagiaire/{idStagiaire}', name: 'deleteStagiaire_session')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function deleteStagiaire(
         #[MapEntity(id: 'id')] Session $session,
         #[MapEntity(id: 'idStagiaire')] Stagiaire $stagiaire,
@@ -63,6 +67,7 @@ class SessionController extends AbstractController
     // Route pour créer une session
     #[Route('/session/new', 'new_session')]
     #[Route('/session/{id}/edit', name: 'edit_session')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function newSession(Request $request, 
     EntityManagerInterface $entityManager,
     Session $session = null
@@ -97,6 +102,7 @@ class SessionController extends AbstractController
 
     // Route pour supprimer un session
     #[Route('/session/{id}/delete', name: 'delete_session')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function delete(
         Session $session, 
         EntityManagerInterface $entityManager
@@ -137,6 +143,8 @@ class SessionController extends AbstractController
         } else {
             // Changement du nombre de jour d'un programme
             if ($programme) {
+                // Uniquement autorisé par l'admin
+                $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
                 if ($request->isMethod('POST')) {
                     $nbJour = $request->request->get('nbJour');
@@ -159,6 +167,9 @@ class SessionController extends AbstractController
 
             // Si le formulaire pour ajouter un programme existant à la session est validé
             if ($formProg->isSubmitted() && $formProg->isValid()) {
+                // Uniquement autorisé par l'admin
+                $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
                 $formData = $formProg->getData();
 
                 $session->addProgramme($formData);

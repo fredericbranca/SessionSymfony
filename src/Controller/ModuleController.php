@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ModuleController extends AbstractController
@@ -16,6 +17,7 @@ class ModuleController extends AbstractController
     // Créer / Editer un module
     #[Route('/module/new', name: 'new_module')]
     #[Route('/module/{id}/edit', name: 'edit_module')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function new_edit(Module $module = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         //Si module est null, alors on créé un objet de type Module
@@ -48,6 +50,7 @@ class ModuleController extends AbstractController
 
     // Route pour supprimer un module
     #[Route('/module/{id}/delete', name: 'delete_module')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function delete(Module $module = null, EntityManagerInterface $entityManager)
     {
         $entityManager->remove($module);

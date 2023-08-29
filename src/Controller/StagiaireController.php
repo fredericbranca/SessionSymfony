@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class StagiaireController extends AbstractController
@@ -16,6 +17,7 @@ class StagiaireController extends AbstractController
     // Route pour ajouter ou éditer un stagiarie
     #[Route('/stagiaire/new', name: 'new_stagiaire')]
     #[Route('/stagiaire/{id}/edit', name: 'edit_stagiaire')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function new_edit(
         Stagiaire $stagiaire = null,
         Request $request,
@@ -74,6 +76,7 @@ class StagiaireController extends AbstractController
 
     // Route pour supprimer un stagiaire
     #[Route('/stagiaire/{id}/delete', name: 'delete_stagiaire')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function delete(
         Stagiaire $stagiaire = null, 
         EntityManagerInterface $entityManager
