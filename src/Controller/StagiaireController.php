@@ -53,6 +53,7 @@ class StagiaireController extends AbstractController
     }
 
     #[Route('/stagiaire', name: 'app_stagiaire')]
+    #[IsGranted('ROLE_USER', message: 'Accès non autorisé')]
     public function index(
         StagiaireRepository $stagiaireRepository
     ): Response
@@ -65,6 +66,7 @@ class StagiaireController extends AbstractController
 
     // Route pour afficher les infos d'un stagiaire
     #[Route('stagiaire/{id}', name: 'infos_stagiaire')]
+    #[IsGranted('ROLE_USER', message: 'Accès non autorisé')]
     public function infos(
         Stagiaire $stagiaire
     ): Response
