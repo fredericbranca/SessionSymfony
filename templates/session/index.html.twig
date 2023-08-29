@@ -15,7 +15,7 @@
 	{% if session is null %}
 
 
-		{# <a href="{{ path('new_session') }}">Ajouter une sesion</a> #}
+		<a href="{{ path('new_session') }}">Ajouter une sesion</a>
 
 		<h2>Les sessions</h2>
 
@@ -140,8 +140,8 @@
 			<p>Cette session n'a pas de programme</p>
 		{% else %}
 			{% for key, programme in sortedProgrammes %}
-				<p>{{ key + 1 }}:
 					<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+						<p>{{ key + 1 }}:
 						<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 						/
 						<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
