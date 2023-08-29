@@ -52,6 +52,7 @@
 		<a href="{{ path('app_session')}}">Annuler</a>
 	{% else %}
 		<a href="{{ path('infos_session', {'id': session.id}) }}">Annuler</a>
+		<a class="confirm-delete" href="{{ path('delete_session', {'id' : session.id}) }}">Supprimer la session</a>
 	{% endif %}
 
 {% endblock %}
