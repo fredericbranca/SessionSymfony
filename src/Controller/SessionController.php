@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
+use App\Form\SessionType;
 use App\Form\ProgrammeType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,19 +60,48 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
     }
 
+    // Route pour créer une session
+    #[Route('/session/new', 'new_session')]
+    public function newSession(Request $request, 
+    EntityManagerInterface $entityManager
+): Response
+    {
+        $session = new Session();
+
+        $form = $this->createForm(SessionType::class);
+
+        $form->handleRequest($request);
+
+        // Si le formulaire est valide
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $session = $form->getData();
+            $entityManager->persist($session);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+        }
+
+        return $this->render('session/new.html.twig', [
+            'formAddSession' => $form
+        ]);
+    }
+
     // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que les programmes
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
     #[Route('/session/{id}/edit/{id_programme}', name: 'edit_jour_programme_session')]
     public function index(
         SessionRepository $sessionRepository,
-        #[MapEntity(id: 'id')] Session $session,
+        #[MapEntity(id: 'id')] Session $session = null,
         #[MapEntity(id: 'id_programme')] Programme $programme = null,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
-        // S'il n'y a pas de paramètre {id} dans l'url, on affiche la liste de toutes les sessions (en cours, terminée, à venir)
+        // S'il n'y a pas de paramètre {id} dans l'url
         if ($session == null) {
+
+            // Requete : on récupère la liste de toutes les sessions (en cours, terminée, à venir)
             $sessionsEnCours = $sessionRepository->sessionsEnCours();
             $sessionsTerminee = $sessionRepository->sessionsTerminee();
             $sessionsFuture = $sessionRepository->sessionsFuture();
