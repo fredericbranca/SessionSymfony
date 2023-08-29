@@ -5,23 +5,44 @@
 {% endblock %}
 
 {% block body %}
+
 	<h1>Formation</h1>
+
+	{# S'il n'y a pas d'id présent dans l'URL, renvoie /formation avec la liste des formations #}
 	{% if formation is null %}
-		<a href="{{ path('new_formation')}}">Ajouter une formation</a>
+
+		{# ROLE_ADMIN : Lien vers /formation/new créer une Formation #}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('new_formation')}}">Ajouter une formation</a>
+		{% endif %}
+		
 		<h2>Les formations</h2>
+
+		{# Affiche toutes les formations dans un lien vers les infos de la formation #}
 		{% for formation in formations %}
 			<p>
 				<a href="{{ path('infos_formation', {'id' : formation.id}) }}">{{ formation }}</a>
 			</p>
 		{% endfor %}
+
+	{# Sinon renvoi les infos d'une formation spécifique /formation/{id} #}
 	{% else %}
-		<a href="{{ path('app_formation')}}">Retour à la liste</a>
+
+		<a href="{{ path('app_formation')}}">Retour</a>
+
 		<h2>Informations :</h2>
-		<h3>Formation :
-			{{ formation.nom }}</h3>
-		<a href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
-		<a class="confirm-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
-		<h3>Session :</h3>
+
+		<h3>Formation : {{ formation.nom }}</h3>
+
+		{# ROLE_ADMIN : Affiche les liens vers la modification et la suppression de la formation #}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
+			<a class="confirm-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
+		{% endif %}
+
+		<h3>Session</h3>
+
+		{# Affiche les sessions liées à l'intitulé de cette formation #}
 		<table>
 			<thead>
 				<th>Date de début</th>
@@ -31,8 +52,8 @@
 			<tbody>
 				{% for session in sessionsFormation %}
 					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-						<td>{{ session.dateDebut|date('d/M/Y') }}</td>
-						<td>{{ session.dateFin|date('d/M/Y') }}</td>
+						<td>{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+						<td>{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>{{ session.nbPlace }}</td>
 					</tr>
 				{% endfor %}

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sessions
+{% block title %}
+	Sessions
 {% endblock %}
 
 {% block additional_css %}
@@ -11,15 +12,20 @@
 
 	<h1>Sessions</h1>
 
-	{# Affiche la liste des sessions #}
+	{# Si aucun id n'est renseigné dans l'URL /session - Listes des sessions : En cours, Terminées, À venir #}
 	{% if session is null %}
 
-
-		<a href="{{ path('new_session') }}">Ajouter une sesion</a>
-
+		{# ROLE_ADMIN : Lien pour créer une session /session/new #}
+		{% if is_granted('ROLE_USER') %}
+			<a href="{{ path('new_session') }}">Ajouter une sesion</a>
+		{% endif %}
+		
 		<h2>Les sessions</h2>
 
+		{# Affiche la liste des session #}
+		{# En cours #}
 		<h3>Sessions en cours</h3>
+
 		<table>
 			<thead>
 				<th>Formation</th>
@@ -35,9 +41,9 @@
 						<td>
 							{{ session.nbPlace }}</td>
 						<td>
-							{{ session.dateDebut|date("d/m/Y") }}</td>
+							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|date("d/m/Y") }}</td>
+							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
 						{# <p>Nombre de programme : {{ session.programme }}</p> #}
 					</tr>
@@ -45,7 +51,9 @@
 			</tbody>
 		</table>
 
+		{# Session terminées #}
 		<h3>Sessions terminées</h3>
+
 		<table>
 			<thead>
 				<th>Formation</th>
@@ -61,9 +69,9 @@
 						<td>
 							{{ session.nbPlace }}</td>
 						<td>
-							{{ session.dateDebut|date("d/m/Y") }}</td>
+							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|date("d/m/Y") }}</td>
+							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
 						{# <p>Nombre de programme : {{ session.programme }}</p> #}
 					</tr>
@@ -71,7 +79,9 @@
 			</tbody>
 		</table>
 
+		{# Session à venir #}
 		<h3>Sessions à venir</h3>
+
 		<table>
 			<thead>
 				<th>Formation</th>
@@ -87,9 +97,9 @@
 						<td>
 							{{ session.nbPlace }}</td>
 						<td>
-							{{ session.dateDebut|date("d/m/Y") }}</td>
+							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|date("d/m/Y") }}</td>
+							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
 						{# <p>Nombre de programme : {{ session.programme }}</p> #}
 					</tr>
@@ -97,7 +107,7 @@
 			</tbody>
 		</table>
 
-		{# Affiche l'information d'une seule session #}
+	{# Affiche l'information d'une seule session avec son ID #}
 	{% else %}
 
 		<a href="{{ path('app_session') }}">Retour</a>

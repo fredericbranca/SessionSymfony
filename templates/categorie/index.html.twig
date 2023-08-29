@@ -1,29 +1,51 @@
 {% extends 'base.html.twig' %}
-{% block title %}Catégorie
-{% endblock %}
-{%
-block body %}
-	<h1>Catégorie</h1>
 
+{% block title %}
+	Catégorie
+{% endblock %}
+
+{%block body %}
+
+	<h1>Catégorie</h1>
+	
+	{# Si aucun ID est renseigné dans l'URL #}
 	{% if categorie is null %}
-		<a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+
+		{# ROLE_ADMIN : Lien vers /categorie/new pour créer une nouvelle catégorie #}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+		{% endif %}
+
 		<h2>Les catégories</h2>
+
+		{# Affiche les catégories sous forme de lien vers les infos de la catégorie choisit #}
 		{% for categorie in categories %}
 			<p>
-				<a href="{{ path('infos_categorie', { id: categorie.id }) }}">{{
-    categorie
-  }}</a>
+				<a href="{{ path('infos_categorie', { id: categorie.id }) }}">{{ categorie }}</a>
 			</p>
 		{% endfor %}
+
+	{# Si un id est présent : /catégorie/{id}, affiche une catégorie spécifique #}
 	{% else %}
-		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
+
+		<a href="{{ path('app_categorie') }}">Retour</a>
+
+		{# Affiche le nom de la catégorie #}
 		<h2>{{ categorie.nom }}</h2>
-		<a href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
+
+		{# ROLE_ADMIN : Lien vers /categorie/{id}/edit pour modifier/supprimer une catégorie #}
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
+		{% endif %}
+		
 		<h3>Liste des modules</h3>
+
 		{% for module in modulesCategorie %}
 			<p>
 				<a href="{{ path('infos_module', { id: module.id }) }}">{{ module }}</a>
 			</p>
 		{% endfor %}
+
 	{% endif %}
+
 {% endblock %}
