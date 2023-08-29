@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{% if isNew  %}
+		Ajouter une session
+	{% else %}
+		Modifier une session
+	{% endif %}
+	
+	
+{% endblock %}
+
+{% block body %}
+	<h1>Session</h1>
+
+	{% if isNew  %}
+		<a href="{{ path('app_session') }}">Retour</a>
+		<h2>Ajouter une session</h2>
+	{% else %}
+		<a href="{{ path('infos_session', {'id': session.id}) }}">Retour</a>
+		<h2>Modifier / Supprimer une session</h2>
+	{% endif %}
+
+	{{ form_start(formAddSession) }}
+
+		<div>
+			{{ form_label(formAddSession.formation) }}
+			{{ form_errors(formAddSession.formation) }}
+			{{ form_widget(formAddSession.formation) }}
+		</div>
+		<div>
+			{{ form_label(formAddSession.date_debut) }}
+			{{ form_errors(formAddSession.date_debut) }}
+			{{ form_widget(formAddSession.date_debut) }}
+		</div>
+		<div>
+			{{ form_label(formAddSession.date_fin) }}
+			{{ form_errors(formAddSession.date_fin) }}
+			{{ form_widget(formAddSession.date_fin) }}
+		</div>
+		<div>
+			{{ form_label(formAddSession.nb_place) }}
+			{{ form_errors(formAddSession.nb_place) }}
+			{{ form_widget(formAddSession.nb_place) }}
+		</div>
+
+		{{ form_row(formAddSession.Valider) }}
+
+	{{ form_end(formAddSession) }}
+
+	{% if isNew %}
+		<a href="{{ path('app_session')}}">Annuler</a>
+	{% else %}
+		<a href="{{ path('infos_session', {'id': session.id}) }}">Annuler</a>
+	{% endif %}
+
+{% endblock %}
