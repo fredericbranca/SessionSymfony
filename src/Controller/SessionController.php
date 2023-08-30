@@ -114,7 +114,7 @@ class SessionController extends AbstractController
         return $this->redirectToRoute(('app_session'));
     }
 
-    // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que les programmes
+    // Route pour afficher la liste un ou plusieurs sessions, liste des stagiaires non inscrit à cette session ainsi que le programme
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
     #[Route('/session/{id}/edit/{id_programme}', name: 'edit_jour_programme_session')]
@@ -128,10 +128,11 @@ class SessionController extends AbstractController
         // S'il n'y a pas de paramètre {id} dans l'url
         if ($session == null) {
 
-            // Requete : on récupère la liste de toutes les sessions (en cours, terminée, à venir)
-            $sessionsEnCours = $sessionRepository->sessionsEnCours();
-            $sessionsTerminee = $sessionRepository->sessionsTerminee();
-            $sessionsFuture = $sessionRepository->sessionsFuture();
+            // Requete : on récupère la liste de toutes les sessions (en cours, terminée, à venir) + le nombre de stagiaire inscrit
+            $sessionsEnCours = $sessionRepository->sessionsEnCoursAndCountStagiairesInscrit();
+            $sessionsTerminee = $sessionRepository->sessionsTermineeAndCountStagiairesInscrit();
+            $sessionsFuture = $sessionRepository->sessionsFutureAndCountStagiairesInscrit();
+
             return $this->render('session/index.html.twig', [
                 'enCours' => $sessionsEnCours,
                 'terminees' => $sessionsTerminee,
@@ -141,7 +142,7 @@ class SessionController extends AbstractController
             
             // Vue d'une session spécifique grâce à son ID
         } else {
-            // Changement du nombre de jour d'un programme
+            // Changement du nombre de jour d'un module
             if ($programme) {
                 // Uniquement autorisé par l'admin
                 $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -156,16 +157,16 @@ class SessionController extends AbstractController
                 return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
             }
 
-            // Récupère la liste des programmes non inscrit à la session
+            // Récupère la liste des modules non inscrit à la session
             $programmes = $sessionRepository->findNonProgrammee($session);
 
-            // Formulaire add programmes //
+            // Formulaire add module //
             $formProg = $this->createForm(ProgrammeType::class, null, [
                 'modules_non_programmes' => $programmes
             ]);
             $formProg->handleRequest($request);
 
-            // Si le formulaire pour ajouter un programme existant à la session est validé
+            // Si le formulaire pour ajouter un module existant à la session est validé
             if ($formProg->isSubmitted() && $formProg->isValid()) {
                 // Uniquement autorisé par l'admin
                 $this->denyAccessUnlessGranted('ROLE_ADMIN');
