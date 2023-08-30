@@ -229,6 +229,18 @@
 
 			{% endif %}
 
+			{# Créer un stagiaire s'il n'existe pas #}
+			<h3>Créer un stagiaire s'il n'existe pas</h3>
+
+			{{ form_start(formNewStagiaire) }}
+
+				{{ form_row(formNewStagiaire.nom) }}
+				{{ form_row(formNewStagiaire.prenom) }}
+				{{ form_row(formNewStagiaire.telephone) }}
+				{{ form_row(formNewStagiaire.Valider) }}
+
+			{{ form_end(formNewStagiaire) }}
+
 			{# Ajout modoule au programme d la session #}
 			<h3>Ajouter un programme à la session</h3>
 
