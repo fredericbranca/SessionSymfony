@@ -215,12 +215,19 @@
 			<h3>Ajouter un stagiaire à la session</h3>
 
 			<label for="stagiaire-select">Liste des stagiaires :</label>
-			<select name="stagiaires" id="stagiaire-select" onchange="location = this.value;">
+			{# Rend le select disabled s'il n'y a plus de place #}
+			<select name="stagiaires" id="stagiaire-select" onchange="location = this.value;" {{ session.nbPlace == nb_disponible ? 'disabled' : '' }}>
 				<option value="">Choisir un stagiaire</option>
 				{% for stagiaire in stagiaires %}
 					<option value="{{ path('addStagiaire_session', {'id': session.id, 'id_stagiaire': stagiaire.id }) }}">{{ stagiaire }}</option>
 				{% endfor %}
 			</select>
+			{# Message s'il n'y a plus de place disponible #}
+			{% if session.nbPlace == nb_disponible %}
+
+				<p>Le nombre maximal de stagiaires a été atteint.</p>
+
+			{% endif %}
 
 			{# Ajout modoule au programme d la session #}
 			<h3>Ajouter un programme à la session</h3>
