@@ -61,6 +61,7 @@ class FormationController extends AbstractController
         return $this->redirectToRoute(('app_formation'));
     }
 
+    // Route pour la liste des formations et les infos d'une formations avec son ID
     #[Route('/formation', name: 'app_formation')]
     #[Route('/formation/{id}', name: 'infos_formation')]
     public function index(Formation $formation = null, FormationRepository $formationRepository, SessionRepository $sessionRepository): Response
