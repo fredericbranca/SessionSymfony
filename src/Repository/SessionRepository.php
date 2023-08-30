@@ -137,6 +137,38 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    // Requête pour récupérer les infos de la session + le nombre de stagiaire inscrit
+    public function countStagiairesInscrit($id_session)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $query = $qb->select('COUNT(st.id) AS nb_disponible')
+            ->from('App\Entity\Session', 'se')
+            ->join('se.formation', 'formation')
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            ->where('se.id = :session_id')
+            ->setParameter('session_id', $id_session)
+            ->groupBy('se.id')
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
+
     // Requête pour récupérer les stagiaires non inscrits à une session spécifique
     public function stagiaireNonInscrits($session_id)
     {
@@ -191,6 +223,7 @@ class SessionRepository extends ServiceEntityRepository
 
         // renvoyer le résultat
         $query = $sub->getQuery();
+        
         return $query->getResult();
     }
 
