@@ -137,7 +137,7 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    // Requête pour récupérer les infos de la session + le nombre de stagiaire inscrit
+    // Requête compter le nom de stagiaire inscrit dans une session
     public function countStagiairesInscrit($id_session)
     {
         $em = $this->getEntityManager();
