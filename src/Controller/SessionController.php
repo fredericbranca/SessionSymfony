@@ -54,7 +54,8 @@ class SessionController extends AbstractController
     #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function newSession(Request $request, 
         EntityManagerInterface $entityManager,
-        Session $session = null
+        Session $session = null,
+        SessionRepository $sessionRepository
     ): Response
     {
         //Si session est null, alors on créé un objet de type Session
@@ -70,7 +71,23 @@ class SessionController extends AbstractController
         // Si le formulaire est valide
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Récupère le nombre de stagiaire inscrit dans une session
+            $nb_stagiaire = $sessionRepository->countStagiairesInscrit($session);
+            $nb_disponible = $nb_stagiaire['nb_disponible'];
+
             $session = $form->getData();
+            $nb_place = $session->getNbPlace();
+            
+            // Empeche la modification sur le nombre de place est inférieurs au nombre de stagiaire déjà inscrits
+            if ($nb_place < $nb_disponible) {
+                $this->addFlash(
+                    'danger',
+                    'Le nombre de places ne peut pas être inférieur au nombre de stagiaires déjà inscrits !'
+                );
+            
+                return $this->redirectToRoute('edit_session', ['id' => $session->getId()]);
+            }
+
             $entityManager->persist($session);
             $entityManager->flush();
 
@@ -178,7 +195,7 @@ class SessionController extends AbstractController
             if ($stagiaire) {
                 // Uniquement autorisé par l'admin
                 $this->denyAccessUnlessGranted('ROLE_ADMIN');
-                
+
                 $nb_place = $session->getNbPlace();
 
                 // Si le nombre de place est = au nombre de place disponible alors on ne peut plus rajouter de stagiaire dans cette session
