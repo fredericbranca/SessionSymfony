@@ -7,6 +7,7 @@ use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\SessionType;
 use App\Form\ProgrammeType;
+use App\Form\StagiaireType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,6 +121,7 @@ class SessionController extends AbstractController
     #[Route('/session/{id}', name: 'infos_session')]
     #[Route('/session/{id}/edit/{id_programme}', name: 'edit_jour_programme_session')]
     #[Route('/session/{id}/addStagiaire/{id_stagiaire}', name: 'addStagiaire_session')]
+    #[Route('/session/{id}/addStagiaire', name: 'newStagiaire_session')]
     public function index(
         SessionRepository $sessionRepository,
         #[MapEntity(id: 'id')] Session $session = null,
@@ -145,6 +147,23 @@ class SessionController extends AbstractController
             
             // Vue d'une session spécifique grâce à son ID
         } else {
+            // Créer un stagiaire depuis une session //
+            $formNewStagiaire = $this->createForm(StagiaireType::class);
+            $formNewStagiaire->handleRequest($request);
+
+            // Si le formulaire est valide
+            if ($formNewStagiaire->isSubmitted() && $formNewStagiaire->isValid()) {
+                
+                $stagiaire = new Stagiaire();
+                $stagiaire = $formNewStagiaire->getData();
+                // Prepare PDO
+                $entityManager->persist($stagiaire);
+                // execute PDO
+                $entityManager->flush();
+
+                return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+            }
+
             // Changement du nombre de jour d'un module
             if ($programme) {
                 // Uniquement autorisé par l'admin
@@ -216,7 +235,8 @@ class SessionController extends AbstractController
                 'nb_disponible' => $nb_disponible,
                 'stagiaires' => $stagiaires,
                 'programmes' => $programmes,
-                'formAddProgramme' => $formProg
+                'formAddProgramme' => $formProg,
+                'formNewStagiaire' => $formNewStagiaire
             ]);
         }
     }
