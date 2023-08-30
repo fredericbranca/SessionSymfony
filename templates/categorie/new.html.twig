@@ -1,28 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une catégorie
+{% block title %}
+
+	Ajouter une catégorie
+
 {% endblock %}
 
 {% block body %}
+
 	<h1>Catégorie</h1>
 
 	{% if isNew %}
+
 		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
 		<h2>Ajouter une catégorie</h2>
+
 	{% else %}
+
 		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
 		<h2>Modifier/Supprimer une catégorie</h2>
+
 	{% endif %}
 
 	{# Formulaire #}
 	{{ form_start(formAddCategorie) }}
-	{{ form_row(formAddCategorie.nom) }}
-	{{ form_row(formAddCategorie.Valider) }}
 
-	{% if isNew == false %}
-		<a href="{{ path('app_categorie') }}">Annuler</a>
-		<a class="confirm-delete" href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
-	{% endif %}
+		{{ form_row(formAddCategorie.nom) }}
+		{{ form_row(formAddCategorie.Valider) }}
+
+		{% if isNew == false %}
+		
+			<a href="{{ path('app_categorie') }}">Annuler</a>
+			<a class="confirm-delete" href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
+
+		{% endif %}
+
 	{{ form_end(formAddCategorie) }}
 
 {% endblock %}

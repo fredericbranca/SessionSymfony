@@ -12,7 +12,9 @@
 
 		{# ROLE_ADMIN : Lien pour ajouter un module /module/new #}
 		{% if is_granted('ROLE_ADMIN') %}
+
 			<a href="{{ path('new_module')}}">Ajouter un module</a>
+			
 		{% endif %}
 		
 		<h2>Les modules</h2>
@@ -22,6 +24,7 @@
 			<p>
 				<a href="{{ path('infos_module', {'id' : module.id}) }}">{{ module }}</a>
 			</p>
+
 		{% endfor %}
 
 	{% else %}
@@ -39,8 +42,10 @@
 
 		{# ROLE_ADMIN : Lien pour modifier/supprimer un module  #}
 		{% if is_granted('ROLE_ADMIN') %}
+
 			<a href="{{ path('edit_module', {'id' : module.id}) }}">Modifier</a>
 			<a class="confirm-delete" href="{{ path('delete_module', {'id' : module.id}) }}">Supprimer</a>
+
 		{% endif %}
 
 	{% endif %}

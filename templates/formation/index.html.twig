@@ -13,7 +13,9 @@
 
 		{# ROLE_ADMIN : Lien vers /formation/new créer une Formation #}
 		{% if is_granted('ROLE_ADMIN') %}
+
 			<a href="{{ path('new_formation')}}">Ajouter une formation</a>
+
 		{% endif %}
 		
 		<h2>Les formations</h2>
@@ -49,13 +51,16 @@
 				<th>Date de fin</th>
 				<th>Nombre de place</th>
 			</thead>
+
 			<tbody>
 				{% for session in sessionsFormation %}
+
 					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 						<td>{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>{{ session.nbPlace }}</td>
 					</tr>
+					
 				{% endfor %}
 			</tbody>
 		</table>

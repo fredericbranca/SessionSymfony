@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
+
 	Catégorie
+
 {% endblock %}
 
 {%block body %}
@@ -13,7 +15,9 @@
 
 		{# ROLE_ADMIN : Lien vers /categorie/new pour créer une nouvelle catégorie #}
 		{% if is_granted('ROLE_ADMIN') %}
+
 			<a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+
 		{% endif %}
 
 		<h2>Les catégories</h2>
@@ -35,7 +39,9 @@
 
 		{# ROLE_ADMIN : Lien vers /categorie/{id}/edit pour modifier/supprimer une catégorie #}
 		{% if is_granted('ROLE_ADMIN') %}
+
 			<a href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
+			
 		{% endif %}
 		
 		<h3>Liste des modules</h3>

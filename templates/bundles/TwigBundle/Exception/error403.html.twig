@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Error 403</h1>
+
+    <h1>Error 403 Forbidden</h1>
 
     <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('app_home') }}">return to the homepage</a>.
+        Le client n'a pas les droits d'accès au contenu, donc le serveur refuse de donner la véritable réponse. <a href="{{ path('app_home') }}">Retouner à la page d'accueil</a>.
     </p>
+
 {% endblock %}

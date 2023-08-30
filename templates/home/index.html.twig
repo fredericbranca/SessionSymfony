@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!
+{% block title %}
+
+	Hello HomeController!
+
 {% endblock %}
 
 {% block body %}
+
 	<h1>SymfonySession</h1>
 
 	{% if app.user %}
+
 		Bonjour {{ app.user }}
+		
 	{% endif %}
 	
 {% endblock %}
