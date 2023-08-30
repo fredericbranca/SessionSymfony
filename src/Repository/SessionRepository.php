@@ -31,8 +31,10 @@ class SessionRepository extends ServiceEntityRepository
         // On récupère de la date actuelle
         $today = new \DateTime();
 
-        return $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+        return $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
             ->from('App\Entity\Session', 'se')
+            // Join l'entité formation
+            ->join('se.formation', 'formation')
             /** LEFT JOIN stagiaire st ON st.id IN ( 
              *       SELECT s.id
              *       FROM stagiaire s
@@ -73,8 +75,9 @@ class SessionRepository extends ServiceEntityRepository
 
         $today = new \DateTime();
 
-        $query = $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+        $query = $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
             ->from('App\Entity\Session', 'se')
+            ->join('se.formation', 'formation')
             ->leftJoin(
                 'App\Entity\Stagiaire',
                 'st',
@@ -107,8 +110,9 @@ class SessionRepository extends ServiceEntityRepository
 
         $today = new \DateTime();
 
-        $query = $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+        $query = $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
             ->from('App\Entity\Session', 'se')
+            ->join('se.formation', 'formation')
             ->leftJoin(
                 'App\Entity\Stagiaire',
                 'st',
