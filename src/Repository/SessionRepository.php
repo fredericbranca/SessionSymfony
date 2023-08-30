@@ -22,142 +22,225 @@ class SessionRepository extends ServiceEntityRepository
     }
 
     // Requete pour récupérer les sessions en cours
-    public function sessionsEnCours() {
-        return $this->createQueryBuilder('s')
-            ->where('s.date_debut < :today AND s.date_fin > :today')
-            ->orderBy('s.date_debut', 'ASC')
-            ->setParameter('today', new \DateTime())
+    public function sessionsEnCoursAndCountStagiairesInscrit()
+    {
+        // Initialisation de l'Entity Manager et du Query Builder
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        // On récupère de la date actuelle
+        $today = new \DateTime();
+
+        return $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            /** LEFT JOIN stagiaire st ON st.id IN ( 
+             *       SELECT s.id
+             *       FROM stagiaire s
+             *       JOIN stagiaire_session ss ON s.id = ss.stagiaire_id
+             *       WHERE ss.session_id = se.id
+             * )
+             */
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête : on récupère les ID des stagiaires associés à chaque session
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            // Where pour obtenir uniquement les sessions en cours
+            ->where('se.date_debut < :today AND se.date_fin > :today')
+            ->setParameter('today', $today)
+            // Groupe By id session pour compter correctement les stagiaires de chaque session
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
     // Requete pour récupérer les sessions terminées
-    public function sessionsTerminee() {
-        return $this->createQueryBuilder('s')
-            ->where('s.date_fin < :today')
-            ->orderBy('s.date_debut', 'ASC')
-            ->setParameter('today', new \DateTime())
-            ->getQuery()
-            ->getResult();
-    }
-
-    // Requete pour récupérer les sessions à venir
-    public function sessionsFuture() {
-        return $this->createQueryBuilder('s')
-            ->where('s.date_debut > :today')
-            ->orderBy('s.date_debut', 'ASC')
-            ->setParameter('today', new \DateTime())
-            ->getQuery()
-            ->getResult();
-    }
-
-    // Requête pour récupérer les stagiaires non inscrits à une session spécifique
-    public function stagiaireNonInscrits($session_id) 
+    public function sessionsTermineeAndCountStagiairesInscrit()
     {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
-    
-        return $qb->select('st')
-                  ->from('App\Entity\Stagiaire', 'st')
-                  ->where(
-                      $qb->expr()->notIn(
-                          'st.id',
-                          // Sous-requête
-                          $em->createQueryBuilder()
-                             ->select('s.id')
-                             ->from('App\Entity\Stagiaire', 's')
-                             ->join('s.stagiaire_session', 'se')
-                             ->where('se.id = :id')
-                             ->getDQL()
-                      )
-                  )
-                  ->setParameter('id', $session_id)
-                  ->orderBy('st.nom')
-                  ->getQuery()
-                  ->getResult();
+
+        $today = new \DateTime();
+
+        $query = $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            ->where('se.date_fin < :today')
+            ->setParameter('today', $today)
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
     }
-    
 
-     /** Afficher les stagiaires non inscrits */
-     public function findNonInscrits($session_id)
-     {
-         $em = $this->getEntityManager();
-         $sub = $em->createQueryBuilder();
- 
-         $qb = $sub;
-         // sélectionner tous les stagiaires d'une session dont l'id est passé en paramètre
-         $qb->select('s')
-             ->from('App\Entity\Stagiaire', 's')
-             ->leftJoin('s.stagiaire_session', 'se')
-             ->where('se.id = :id');
-         
-         $sub = $em->createQueryBuilder();
-         // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
-         // on obtient donc les stagiaires non inscrits pour une session définie
-         $sub->select('st')
-             ->from('App\Entity\Stagiaire', 'st')
-             ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
-             // requête paramétrée
-             ->setParameter('id', $session_id)
-             // trier la liste des stagiaires sur le nom de famille
-             ->orderBy('st.nom');
-         
-         // renvoyer le résultat
-         $query = $sub->getQuery();
-         return $query->getResult();
-     }
-
-     public function findNonProgrammee($session_id)
-     {
+    // Requete pour récupérer les sessions à venir
+    public function sessionsFutureAndCountStagiairesInscrit()
+    {
         $em = $this->getEntityManager();
-      
-         // sélectionner tous les modules d'une session dont l'id est passé en paramètre
-         // https://www.doctrine-project.org/projects/doctrine-orm/en/2.16/reference/dql-doctrine-query-language.html
-         // IDENTITY(single_association_path_expression [, fieldMapping]) - Retrieve the foreign key column of association of the owning side
-         // The IDENTITY() DQL function also works for composite primary keys
-         $subQuery = $em->createQueryBuilder();
-         $subQuery->select('IDENTITY(p.module)')
-             ->from('App\Entity\Programme', 'p')
-             ->join('p.session', 's')
-             ->where('s.id = :session_id')
-             ->setParameter('session_id', $session_id);
-      
-             $sub = $em->createQueryBuilder();
-             // sélectionner tous les modules qui ne SONT PAS (NOT IN) dans le résultat précédent
-             // on obtient donc les modules non programmés pour une session définie
-             $qb = $em->createQueryBuilder();
-             $qb->select('m')
-                 ->from('App\Entity\Module', 'm')
-                 ->where($qb->expr()->notIn('m.id', $subQuery->getDQL()))
-                 ->setParameter('session_id', $session_id)
-                 ->orderBy('m.nom');
-             
-             // renvoyer le résultat
-             return $qb->getQuery()->getResult();
-     }
-     
-//    /**
-//     * @return Session[] Returns an array of Session objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        $qb = $em->createQueryBuilder();
 
-//    public function findOneBySomeField($value): ?Session
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $today = new \DateTime();
+
+        $query = $qb->select('se.id', 'se.date_debut', 'se.date_fin', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            ->where('se.date_debut > :today')
+            ->setParameter('today', $today)
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    // Requête pour récupérer les stagiaires non inscrits à une session spécifique
+    public function stagiaireNonInscrits($session_id)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $query = $qb->select('st')
+            ->from('App\Entity\Stagiaire', 'st')
+            ->where(
+                $qb->expr()->notIn(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'se')
+                        ->where('se.id = :id')
+                        ->getDQL()
+                )
+            )
+            ->setParameter('id', $session_id)
+            ->orderBy('st.nom')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
+    /** Afficher les stagiaires non inscrits */
+    public function findNonInscrits($session_id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        // sélectionner tous les stagiaires d'une session dont l'id est passé en paramètre
+        $qb->select('s')
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.stagiaire_session', 'se')
+            ->where('se.id = :id');
+
+        $sub = $em->createQueryBuilder();
+        // sélectionner tous les stagiaires qui ne SONT PAS (NOT IN) dans le résultat précédent
+        // on obtient donc les stagiaires non inscrits pour une session définie
+        $sub->select('st')
+            ->from('App\Entity\Stagiaire', 'st')
+            ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+            // requête paramétrée
+            ->setParameter('id', $session_id)
+            // trier la liste des stagiaires sur le nom de famille
+            ->orderBy('st.nom');
+
+        // renvoyer le résultat
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+    public function findNonProgrammee($session_id)
+    {
+        $em = $this->getEntityManager();
+
+        // sélectionner tous les modules d'une session dont l'id est passé en paramètre
+        // https://www.doctrine-project.org/projects/doctrine-orm/en/2.16/reference/dql-doctrine-query-language.html
+        // IDENTITY(single_association_path_expression [, fieldMapping]) - Retrieve the foreign key column of association of the owning side
+        // The IDENTITY() DQL function also works for composite primary keys
+        $subQuery = $em->createQueryBuilder();
+        $subQuery->select('IDENTITY(p.module)')
+            ->from('App\Entity\Programme', 'p')
+            ->join('p.session', 's')
+            ->where('s.id = :session_id')
+            ->setParameter('session_id', $session_id);
+
+        $sub = $em->createQueryBuilder();
+        // sélectionner tous les modules qui ne SONT PAS (NOT IN) dans le résultat précédent
+        // on obtient donc les modules non programmés pour une session définie
+        $qb = $em->createQueryBuilder();
+        $qb->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->where($qb->expr()->notIn('m.id', $subQuery->getDQL()))
+            ->setParameter('session_id', $session_id)
+            ->orderBy('m.nom');
+
+        // renvoyer le résultat
+        return $qb->getQuery()->getResult();
+    }
+
+    //    /**
+    //     * @return Session[] Returns an array of Session objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('s.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Session
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
