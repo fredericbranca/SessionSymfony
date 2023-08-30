@@ -29,23 +29,21 @@
 		<table>
 			<thead>
 				<th>Formation</th>
-				<th>Nombre de place</th>
 				<th>Date de début</th>
 				<th>Date de fin</th>
+				<th>Inscrits</th>
 			</thead>
 			<tbody>
 				{% for session in enCours %}
 					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 						<td>
-							{{ session.formation }}</td>
+							{{ session.formation_nom }}</td>
 						<td>
-							{{ session.nbPlace }}</td>
+							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-						{# <p>Nombre de programme : {{ session.programme }}</p> #}
+							{{ session.nb_stagiaire }} / {{ session.nb_place }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -57,23 +55,21 @@
 		<table>
 			<thead>
 				<th>Formation</th>
-				<th>Nombre de place</th>
 				<th>Date de début</th>
 				<th>Date de fin</th>
+				<th>Inscrits</th>
 			</thead>
 			<tbody>
 				{% for session in terminees %}
 					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 						<td>
-							{{ session.formation }}</td>
+							{{ session.formation_nom }}</td>
 						<td>
-							{{ session.nbPlace }}</td>
+							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-						{# <p>Nombre de programme : {{ session.programme }}</p> #}
+							{{ session.nb_stagiaire }} / {{ session.nb_place }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -85,23 +81,21 @@
 		<table>
 			<thead>
 				<th>Formation</th>
-				<th>Nombre de place</th>
 				<th>Date de début</th>
 				<th>Date de fin</th>
+				<th>Inscrits</th>
 			</thead>
 			<tbody>
 				{% for session in future %}
 					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 						<td>
-							{{ session.formation }}</td>
+							{{ session.formation_nom }}</td>
 						<td>
-							{{ session.nbPlace }}</td>
+							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 						<td>
-							{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						{# <p>Nombre de stagiaire : {{ session.stagiaire }}</p> #}
-						{# <p>Nombre de programme : {{ session.programme }}</p> #}
+							{{ session.nb_stagiaire }} / {{ session.nb_place }}</td>
 					</tr>
 				{% endfor %}
 			</tbody>
