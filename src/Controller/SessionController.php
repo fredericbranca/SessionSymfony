@@ -19,22 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionController extends AbstractController
 {
-    // Route pour ajouter un stagiaire à une session
-    #[Route('/session/{id}/addStagiaire/{id_stagiaire}', name: 'addStagiaire_session')]
-    #[IsGranted('ROLE_ADMIN')]
-    public function addStagiaire(
-        #[MapEntity(id: 'id')] Session $session,
-        #[MapEntity(id: 'id_stagiaire')] Stagiaire $stagiaire,
-        EntityManagerInterface $entityManager
-    ): Response {
-
-        $session->addStagiaire($stagiaire);
-        $entityManager->persist($session);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
-    }
-
     // Route pour supprimer un programme d'une session
     #[Route('/session/{id}/deleteProgramme/{idProgramme}', name: 'deleteProgramme_session')]
     #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
@@ -69,9 +53,9 @@ class SessionController extends AbstractController
     #[Route('/session/{id}/edit', name: 'edit_session')]
     #[IsGranted('ROLE_ADMIN', message: 'Accès non autorisé')]
     public function newSession(Request $request, 
-    EntityManagerInterface $entityManager,
-    Session $session = null
-): Response
+        EntityManagerInterface $entityManager,
+        Session $session = null
+    ): Response
     {
         //Si session est null, alors on créé un objet de type Session
         $isNew = !$session;
@@ -118,10 +102,12 @@ class SessionController extends AbstractController
     #[Route('/session', name: 'app_session')]
     #[Route('/session/{id}', name: 'infos_session')]
     #[Route('/session/{id}/edit/{id_programme}', name: 'edit_jour_programme_session')]
+    #[Route('/session/{id}/addStagiaire/{id_stagiaire}', name: 'addStagiaire_session')]
     public function index(
         SessionRepository $sessionRepository,
         #[MapEntity(id: 'id')] Session $session = null,
         #[MapEntity(id: 'id_programme')] Programme $programme = null,
+        #[MapEntity(id: 'id_stagiaire')] Stagiaire $stagiaire = null,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
@@ -188,6 +174,25 @@ class SessionController extends AbstractController
             // Récupère le nombre de stagiaire inscrit dans une session
             $nb_stagiaire = $sessionRepository->countStagiairesInscrit($session);
             $nb_disponible = $nb_stagiaire['nb_disponible'];
+
+            if ($stagiaire) {
+                // Uniquement autorisé par l'admin
+                $this->denyAccessUnlessGranted('ROLE_ADMIN');
+                
+                $nb_place = $session->getNbPlace();
+
+                // Si le nombre de place est = au nombre de place disponible alors on ne peut plus rajouter de stagiaire dans cette session
+                if ($nb_place == $nb_disponible) {
+                    return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+                }
+
+                $session->addStagiaire($stagiaire);
+                $entityManager->persist($session);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('infos_session', ['id' => $session->getId()]);
+            }
+    
 
             return $this->render('session/index.html.twig', [
                 'session' => $session,
