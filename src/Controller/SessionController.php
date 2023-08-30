@@ -183,11 +183,15 @@ class SessionController extends AbstractController
             // Récupère les infos de la session avec l'ID
             $session = $sessionRepository->findOneBy(['id' => $session]);
             // Récupère la liste des stagiaires non inscrit à la session 
-            $stagiaires = $sessionRepository->findNonInscrits($session);
-            // $stagiaires = $sessionRepository->stagiaireNonInscrits($session);
+            $stagiaires = $sessionRepository->stagiaireNonInscrits($session);
+
+            // Récupère le nombre de stagiaire inscrit dans une session
+            $nb_stagiaire = $sessionRepository->countStagiairesInscrit($session);
+            $nb_disponible = $nb_stagiaire['nb_disponible'];
 
             return $this->render('session/index.html.twig', [
                 'session' => $session,
+                'nb_disponible' => $nb_disponible,
                 'stagiaires' => $stagiaires,
                 'programmes' => $programmes,
                 'formAddProgramme' => $formProg
