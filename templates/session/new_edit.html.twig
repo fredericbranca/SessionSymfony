@@ -51,6 +51,10 @@
 			{{ form_label(formAddSession.nb_place) }}
 			{{ form_errors(formAddSession.nb_place) }}
 			{{ form_widget(formAddSession.nb_place) }}
+
+			{% for message in app.flashes('danger') %}
+				<p> {{ message }} </p>
+			{% endfor %}
 		</div>
 
 		{{ form_row(formAddSession.Valider) }}
