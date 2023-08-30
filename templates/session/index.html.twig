@@ -114,11 +114,13 @@
 			<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
 		</p>
 		<p>Date de début :
-			{{ session.dateDebut |format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+			{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
 		<p>Date de fin :
-			{{ session.dateFin |format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+			{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
 		<p>Nombre de place :
 			{{ session.nbPlace }}</p>
+		<p>Nombre de place disponible :
+			{{ session.nbPlace - nb_disponible }}</p>
 
 		{# ROLE_ADMIN : Lien vers la vue pour modifier les infos de la session -> nom de la Formation, date de début et de fin, nombre de place #}
 		{% if is_granted('ROLE_ADMIN') %}
