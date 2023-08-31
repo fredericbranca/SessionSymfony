@@ -12,6 +12,7 @@
 		{# CSS links #}
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/main.css') }}">
+			<link rel="stylesheet" href="{{ asset('css/hamburger.css') }}">
 		{% endblock %}
 		{% block additional_css %}{% endblock %}
 
@@ -22,24 +23,55 @@
 
 	</head>
 	<body>
-		<nav>
-			<a href="{{path('app_home') }}">Accueil</a>
-			<a href="{{path('app_formation') }}">Formation</a>
-			<a href="{{path('app_session') }}">Sessions</a>
-			{% if app.user %}
-				<a href="{{path('app_stagiaire') }}">Stagiaires</a>
-			{% endif %}
-			<a href="{{path('app_module') }}">Modules</a>
-			<a href="{{path('app_categorie') }}">Catégorie</a>
-			{# <a href="">Formateurs</a> #}
-			{% if app.user %}
-				<a href="{{path('app_logout') }}">Déconnexion</a>
-			{% else %}
-				<a href="{{path('app_login') }}">Connexion</a>
-				<a href="{{path('app_register') }}">Inscription</a>
-			{% endif %}
-
-		</nav>
+		<header id="header">
+			<div id="wrapper" data-theme="light">
+				<nav id="navbar">
+					{# Hamburger  #}
+					<button class="hamburger hamburger-animation" type="button" onclick="toggleMenu()">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+					{# Nav-Links #}
+					<div id="navigation" class="nav-links">
+						<ul>
+							<li>
+								<a href="{{path('app_home') }}">Accueil</a>
+							</li>
+							<li>
+								<a href="{{path('app_formation') }}">Formation</a>
+							</li>
+							<li>
+								<a href="{{path('app_session') }}">Sessions</a>
+							</li>
+							{% if app.user %}
+								<li>
+									<a href="{{path('app_stagiaire') }}">Stagiaires</a>
+								</li>
+							{% endif %}
+							<li>
+								<a href="{{path('app_module') }}">Modules</a>
+							</li>
+							<li>
+								<a href="{{path('app_categorie') }}">Catégorie</a>
+							</li>
+							{% if app.user %}
+								<li>
+									<a href="{{path('app_logout') }}">Déconnexion</a>
+								</li>
+							{% else %}
+								<li>
+									<a href="{{path('app_login') }}">Connexion</a>
+								</li>
+								<li>
+									<a href="{{path('app_register') }}">Inscription</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</header>
 		{% block body %}{% endblock %}
 	</body>
-</html>
+</html></div></body></html>
