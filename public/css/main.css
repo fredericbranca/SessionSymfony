@@ -1,5 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat";
+}
+
+/* Couleur par défaut */
+:root,
+#wrapper[data-theme="light"] {
+  /* bg color */
+  --bg-color-1 : #ffffff;
+  /* font color */
+  --font-color-1: #000000;
+}
+
+#wrapper[data-theme="dark"] {
+  /* bg color */
+  --bg-color-5: #010c0c;
+
+  /* font color */
+  --font-color-1: #ffffff;
+}
+
 table {
-    border-spacing: 0;
+  border-spacing: 0;
 }
 
 .clickable-row {
@@ -9,4 +35,76 @@ table {
 .clickable-row:hover {
   background-color: #bbb7b7;
   cursor: pointer;
+}
+
+/* Styles pour les écrans de taille inférieure (mobile) */
+
+/*
+*
+* 
+* BARRE DE NAVIGATION
+*
+*
+*/
+#header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 10px;
+}
+
+#navbar {
+  position: relative;
+  display: flex;
+  transition: all 2s ease-in-out;
+}
+
+.nav-links {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--bg-color-4);
+  width: 85%;
+  height: 100vh;
+  flex-direction: column;
+  transition: all 2s ease-in-out;
+}
+
+.nav-links ul {
+  list-style-type: none;
+  padding-top: 40%;
+}
+
+.nav-links li {
+  padding: 5% 50px;
+  width: 100%;
+}
+
+.nav-links li a {
+  color: var(--font-color-2);
+  text-decoration: none;
+  margin: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Affiche le bandeau avec la classe open et utilise l'animation fade */
+.nav-links .is-active {
+  display: flex;
+  animation: fade .5s;
+  z-index: 2;
+}
+
+@keyframes fade {
+  from {
+      transform: translateX(-100%);
+      opacity: 0;
+  }
+
+  to {
+      transform: translateX(0);
+      opacity: 1;
+  }
 }
