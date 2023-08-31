@@ -22,8 +22,8 @@ class SessionRepository extends ServiceEntityRepository
     }
 
     // Requete pour récupérer les sessions en cours
-    public function sessionsEnCoursAndCountStagiairesInscrit()
-    {
+    public function sessionsEnCoursAndCountStagiairesInscrit($formation_id = null, $stagiaire_id = null)
+    { 
         // Initialisation de l'Entity Manager et du Query Builder
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -254,6 +254,139 @@ class SessionRepository extends ServiceEntityRepository
 
         // renvoyer le résultat
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Partie des requêtes sessions pour Formation et Stagiaire
+     */
+    // Requete pour récupérer les sessions en cours
+    public function sessionsEnCours($formation_id = null, $stagiaire_id = null)
+    { 
+        $andWhere = $formation_id ? 'se.formation = :formation' : '';
+        $param1 = $formation_id ? 'formation' : '';
+        $param2 = $formation_id ? $formation_id : '';
+
+        // Initialisation de l'Entity Manager et du Query Builder
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        // On récupère de la date actuelle
+        $today = new \DateTime();
+
+        return $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            // Join l'entité formation
+            ->join('se.formation', 'formation')
+            /** LEFT JOIN stagiaire st ON st.id IN ( 
+             *       SELECT s.id
+             *       FROM stagiaire s
+             *       JOIN stagiaire_session ss ON s.id = ss.stagiaire_id
+             *       WHERE ss.session_id = se.id
+             * )
+             */
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête : on récupère les ID des stagiaires associés à chaque session
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            // Where pour obtenir uniquement les sessions en cours
+            ->where('se.date_debut < :today AND se.date_fin > :today')
+            ->setParameter('today', $today)
+            ->andWhere($andWhere)
+            ->setParameter($param1, $param2)
+            // Groupe By id session pour compter correctement les stagiaires de chaque session
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Requete pour récupérer les sessions terminées
+    public function sessionsTerminee($formation_id = null, $stagiaire_id = null)
+    {
+        $andWhere = $formation_id ? 'se.formation = :formation' : '';
+        $param1 = $formation_id ? 'formation' : '';
+        $param2 = $formation_id ? $formation_id : '';
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $today = new \DateTime();
+
+        $query = $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            ->join('se.formation', 'formation')
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            ->where('se.date_fin < :today')
+            ->setParameter('today', $today)
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    // Requete pour récupérer les sessions à venir
+    public function sessionsFuture($formation_id = null, $stagiaire_id = null)
+    {
+        $andWhere = $formation_id ? 'se.formation = :formation' : 'st.stagiaire = :stagiaire';
+        $param1 = $formation_id ? 'formation' : 'stagiaire';
+        $param2 = $formation_id ? $formation_id : $stagiaire_id;
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $today = new \DateTime();
+
+        $query = $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
+            ->from('App\Entity\Session', 'se')
+            ->join('se.formation', 'formation')
+            ->leftJoin(
+                'App\Entity\Stagiaire',
+                'st',
+                'WITH',
+                $qb->expr()->in(
+                    'st.id',
+                    // Sous-requête
+                    $em->createQueryBuilder()
+                        ->select('s.id')
+                        ->from('App\Entity\Stagiaire', 's')
+                        ->join('s.stagiaire_session', 'ss')
+                        ->where('ss.id = se.id')
+                        ->getDQL()
+                )
+            )
+            ->where('se.date_debut > :today')
+            ->setParameter('today', $today)
+            ->groupBy('se.id')
+            ->orderBy('se.date_debut', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 
     //    /**
