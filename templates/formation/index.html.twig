@@ -17,7 +17,7 @@
 			<a href="{{ path('new_formation')}}">Ajouter une formation</a>
 
 		{% endif %}
-		
+
 		<h2>Les formations</h2>
 
 		{# Affiche toutes les formations dans un lien vers les infos de la formation #}
@@ -27,14 +27,15 @@
 			</p>
 		{% endfor %}
 
-	{# Sinon renvoi les infos d'une formation spécifique /formation/{id} #}
+		{# Sinon renvoi les infos d'une formation spécifique /formation/{id} #}
 	{% else %}
 
 		<a href="{{ path('app_formation')}}">Retour</a>
 
 		<h2>Informations :</h2>
 
-		<h3>Formation : {{ formation.nom }}</h3>
+		<h3>Formation :
+			{{ formation.nom }}</h3>
 
 		{# ROLE_ADMIN : Affiche les liens vers la modification et la suppression de la formation #}
 		{% if is_granted('ROLE_ADMIN') %}
@@ -42,28 +43,107 @@
 			<a class="confirm-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
 		{% endif %}
 
-		<h3>Session</h3>
-
 		{# Affiche les sessions liées à l'intitulé de cette formation #}
-		<table>
-			<thead>
-				<th>Date de début</th>
-				<th>Date de fin</th>
-				<th>Nombre de place</th>
-			</thead>
+		<h3>Les session</h3>
 
-			<tbody>
-				{% for session in sessionsFormation %}
+		{# Sessions en cours #}
+		<h4>Sessions en cours</h4>
 
-					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-						<td>{{ session.dateDebut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>{{ session.dateFin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>{{ session.nbPlace }}</td>
-					</tr>
-					
-				{% endfor %}
-			</tbody>
-		</table>
+		{% if sessionsEnCours is empty %}
+
+			<p>Aucune sessions en cours</p>
+
+		{% else %}
+
+			<table>
+				<thead>
+					<th>Date de début</th>
+					<th>Date de fin</th>
+					<th>Inscrit</th>
+				</thead>
+
+				<tbody>
+					{% for session in sessionsEnCours %}
+
+						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.nb_stagiaire }}
+								/
+								{{ session.nb_place }}</td>
+						</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+
+		{% endif %}
+
+		{# Session à venir #}
+		<h4>Sessions à venir</h4>
+
+		{% if sessionsFuture is empty %}
+
+			<p>Aucune sessions en cours</p>
+
+		{% else %}
+
+			<table>
+				<thead>
+					<th>Date de début</th>
+					<th>Date de fin</th>
+					<th>Inscrit</th>
+				</thead>
+
+				<tbody>
+					{% for session in sessionsFuture %}
+
+						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.nb_stagiaire }}
+								/
+								{{ session.nb_place }}</td>
+						</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+
+		{% endif %}
+
+		{# Session terminées #}
+		<h4>Session terminées</h4>
+
+		{% if sessionsTerminee is empty %}
+
+			<p>Aucune sessions en cours</p>
+
+		{% else %}
+
+			<table>
+				<thead>
+					<th>Date de début</th>
+					<th>Date de fin</th>
+					<th>Inscrit</th>
+				</thead>
+
+				<tbody>
+					{% for session in sessionsTerminee %}
+
+						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+							<td>{{ session.nb_stagiaire }}
+								/
+								{{ session.nb_place }}</td>
+						</tr>
+
+					{% endfor %}
+				</tbody>
+			</table>
+
+		{% endif %}
 
 	{% endif %}
 
