@@ -8,17 +8,11 @@
 
 	<form method="post">
 
-		{% if error %}
-
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-
-		{% endif %}
-
 		<h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
 
 		<label for="inputEmail">Email</label>
-		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-		
+		<input type="email" value="" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+
 		<label for="inputPassword">Mot de passe</label>
 		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
@@ -29,5 +23,17 @@
 		</button>
 
 	</form>
+
+	{# {{ form_start(form) }}
+		{{ form_label(form.email) }}
+		{{ form_errors(form.email) }}
+		{{ form_widget(form.email) }}
+
+		{{ form_label(form.password) }}
+		{{ form_errors(form.password) }}
+		{{ form_widget(form.password) }}
+
+		{{ form_row(form.valider) }}
+	{{ form_end(form) }} #}
 
 {% endblock %}
