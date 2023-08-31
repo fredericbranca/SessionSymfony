@@ -73,10 +73,14 @@ class FormationController extends AbstractController
                 'formation' => $formation
             ]);
         } else {
-            $sessionsFormation = $sessionRepository->findBy(['formation' => $formation]);
+            $sessionsEnCours = $sessionRepository->sessionsEnCours($formation, null);
+            $sessionsFuture = $sessionRepository->sessionsFuture($formation, null);
+            $sessionsTerminee = $sessionRepository->sessionsTerminee($formation, null);
             return $this->render('formation/index.html.twig', [
                 'formation' => $formation,
-                'sessionsFormation' => $sessionsFormation
+                'sessionsEnCours' => $sessionsEnCours,
+                'sessionsFuture' => $sessionsFuture,
+                'sessionsTerminee' => $sessionsTerminee
             ]);
         }
     }

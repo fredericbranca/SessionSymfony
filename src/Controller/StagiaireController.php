@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
+use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,7 @@ class StagiaireController extends AbstractController
         StagiaireRepository $stagiaireRepository
     ): Response
     {
+
         $stagiaires = $stagiaireRepository->findBy([], ['nom' => 'ASC']);
         return $this->render('stagiaire/index.html.twig', [
             'stagiaires' => $stagiaires
@@ -68,11 +70,18 @@ class StagiaireController extends AbstractController
     #[Route('stagiaire/{id}', name: 'infos_stagiaire')]
     #[IsGranted('ROLE_USER', message: 'Accès non autorisé')]
     public function infos(
-        Stagiaire $stagiaire
+        Stagiaire $stagiaire,
+        SessionRepository $sessionRepository
     ): Response
     {
+        $sessionsEnCours = $sessionRepository->sessionsEnCours($stagiaire, null);
+        $sessionsFuture = $sessionRepository->sessionsFuture($stagiaire, null);
+        $sessionsTerminee = $sessionRepository->sessionsTerminee($stagiaire, null);
         return $this->render('stagiaire/infos.html.twig', [
-            'stagiaire' => $stagiaire
+            'stagiaire' => $stagiaire,
+            'sessionsEnCours' => $sessionsEnCours,
+            'sessionsFuture' => $sessionsFuture,
+            'sessionsTerminee' => $sessionsTerminee
         ]);
     }
 
