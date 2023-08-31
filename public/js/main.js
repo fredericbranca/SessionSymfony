@@ -18,3 +18,21 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// NAVBAR - Fonction pour ouvrir ou fermer le bandeau de la navbar
+function toggleMenu() {
+    const hamburger_button = document.querySelector('.hamburger');
+    const nav_list = document.querySelector('.nav-links');
+    // const navOverlay = document.querySelector('.overlay');
+    if (!hamburger_button.classList.contains('is-active')) {
+        hamburger_button.classList.add('is-active');
+        nav_list.classList.add('is-active');
+        // navOverlay.style.zIndex = 1;
+        // navOverlay.style.display = 'block';
+    } else {
+        hamburger_button.classList.remove('is-active');
+        nav_list.classList.remove('is-active');
+        // navOverlay.style.zIndex = -1;
+        // navOverlay.style.display = 'none';
+    }
+}
