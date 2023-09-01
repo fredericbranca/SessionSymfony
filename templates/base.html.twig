@@ -23,9 +23,11 @@
 
 	</head>
 	<body>
-		<header id="header">
-			<div id="wrapper" data-theme="light">
-				<nav id="navbar">
+		<div id="wrapper" data-theme="light">
+			<div id="overlay"></div>
+			<header id="header">
+				<nav
+					id="navbar">
 					{# Hamburger  #}
 					<button class="hamburger hamburger-animation" type="button" onclick="toggleMenu()">
 						<span class="hamburger-box">
@@ -34,44 +36,48 @@
 					</button>
 					{# Nav-Links #}
 					<div id="navigation" class="nav-links">
-						<ul>
-							<li>
-								<a href="{{path('app_home') }}">Accueil</a>
-							</li>
-							<li>
-								<a href="{{path('app_formation') }}">Formation</a>
-							</li>
-							<li>
-								<a href="{{path('app_session') }}">Sessions</a>
-							</li>
-							{% if app.user %}
+						<div class="links">
+							<ul class="page-links">
 								<li>
-									<a href="{{path('app_stagiaire') }}">Stagiaires</a>
-								</li>
-							{% endif %}
-							<li>
-								<a href="{{path('app_module') }}">Modules</a>
-							</li>
-							<li>
-								<a href="{{path('app_categorie') }}">Catégorie</a>
-							</li>
-							{% if app.user %}
-								<li>
-									<a href="{{path('app_logout') }}">Déconnexion</a>
-								</li>
-							{% else %}
-								<li>
-									<a href="{{path('app_login') }}">Connexion</a>
+									<a href="{{path('app_home') }}">Accueil</a>
 								</li>
 								<li>
-									<a href="{{path('app_register') }}">Inscription</a>
+									<a href="{{path('app_formation') }}">Formation</a>
 								</li>
-							{% endif %}
-						</ul>
+								<li>
+									<a href="{{path('app_session') }}">Sessions</a>
+								</li>
+								{% if app.user %}
+									<li>
+										<a href="{{path('app_stagiaire') }}">Stagiaires</a>
+									</li>
+								{% endif %}
+								<li>
+									<a href="{{path('app_module') }}">Modules</a>
+								</li>
+								<li>
+									<a href="{{path('app_categorie') }}">Catégorie</a>
+								</li>
+							</ul>
+							<ul class="auth-links">
+								{% if app.user %}
+									<li>
+										<a href="{{path('app_logout') }}">Déconnexion</a>
+									</li>
+								{% else %}
+									<li>
+										<a href="{{path('app_login')}}">Connexion</a>
+									</li>
+									<li>
+										<a href="{{path('app_register')}}">Inscription</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
 					</div>
 				</nav>
-			</div>
-		</header>
-		{% block body %}{% endblock %}
+			</header>
+			{% block body %}{% endblock %}
+		</div>
 	</body>
-</html></div></body></html>
+</html></body></html>
