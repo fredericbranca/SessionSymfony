@@ -10,10 +10,12 @@ use App\Form\ProgrammeType;
 use App\Form\StagiaireType;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -128,15 +130,28 @@ class SessionController extends AbstractController
         #[MapEntity(id: 'id_programme')] Programme $programme = null,
         #[MapEntity(id: 'id_stagiaire')] Stagiaire $stagiaire = null,
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator
     ): Response {
         // S'il n'y a pas de paramètre {id} dans l'url
         if ($session == null) {
 
-            // Requete : on récupère la liste de toutes les sessions (en cours, terminée, à venir) + le nombre de stagiaire inscrit
-            $sessionsEnCours = $sessionRepository->sessionsEnCoursAndCountStagiairesInscrit();
-            $sessionsTerminee = $sessionRepository->sessionsTermineeAndCountStagiairesInscrit();
-            $sessionsFuture = $sessionRepository->sessionsFutureAndCountStagiairesInscrit();
+            // Requete pagination : on récupère la liste de toutes les sessions (en cours, terminée, à venir) + le nombre de stagiaire inscrit
+            $sessionsEnCours = $paginator->paginate(
+                $sessionRepository->sessionsEnCoursAndCountStagiairesInscrit(),
+                $request->query->getInt('cours', 1),
+                2
+            );
+            $sessionsTerminee = $paginator->paginate(
+                $sessionRepository->sessionsTermineeAndCountStagiairesInscrit(),
+                $request->query->getInt('terminee', 1),
+                2
+            );
+            $sessionsFuture = $paginator->paginate(
+                $sessionRepository->sessionsFutureAndCountStagiairesInscrit(),
+                $request->query->getInt('future', 1),
+                2
+            );
 
             return $this->render('session/index.html.twig', [
                 'enCours' => $sessionsEnCours,

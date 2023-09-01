@@ -31,7 +31,7 @@ class SessionRepository extends ServiceEntityRepository
         // On récupère de la date actuelle
         $today = new \DateTime();
 
-        return $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
+        $query = $qb->select('se.id', 'formation.nom as formation_nom', 'se.date_debut', 'se.date_fin', 'se.nb_place', 'COUNT(st.id) AS nb_stagiaire')
             ->from('App\Entity\Session', 'se')
             // Join l'entité formation
             ->join('se.formation', 'formation')
@@ -63,8 +63,9 @@ class SessionRepository extends ServiceEntityRepository
             // Groupe By id session pour compter correctement les stagiaires de chaque session
             ->groupBy('se.id')
             ->orderBy('se.date_debut', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+
+        return $query;
     }
 
     // Requete pour récupérer les sessions terminées
@@ -99,7 +100,7 @@ class SessionRepository extends ServiceEntityRepository
             ->orderBy('se.date_debut', 'ASC')
             ->getQuery();
 
-        return $query->getResult();
+        return $query;
     }
 
     // Requete pour récupérer les sessions à venir
@@ -134,7 +135,7 @@ class SessionRepository extends ServiceEntityRepository
             ->orderBy('se.date_debut', 'ASC')
             ->getQuery();
 
-        return $query->getResult();
+        return $query;
     }
 
     // Requête compter le nom de stagiaire inscrit dans une session
