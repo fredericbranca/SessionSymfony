@@ -139,18 +139,21 @@ class SessionController extends AbstractController
             // Requete pagination : on récupère la liste de toutes les sessions (en cours, terminée, à venir) + le nombre de stagiaire inscrit
             $sessionsEnCours = $paginator->paginate(
                 $sessionRepository->sessionsEnCoursAndCountStagiairesInscrit(),
-                $request->query->getInt('cours', 1),
-                2
+                $request->query->getInt('en_cours', 1),
+                2,
+                ['pageParameterName' => 'en_cours']
             );
             $sessionsTerminee = $paginator->paginate(
                 $sessionRepository->sessionsTermineeAndCountStagiairesInscrit(),
                 $request->query->getInt('terminee', 1),
-                2
+                2,
+                ['pageParameterName' => 'terminee']
             );
             $sessionsFuture = $paginator->paginate(
                 $sessionRepository->sessionsFutureAndCountStagiairesInscrit(),
                 $request->query->getInt('future', 1),
-                2
+                2,
+                ['pageParameterName' => 'future']
             );
 
             return $this->render('session/index.html.twig', [
