@@ -15,4 +15,9 @@
 			<a href="{{ path('infos_stagiaire', {'id' : stagiaire.id}) }}">{{ stagiaire }}</a>
 		</p>
 	{% endfor %}
+
+	<div class="navigation">
+		{{ knp_pagination_render(stagiaires) }}
+	</div>
+
 {% endblock %}

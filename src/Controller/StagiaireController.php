@@ -7,6 +7,7 @@ use App\Form\StagiaireType;
 use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,11 +57,18 @@ class StagiaireController extends AbstractController
     #[Route('/stagiaire', name: 'app_stagiaire')]
     #[IsGranted('ROLE_USER', message: 'Accès non autorisé')]
     public function index(
-        StagiaireRepository $stagiaireRepository
+        StagiaireRepository $stagiaireRepository,
+        PaginatorInterface $paginator,
+        Request $request
     ): Response
     {
 
-        $stagiaires = $stagiaireRepository->findBy([], ['nom' => 'ASC']);
+        $stagiaires = $paginator->paginate(
+            $stagiaireRepository->findStagiaires(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('stagiaire/index.html.twig', [
             'stagiaires' => $stagiaires
         ]);
