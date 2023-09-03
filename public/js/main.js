@@ -14,7 +14,7 @@ function toggleMenu() {
     body.style.backgroundColor = "#242424";
     content.style.display = "none";
   } else {
-    closeMenu
+    closeMenu();
   }
 }
 
