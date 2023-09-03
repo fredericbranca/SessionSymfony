@@ -6,15 +6,31 @@ function toggleMenu() {
   const body = document.querySelector("body");
   const content = document.querySelector(".content");
 
-  if (!hamburger_button.classList.contains("is-active")) {
-    hamburger_button.classList.add("is-active");
-    nav_list.classList.add("is-active");
-    nav_overlay.style.zIndex = 1;
-    nav_overlay.style.display = "block";
-    body.style.backgroundColor = "#242424";
-    content.style.display = "none";
-  } else {
-    closeMenu();
+  if (window.innerWidth < 992) {
+    if (!hamburger_button.classList.contains("is-active")) {
+      hamburger_button.classList.add("is-active");
+      nav_list.classList.add("is-active");
+      nav_overlay.style.zIndex = 1;
+      nav_overlay.style.display = "block";
+      body.style.backgroundColor = "rgb(0, 0, 0, 0.85)";
+      content.style.zIndex = "-1";
+      nav_list.classList.remove("nav-out");
+      content.classList.remove("content-out");
+      content.classList.add("content-active");
+      nav_list.classList.add("nav-active");
+
+    } else {
+      hamburger_button.classList.remove("is-active");
+      nav_list.classList.remove("is-active");
+      nav_overlay.style.zIndex = -1;
+      nav_overlay.style.display = "none";
+      body.style.backgroundColor = "var(--bg-color-1)";
+      content.style.zIndex = "0";
+      nav_list.classList.remove("nav-active");
+      content.classList.remove("content-active");
+      nav_list.classList.add("nav-out");
+      content.classList.add("content-out");
+    }
   }
 }
 
@@ -30,7 +46,9 @@ function closeMenu() {
   nav_overlay.style.zIndex = -1;
   nav_overlay.style.display = "none";
   body.style.backgroundColor = "var(--bg-color-1)";
-  content.style.display = "block";
+  content.style.zIndex = "0";
+  nav_list.classList.remove("nav-active");
+  content.classList.remove("content-active");
 }
 
 // Attend que le DOM soit chargé
@@ -57,21 +75,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Écoute les clics
   document.addEventListener("click", function (event) {
-    console.log(event);
+    console.log(event.target);
     // Si le menu est ouvert et que le clic n'est ni sur le bouton hamburger, ni dans le menu lui-même, alors fermez le menu
     if (hamburger_button.classList.contains("is-active")) {
       if (!hamburger_button.contains(event.target) && !nav_list.contains(event.target)) {
-        closeMenu();
+        toggleMenu();
       }
     }
   });
 
-  window.addEventListener('resize', function() {
-    // ferme le menu si taille d'écran supérieur à 900px
-    if (window.innerWidth >= 901) { 
-        closeMenu();
-    }
-});
+  window.addEventListener('resize', function () {
+    closeMenu();
+  });
 
 });
 

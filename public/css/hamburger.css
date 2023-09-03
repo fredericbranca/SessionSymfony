@@ -100,14 +100,7 @@
 }
 
 /* Si plus de 900px, on affiche la barre de navigation complète */
-@media only screen and (min-width: 901px) and (max-width: 1024px) {
-  .hamburger {
-    display: none;
-  }
-}
-
-/* Styles pour les écrans de taille supérieure (écran de bureau) */
-@media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 992px) {
   .hamburger {
     display: none;
   }
