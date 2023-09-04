@@ -90,13 +90,4 @@ document.addEventListener("DOMContentLoaded", function () {
     closeMenu();
   });
 
-  // Ajoute une icone before à la classe link
-  const link = document.querySelectorAll(".link");
-//  .setProperty('content',"url(/img/arrow-up.svg)")
-for (var i in link){
-  link[i].setAttribute('data-before', "/img/arrow-up.svg")
-}
-
-console.log(getComputedStyle(link, ':before').getPropertyValue('content'));
- 
 });
