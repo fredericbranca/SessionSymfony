@@ -140,19 +140,19 @@ class SessionController extends AbstractController
             $sessionsEnCours = $paginator->paginate(
                 $sessionRepository->sessionsEnCoursAndCountStagiairesInscrit(),
                 $request->query->getInt('en_cours', 1),
-                2,
+                null,
                 ['pageParameterName' => 'en_cours']
             );
             $sessionsTerminee = $paginator->paginate(
                 $sessionRepository->sessionsTermineeAndCountStagiairesInscrit(),
                 $request->query->getInt('terminee', 1),
-                2,
+                null,
                 ['pageParameterName' => 'terminee']
             );
             $sessionsFuture = $paginator->paginate(
                 $sessionRepository->sessionsFutureAndCountStagiairesInscrit(),
                 $request->query->getInt('future', 1),
-                2,
+                null,
                 ['pageParameterName' => 'future']
             );
 
