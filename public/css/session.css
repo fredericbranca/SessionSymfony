@@ -1,1 +1,118 @@
+.content {
+  padding: 0 30px;
+}
 
+.tables-sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 57px;
+  margin-top: 30px;
+}
+
+.table-sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 39px;
+}
+
+/* Force table to not be like tables anymore */
+table,
+thead,
+tbody,
+th,
+td,
+tr {
+  display: block;
+  border-spacing: 0;
+}
+
+/* Hide table headers (but not display: none;, for accessibility) */
+thead tr {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+tr {
+  border: 1px solid #000000;
+  margin: 5px 0;
+}
+
+tr:nth-child(2n + 1) {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+table,
+tbody,
+tr,
+td:last-child {
+  border-radius: 10px;
+}
+
+td {
+  /* Behave  like a "row" */
+  border: none;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding-left: 50%;
+  box-shadow: 0px 0.3px rgb(0, 0, 0);
+}
+
+td:before {
+  /* Now like a table header */
+  position: absolute;
+  /* Top/left values mimic padding */
+  top: 0;
+  left: 6px;
+  width: 45%;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+/*
+	Label the data
+	*/
+td:nth-of-type(1):before {
+  content: "Statut";
+}
+td:nth-of-type(2):before {
+  content: "Formation";
+}
+td:nth-of-type(3):before {
+  content: "Date de début";
+}
+td:nth-of-type(4):before {
+  content: "Date de fin";
+}
+td:nth-of-type(5):before {
+  content: "Inscrits";
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #bbb7b7;
+  cursor: pointer;
+}
+
+/* Styles pour les petits écran */
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+}
+
+/* Styles pour les écrans de taille moyenne */
+@media only screen and (min-width: 769px) and (max-width: 991px) {
+}
+
+/* Styles pour les écrans large */
+@media only screen and (min-width: 992px) {
+}
+
+/* Styles pour les écrans extra large (écran de bureau) */
+@media only screen and (min-width: 1199px) {
+}
+
+/* Styles pour les écrans extra extra large */
+@media only screen and (min-width: 1400px) {
+}
