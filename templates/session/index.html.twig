@@ -255,12 +255,15 @@
 									</td>
 									{# ROLE_ADMIN #}
 									{% if is_granted('ROLE_ADMIN') %}
-										<td><input type="number" name="nbJour" value="{{ programme.nbJour }}"/><input class="btn" type="submit" value="Mettre à jour"/></td>
+										<td class="maj-jour">
+											<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+											<button class="btn" type="submit">Mettre à jour</button>
+										</td>
 									{% else %}
 										<td>{{ programme.nbJour }}</td>
 									{% endif %}
-									<td>
-										<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
+									<td class="deprogrammer">
+										<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}"><i class="fa-solid fa-file-excel" style="color: #ff0000;"></i></a>
 									</td>
 								</tr>
 							</tbody>
