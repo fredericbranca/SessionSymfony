@@ -143,20 +143,36 @@ body {
 
 /*
 *
-* BOUTON
+* BOUTON / LIEN
 *
 */
 .btn {
-  color: #000;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  width: 162px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 43px;
-  border-radius: 10px;
   padding: 3px 5px;
   background: #D9D9D9;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 10px;
   text-decoration: none;
+}
+
+.btn-return {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #000000;
+}
+
+.link::before {
+  padding-right: 5px;
+  width: 100px;
+  height: 100px;
 }
 
 /* Styles pour les petits écran */
