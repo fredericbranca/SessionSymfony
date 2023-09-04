@@ -19,6 +19,7 @@
 
 		{# JavaScript links #}
 		{% block javascripts %}
+			<script src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous"></script>
 			<script src="{{ asset('js/main.js') }}"></script>
 		{% endblock %}
 
@@ -79,10 +80,9 @@
 				</nav>
 			</header>
 
-			<div class="content">
-				{% block body %}{% endblock %}
-			</div>
+			<div class="content"> {% block body %}{% endblock %}
+				</div>
 
-		</div>
-	</body>
-</html>
+			</div>
+		</body>
+	</html>
