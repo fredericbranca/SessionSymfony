@@ -171,8 +171,11 @@ td:nth-of-type(5):before {
     gap: 10px;
 }
 
-.list-stagiaires p a:first-of-type {
-    width: 50%;
+.stagiaire {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 500px;
 }
 
 

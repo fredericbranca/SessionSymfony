@@ -195,7 +195,7 @@
 					{% else %}
 
 						{% for stagiaire in session.stagiaires %}
-							<p>
+							<p class="stagiaire">
 								{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
 								<a class="link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
 									{{ stagiaire.prenom }}</a>
