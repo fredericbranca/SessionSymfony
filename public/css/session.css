@@ -10,6 +10,11 @@
   padding: 0 30px;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 .tables-sessions {
   display: flex;
   flex-direction: column;
@@ -78,23 +83,42 @@ td:before {
 }
 
 /*
-	Label the data
+	Label table-sessions
 	*/
-td:nth-of-type(1):before {
+.table-sessions td:nth-of-type(1):before {
   content: "Statut";
 }
-td:nth-of-type(2):before {
+.table-sessions td:nth-of-type(2):before {
   content: "Formation";
 }
-td:nth-of-type(3):before {
+.table-sessions td:nth-of-type(3):before {
   content: "Date de début";
 }
-td:nth-of-type(4):before {
+.table-sessions td:nth-of-type(4):before {
   content: "Date de fin";
 }
-td:nth-of-type(5):before {
+.table-sessions td:nth-of-type(5):before {
   content: "Inscrits";
 }
+
+/*
+	Label table-programme
+	*/
+  .table-programme td:nth-of-type(1):before {
+    content: "Module";
+  }
+  .table-programme td:nth-of-type(2):before {
+    content: "Catégorie";
+  }
+  .table-programme td:nth-of-type(3):before {
+    content: "Durée";
+  }
+  .table-programme td:nth-of-type(4):before {
+    content: "Déprogrammer";
+  }
+  .table-programme td:nth-of-type(5):before {
+    content: "Total de jours : ";
+  }
 
 .clickable-row {
   cursor: pointer;
@@ -144,10 +168,6 @@ td:nth-of-type(5):before {
     width: 50%;
     text-decoration: none;
     color: #000;
-}
-
-.infos-session .info a {
-    text-decoration: none;
 }
 
 .infos-session .info p:nth-child(2), .infos-session .info a:nth-child(2) {
