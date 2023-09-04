@@ -138,161 +138,194 @@
 		{# Affiche l'information d'une seule session avec son ID #}
 	{% else %}
 
-		<a href="{{ path('app_session') }}">Retour</a>
+		<a class="btn-return" href="{{ path('app_session') }}">
+			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-		{# Infos Session #}
-		<h2>Information de la session</h2>
+		<div
+			class="section-infos">
+			{# Infos Session #}
+			<h2>Information de la session</h2>
 
-		{# Formation #}
-		<p>Formation :
-			<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
-		</p>
-		<p>Date de début :
-			{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
-		<p>Date de fin :
-			{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
-		<p>Nombre de place :
-			{{ session.nbPlace }}</p>
-		<p>Nombre de place disponible :
-			{{ session.nbPlace - nb_disponible }}</p>
+			{# Formation #}
+			<div class="infos-session">
 
-		{# ROLE_ADMIN : Lien vers la vue pour modifier les infos de la session -> nom de la Formation, date de début et de fin, nombre de place #}
-		{% if is_granted('ROLE_ADMIN') %}
-			<a href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a>
-		{% endif %}
+				<div class="info">
+					<p>Formation</p>
+					<a class="link" href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
+				</div>
+				<div class="info">
+					<p>Date de début</p>
+					<p>{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+				</div>
+				<div class="info">
+					<p>Date de fin</p>
+					<p>{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+				</div>
+				<div class="info">
+					<p>Nombre de place</p>
+					<p>{{ session.nbPlace }}</p>
+				</div>
+				<div class="info">
+					<p>Nombre de place disponible</p>
+					<p>{{ session.nbPlace - nb_disponible }}</p>
+				</div>
+
+				{# ROLE_ADMIN : Lien vers la vue pour modifier les infos de la session -> nom de la Formation, date de début et de fin, nombre de place #}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a class="btn" href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a>
+				{% endif %}
+
+			</div>
+		</div>
 
 		{# Liste des stagiaires inscrit, les visiteurs ne peuvent pas voir les stagiaires #}
 		{% if app.user %}
+			<div class="section-infos">
+				<h3>Liste des stagiaires inscrits</h3>
+				<div
+					class="list-stagiaires">
 
-			<h3>Liste des stagiaires inscrits</h3>
 
-			{# Si aucun stagiaire n'est inscrit affiche un message #}
-			{% if session.stagiaires is empty %}
+					{# Si aucun stagiaire n'est inscrit affiche un message #}
+					{% if session.stagiaires is empty %}
 
-				<p>Aucun stagiaire inscrits</p>
+						<p>Aucun stagiaire inscrits</p>
 
-				{# sinon affiche les stagiaires inscrits #}
-			{% else %}
+						{# sinon affiche les stagiaires inscrits #}
+					{% else %}
 
-				{% for stagiaire in session.stagiaires %}
-					<p>
-						{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
-						<a href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
-							{{ stagiaire.prenom }}</a>
+						{% for stagiaire in session.stagiaires %}
+							<p>
+								{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
+								<a class="link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
+									{{ stagiaire.prenom }}</a>
 
-						{# ROLE_ADMIN : Affiche le lien bouton pour supprimer le stagiaire de la session. La classe confirm-delete permet la confirmation de suppression avec un script js #}
-						{% if is_granted('ROLE_ADMIN') %}
-							<a class="confirm-delete" href="{{ path('deleteStagiaire_session', {'id': session.id, 'idStagiaire': stagiaire.id}) }}">Supprimer</a>
-						{% endif %}
-					</p>
-				{% endfor %}
+								{# ROLE_ADMIN : Affiche le lien bouton pour supprimer le stagiaire de la session. La classe confirm-delete permet la confirmation de suppression avec un script js #}
+								{% if is_granted('ROLE_ADMIN') %}
+									<a class="confirm-delete" href="{{ path('deleteStagiaire_session', {'id': session.id, 'idStagiaire': stagiaire.id}) }}">
+										<i class="fa-solid fa-user-minus" style="color: #ff0000;"></i>
+									</a>
+								{% endif %}
+							</p>
+						{% endfor %}
 
-			{% endif %}
+					{% endif %}
+				</div>
+			</div>
 		{% endif %}
 
-		{# Programme #}
-		<h3>Programme</h3>
+		<div
+			class="section-infos">
+			{# Programme #}
+			<h3>Programme</h3>
 
-		{# Trie les modules par ordre alphabétique #}
-		{% set sortedProgrammes = session.programmes|sort((a, b) => a.module.nom <=> b.module.nom) %}
+			{# Trie les modules par ordre alphabétique #}
+			{% set sortedProgrammes = session.programmes|sort((a, b) => a.module.nom <=> b.module.nom) %}
 
-		{# S'il n'y a pas de progrmame, affiche un message spécifique #}
-		{% if sortedProgrammes is empty %}
+			{# S'il n'y a pas de progrmame, affiche un message spécifique #}
+			{% if sortedProgrammes is empty %}
 
-			<p>Cette session n'a pas de programme</p>
+				<p>Cette session n'a pas de programme</p>
 
-			{# Sinon affiche le programme : la liste des modules avec le nombre de jour #}
-		{% else %}
+				{# Sinon affiche le programme : la liste des modules avec le nombre de jour #}
+			{% else %}
 
-			{# Liste des programmes #}
-			{% for key, programme in sortedProgrammes %}
+				{# Liste des programmes #}
+				{% for key, programme in sortedProgrammes %}
 
-				{# ROLE_ADMIN #}
-				{% if is_granted('ROLE_ADMIN') %}
+					{# ROLE_ADMIN #}
+					{% if is_granted('ROLE_ADMIN') %}
 
-					{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
-					<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+						{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
+						<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+							<p>
+								{{ key + 1 }}:
+								<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+								/
+								<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+								jours
+								<input
+								type="submit" value="Mettre à jour"/>
+
+								{# Lien bouton pour supprimer le module #}
+								<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
+							</p>
+						</form>
+
+						{# Affichage juste la liste sans pouvoir faire de modification #}
+					{% else %}
+
 						<p>
 							{{ key + 1 }}:
 							<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 							/
-							<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+							{{ programme.nbJour }}
 							jours
-							<input
-							type="submit" value="Mettre à jour"/>
-
-							{# Lien bouton pour supprimer le module #}
-							<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
 						</p>
-					</form>
 
-					{# Affichage juste la liste sans pouvoir faire de modification #}
-				{% else %}
+					{% endif %}
 
-					<p>
-						{{ key + 1 }}:
-						<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-						/
-						{{ programme.nbJour }}
-						jours
-					</p>
+				{% endfor %}
 
-				{% endif %}
-
-			{% endfor %}
-
-		{% endif %}
+			{% endif %}
+		</div>
 
 		{# ROLE_ADMIN : Ajout stagiaire à la session + Ajout d'un module au programme de la session #}
 		{% if is_granted('ROLE_ADMIN') %}
 
-			{# Ajout d'un stagiaire à la session #}
-			<h3>Ajouter un stagiaire à la session</h3>
+			<div
+				class="section-infos">
+				{# Ajout d'un stagiaire à la session #}
+				<h3>Ajouter un stagiaire à la session</h3>
 
-			<label for="stagiaire-select">Liste des stagiaires :</label>
-			{# Rend le select disabled s'il n'y a plus de place #}
-			<select name="stagiaires" id="stagiaire-select" onchange="location = this.value;" {{ session.nbPlace == nb_disponible ? 'disabled' : '' }}>
-				<option value="">Choisir un stagiaire</option>
-				{% for stagiaire in stagiaires %}
-					<option value="{{ path('addStagiaire_session', {'id': session.id, 'id_stagiaire': stagiaire.id }) }}">{{ stagiaire }}</option>
-				{% endfor %}
-			</select>
-			{# Message s'il n'y a plus de place disponible #}
-			{% if session.nbPlace == nb_disponible %}
+				<label for="stagiaire-select">Liste des stagiaires :</label>
+				{# Rend le select disabled s'il n'y a plus de place #}
+				<select name="stagiaires" id="stagiaire-select" onchange="location = this.value;" {{ session.nbPlace == nb_disponible ? 'disabled' : '' }}>
+					<option value="">Choisir un stagiaire</option>
+					{% for stagiaire in stagiaires %}
+						<option value="{{ path('addStagiaire_session', {'id': session.id, 'id_stagiaire': stagiaire.id }) }}">{{ stagiaire }}</option>
+					{% endfor %}
+				</select>
+				{# Message s'il n'y a plus de place disponible #}
+				{% if session.nbPlace == nb_disponible %}
 
-				<p>Le nombre maximal de stagiaires a été atteint.</p>
+					<p>Le nombre maximal de stagiaires a été atteint.</p>
 
-			{% endif %}
+				{% endif %}
 
-			{# Créer un stagiaire s'il n'existe pas #}
-			<h3>Créer un stagiaire s'il n'existe pas</h3>
+				{# Créer un stagiaire s'il n'existe pas #}
+				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
-			{{ form_start(formNewStagiaire) }}
+				{{ form_start(formNewStagiaire) }}
 
-			{{ form_row(formNewStagiaire.nom) }}
-			{{ form_row(formNewStagiaire.prenom) }}
-			{{ form_row(formNewStagiaire.telephone) }}
-			{{ form_row(formNewStagiaire.Valider) }}
+				{{ form_row(formNewStagiaire.nom) }}
+				{{ form_row(formNewStagiaire.prenom) }}
+				{{ form_row(formNewStagiaire.telephone) }}
+				{{ form_row(formNewStagiaire.Valider) }}
 
-			{{ form_end(formNewStagiaire) }}
+				{{ form_end(formNewStagiaire) }}
+			</div>
 
-			{# Ajout modoule au programme d la session #}
-			<h3>Ajouter un programme à la session</h3>
+			<div
+				class="section-infos">
+				{# Ajout modoule au programme d la session #}
+				<h3>Ajouter un programme à la session</h3>
 
-			{{ form_start(formAddProgramme) }}
+				{{ form_start(formAddProgramme) }}
 
-			{{ form_label(formAddProgramme.module) }}
-			{{ form_errors(formAddProgramme.module) }}
-			{{ form_widget(formAddProgramme.module) }}
+				{{ form_label(formAddProgramme.module) }}
+				{{ form_errors(formAddProgramme.module) }}
+				{{ form_widget(formAddProgramme.module) }}
 
-			{{ form_label(formAddProgramme.nb_jour) }}
-			{{ form_errors(formAddProgramme.nb_jour) }}
-			{{ form_widget(formAddProgramme.nb_jour) }}
+				{{ form_label(formAddProgramme.nb_jour) }}
+				{{ form_errors(formAddProgramme.nb_jour) }}
+				{{ form_widget(formAddProgramme.nb_jour) }}
 
-			{{ form_widget(formAddProgramme.Valider) }}
+				{{ form_widget(formAddProgramme.Valider) }}
 
-			{{ form_end(formAddProgramme) }}
+				{{ form_end(formAddProgramme) }}
 
+			</div>
 		{% endif %}
 
 	{% endif %}
