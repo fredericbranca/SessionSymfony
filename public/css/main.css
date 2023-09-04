@@ -169,7 +169,12 @@ body {
   color: #000000;
 }
 
+:root{
+  --test  : attr(data-before);
+}
+
 .link::before {
+  content: url(var(--test));
   padding-right: 5px;
   width: 100px;
   height: 100px;

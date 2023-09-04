@@ -91,17 +91,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Ajoute une icone before à la classe link
-  const link = document.querySelector(".link");
+  const link = document.querySelectorAll(".link");
+//  .setProperty('content',"url(/img/arrow-up.svg)")
+for (var i in link){
+  link[i].setAttribute('data-before', "/img/arrow-up.svg")
+}
 
-  if (link) {
-    const style = document.createElement("style");
-
-    style.innerHTML = `
-      .link::before {
-        content: url(/img/arrow-up.svg);
-      }
-    `;
-
-    document.head.appendChild(style);
-  }
+console.log(getComputedStyle(link, ':before').getPropertyValue('content'));
+ 
 });
