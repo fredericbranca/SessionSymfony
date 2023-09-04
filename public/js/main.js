@@ -18,7 +18,6 @@ function toggleMenu() {
       content.classList.remove("content-out");
       content.classList.add("content-active");
       nav_list.classList.add("nav-active");
-
     } else {
       hamburger_button.classList.remove("is-active");
       nav_list.classList.remove("is-active");
@@ -78,15 +77,31 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(event.target);
     // Si le menu est ouvert et que le clic n'est ni sur le bouton hamburger, ni dans le menu lui-même, alors fermez le menu
     if (hamburger_button.classList.contains("is-active")) {
-      if (!hamburger_button.contains(event.target) && !nav_list.contains(event.target)) {
+      if (
+        !hamburger_button.contains(event.target) &&
+        !nav_list.contains(event.target)
+      ) {
         toggleMenu();
       }
     }
   });
 
-  window.addEventListener('resize', function () {
+  window.addEventListener("resize", function () {
     closeMenu();
   });
 
-});
+  // Ajoute une icone before à la classe link
+  const link = document.querySelector(".link");
 
+  if (link) {
+    const style = document.createElement("style");
+
+    style.innerHTML = `
+      .link::before {
+        content: url(/img/arrow-up.svg);
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+});
