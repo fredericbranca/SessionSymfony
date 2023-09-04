@@ -152,7 +152,7 @@ body {
   align-items: center;
   height: 43px;
   padding: 3px 5px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   color: #000;
   font-size: 16px;
   font-weight: 500;
@@ -225,6 +225,34 @@ body {
     gap: 5px;
   }
 
+  /* Styles pour les écrans extra large (écran de bureau) */
+  @media only screen and (min-width: 1199px) {
+    .nav-links li a {
+      font-size: 1.2em;
+    }
+    .links {
+      gap: 13px;
+    }
+    .page-links,
+    .auth-links {
+      gap: 8px;
+    }
+  }
+
+  /* Styles pour les écrans extra extra large */
+  @media only screen and (min-width: 1400px) {
+    .nav-links li a {
+      font-size: 1.5em;
+    }
+    .links {
+      gap: 15px;
+    }
+    .page-links,
+    .auth-links {
+      gap: 11px;
+    }
+  }
+
   /*
 *
 * 
@@ -235,33 +263,5 @@ body {
 
   .content {
     padding: 89px 15%;
-  }
-}
-
-/* Styles pour les écrans extra large (écran de bureau) */
-@media only screen and (min-width: 1199px) {
-  .nav-links li a {
-    font-size: 1.2em;
-  }
-  .links {
-    gap: 13px;
-  }
-  .page-links,
-  .auth-links {
-    gap: 8px;
-  }
-}
-
-/* Styles pour les écrans extra extra large */
-@media only screen and (min-width: 1400px) {
-  .nav-links li a {
-    font-size: 1.5em;
-  }
-  .links {
-    gap: 15px;
-  }
-  .page-links,
-  .auth-links {
-    gap: 11px;
   }
 }
