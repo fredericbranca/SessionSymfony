@@ -25,7 +25,7 @@
 				{# En cours #}
 				<h2>Sessions en cours</h2>
 
-				<table>
+				<table class="table-sessions">
 					<thead>
 						<tr>
 							<th>Statut</th>
@@ -195,7 +195,8 @@
 					{% else %}
 
 						{% for stagiaire in session.stagiaires %}
-							<p class="stagiaire">
+							<p
+								class="stagiaire">
 								{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
 								<a class="link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
 									{{ stagiaire.prenom }}</a>
@@ -221,7 +222,6 @@
 
 			{# Trie les modules par ordre alphabétique #}
 			{% set sortedProgrammes = session.programmes|sort((a, b) => a.module.nom <=> b.module.nom) %}
-
 			{# S'il n'y a pas de progrmame, affiche un message spécifique #}
 			{% if sortedProgrammes is empty %}
 
@@ -231,41 +231,44 @@
 			{% else %}
 
 				{# Liste des programmes #}
-				{% for key, programme in sortedProgrammes %}
-
-					{# ROLE_ADMIN #}
-					{% if is_granted('ROLE_ADMIN') %}
-
-						{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
-						<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
-							<p>
-								{{ key + 1 }}:
-								<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-								/
-								<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
-								jours
-								<input
-								type="submit" value="Mettre à jour"/>
-
-								{# Lien bouton pour supprimer le module #}
-								<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
-							</p>
-						</form>
-
-						{# Affichage juste la liste sans pouvoir faire de modification #}
-					{% else %}
-
-						<p>
-							{{ key + 1 }}:
-							<a href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-							/
-							{{ programme.nbJour }}
-							jours
-						</p>
-
-					{% endif %}
-
+				{% set totalJours = 0 %}
+				{% for programme in sortedProgrammes %}
+					{% set totalJours = totalJours + programme.nbJour %}
+					{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
+					<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+						<table class="table-programme">
+							<thead>
+								<tr>
+									<th>Module</th>
+									<th>Catégorie</th>
+									<th>Durée</th>
+									<th>Déprogrammer</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<a class="link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+									</td>
+									<td>
+										<a class="link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
+									</td>
+									{# ROLE_ADMIN #}
+									{% if is_granted('ROLE_ADMIN') %}
+										<td><input type="number" name="nbJour" value="{{ programme.nbJour }}"/><input class="btn" type="submit" value="Mettre à jour"/></td>
+									{% else %}
+										<td>{{ programme.nbJour }}</td>
+									{% endif %}
+									<td>
+										<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Supprimer</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
 				{% endfor %}
+				<p>Total de jours : {{ totalJours }}</p>
+
 
 			{% endif %}
 		</div>
