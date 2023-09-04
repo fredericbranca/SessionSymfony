@@ -10,116 +10,129 @@
 
 {% block body %}
 
-	<h1>Sessions</h1>
-
 	{# Si aucun id n'est renseigné dans l'URL /session - Listes des sessions : En cours, Terminées, À venir #}
 	{% if session is null %}
 
 		{# ROLE_ADMIN : Lien pour créer une session /session/new #}
 		{% if is_granted('ROLE_USER') %}
-			<a href="{{ path('new_session') }}">Ajouter une sesion</a>
+			<a class="btn" href="{{ path('new_session') }}">Créer une session</a>
 		{% endif %}
 
-		<h2>Les sessions</h2>
-
 		{# Affiche la liste des session #}
-		{# En cours #}
-		<h3>Sessions en cours</h3>
+		<div class="tables-sessions">
+			<div
+				class="table-sessions">
+				{# En cours #}
+				<h2>Sessions en cours</h2>
 
-		<table>
-			<thead>
-				<th>Statut</th>
-				<th>Formation</th>
-				<th>Date de début</th>
-				<th>Date de fin</th>
-				<th>Inscrits</th>
-			</thead>
-			<tbody>
-				{% for session in enCours %}
-					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-						<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '' }}</td>
-						<td>
-							{{ session.formation_nom }}</td>
-						<td>
-							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.nb_stagiaire }}
-							/
-							{{ session.nb_place }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div class="navigation">
-			{{ knp_pagination_render(enCours) }}
-		</div>
+				<table>
+					<thead>
+						<tr>
+							<th>Statut</th>
+							<th>Formation</th>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrits</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for session in enCours %}
+							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '&nbsp;' }}</td>
+								<td>
+									{{ session.formation_nom }}</td>
+								<td>
+									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.nb_stagiaire }}
+									/
+									{{ session.nb_place }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="navigation">
+					{{ knp_pagination_render(enCours) }}
+				</div>
+			</div>
 
-		{# Session à venir #}
-		<h3>Sessions à venir</h3>
+			<div
+				class="table-sessions">
+				{# Session à venir #}
+				<h2>Sessions à venir</h2>
 
-		<table>
-			<thead>
-				<th>Statut</th>
-				<th>Formation</th>
-				<th>Date de début</th>
-				<th>Date de fin</th>
-				<th>Inscrits</th>
-			</thead>
-			<tbody>
-				{% for session in future %}
-					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-						<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '' }}</td>
-						<td>
-							{{ session.formation_nom }}</td>
-						<td>
-							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.nb_stagiaire }}
-							/
-							{{ session.nb_place }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div class="navigation">
-			{{ knp_pagination_render(future) }}
-		</div>
+				<table>
+					<thead>
+						<tr>
+							<th>Statut</th>
+							<th>Formation</th>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrits</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for session in future %}
+							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '&nbsp;' }}</td>
+								<td>
+									{{ session.formation_nom }}</td>
+								<td>
+									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.nb_stagiaire }}
+									/
+									{{ session.nb_place }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="navigation">
+					{{ knp_pagination_render(future) }}
+				</div>
+			</div>
 
-		{# Session terminées #}
-		<h3>Sessions terminées</h3>
+			<div
+				class="table-sessions">
+				{# Session terminées #}
+				<h2>Sessions terminées</h2>
 
-		<table>
-			<thead>
-				<th>Statut</th>
-				<th>Formation</th>
-				<th>Date de début</th>
-				<th>Date de fin</th>
-				<th>Inscrits</th>
-			</thead>
-			<tbody>
-				{% for session in terminees %}
-					<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-						<td>Terminée</td>
-						<td>
-							{{ session.formation_nom }}</td>
-						<td>
-							{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-						<td>
-							{{ session.nb_stagiaire }}
-							/
-							{{ session.nb_place }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div class="navigation">
-			{{ knp_pagination_render(terminees) }}
+				<table>
+					<thead>
+						<tr>
+							<th>Statut</th>
+							<th>Formation</th>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrits</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for session in terminees %}
+							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>Terminée</td>
+								<td>
+									{{ session.formation_nom }}</td>
+								<td>
+									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+								<td>
+									{{ session.nb_stagiaire }}
+									/
+									{{ session.nb_place }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="navigation">
+					{{ knp_pagination_render(terminees) }}
+				</div>
+			</div>
 		</div>
 
 		{# Affiche l'information d'une seule session avec son ID #}
