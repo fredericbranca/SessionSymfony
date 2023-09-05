@@ -38,7 +38,7 @@
 					<tbody>
 						{% for session in enCours %}
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '&nbsp;' }}</td>
+								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? '<div class="complet">Complet</div>' : '<div class="en-cours">En cours</div>' }}</td>
 								<td>
 									{{ session.formation_nom }}</td>
 								<td>
@@ -75,7 +75,7 @@
 					<tbody>
 						{% for session in future %}
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? 'Complet' : '&nbsp;' }}</td>
+								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? '<div class="complet">Complet</div>' : '<div class="ouvert">Ouvert</div>' }}</td>
 								<td>
 									{{ session.formation_nom }}</td>
 								<td>
@@ -112,7 +112,7 @@
 					<tbody>
 						{% for session in terminees %}
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-								<td>Terminée</td>
+								<td><div class="terminee">Terminée</div></td>
 								<td>
 									{{ session.formation_nom }}</td>
 								<td>
@@ -140,7 +140,7 @@
 			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
 		{# Infos Session #}
-		<div class="section-infos">
+		<div class="section-infos-infos">
 			<h2>Information de la session</h2>
 
 			{# Formation #}
@@ -177,7 +177,7 @@
 
 		{# Liste des stagiaires inscrit, les visiteurs ne peuvent pas voir les stagiaires #}
 		{% if app.user %}
-			<div class="section-infos">
+			<div class="section-infos-liste-inscrit">
 				<h3>Liste des stagiaires inscrits</h3>
 				<div
 					class="list-stagiaires">
@@ -213,7 +213,7 @@
 		{% endif %}
 
 		{# Programme #}
-		<div class="section-infos">
+		<div class="section-infos-programme">
 			<h3>Programme</h3>
 
 			{# Trie les modules par ordre alphabétique #}
@@ -284,7 +284,7 @@
 		{% if is_granted('ROLE_ADMIN') %}
 
 			{# Ajout d'un stagiaire à la session #}
-			<div class="section-infos">
+			<div class="section-infos-add-stagiaire">
 				<h3>Ajouter un stagiaire à la session</h3>
 
 				<label for="stagiaire-select">Liste des stagiaires :</label>
@@ -304,21 +304,33 @@
 			</div>
 
 			{# Créer un stagiaire s'il n'existe pas #}
-			<div class="section-infos">
+			<div class="section-infos-create-stagiaire">
 				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
 				{{ form_start(formNewStagiaire) }}
 
-				{{ form_row(formNewStagiaire.nom) }}
-				{{ form_row(formNewStagiaire.prenom) }}
-				{{ form_row(formNewStagiaire.telephone) }}
+				<div class="input-stagiaire">
+					{{ form_label(formNewStagiaire.nom) }}
+					{{ form_errors(formNewStagiaire.nom) }}
+					{{ form_widget(formNewStagiaire.nom) }}
+				</div>
+				<div class="input-stagiaire">
+					{{ form_label(formNewStagiaire.prenom) }}
+					{{ form_errors(formNewStagiaire.prenom) }}
+					{{ form_widget(formNewStagiaire.prenom) }}
+				</div>
+				<div class="input-stagiaire">
+					{{ form_label(formNewStagiaire.telephone) }}
+					{{ form_errors(formNewStagiaire.telephone) }}
+					{{ form_widget(formNewStagiaire.telephone) }}
+				</div>
 				{{ form_row(formNewStagiaire.Valider) }}
 
 				{{ form_end(formNewStagiaire) }}
 			</div>
 
 			{# Ajout modoule au programme à la session #}
-			<div class="section-infos">
+			<div class="section-infos-add-module">
 				<h3>Ajouter un programme à la session</h3>
 
 				{{ form_start(formAddProgramme) }}
