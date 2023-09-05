@@ -56,6 +56,7 @@ body {
   width: 90vw;
   height: 100vh;
   z-index: 1;
+  animation: slide-in 0.5s both;
 }
 
 .links {
@@ -98,22 +99,6 @@ body {
   to {
     transform: translateX(-90%);
   }
-}
-
-.nav-active {
-  animation: slide-in 0.5s both;
-}
-.content-active {
-  transition: transform 0.5s;
-  transform: translateX(90%);
-}
-
-.nav-out {
-  animation: slide-out 0.5s both;
-}
-.content-out {
-  transition: transform 0.5s;
-  transform: translateX(0%);
 }
 
 .is-active {
