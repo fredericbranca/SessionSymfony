@@ -19,10 +19,10 @@
 		{% endif %}
 
 		{# Affiche la liste des session #}
-		<div class="tables-sessions">
-			<div
-				class="table-sessions">
-				{# En cours #}
+		<div
+			class="tables-sessions">
+			{# En cours #}
+			<div class="table-sessions">
 				<h2>Sessions en cours</h2>
 
 				<table class="table-sessions">
@@ -58,9 +58,8 @@
 				</div>
 			</div>
 
-			<div
-				class="table-sessions">
-				{# Session à venir #}
+			{# Session à venir #}
+			<div class="table-sessions">
 				<h2>Sessions à venir</h2>
 
 				<table>
@@ -96,9 +95,8 @@
 				</div>
 			</div>
 
-			<div
-				class="table-sessions">
-				{# Session terminées #}
+			{# Session terminées #}
+			<div class="table-sessions">
 				<h2>Sessions terminées</h2>
 
 				<table>
@@ -141,9 +139,8 @@
 		<a class="btn-return" href="{{ path('app_session') }}">
 			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-		<div
-			class="section-infos">
-			{# Infos Session #}
+		{# Infos Session #}
+		<div class="section-infos">
 			<h2>Information de la session</h2>
 
 			{# Formation #}
@@ -215,9 +212,8 @@
 			</div>
 		{% endif %}
 
-		<div
-			class="section-infos">
-			{# Programme #}
+		{# Programme #}
+		<div class="section-infos">
 			<h3>Programme</h3>
 
 			{# Trie les modules par ordre alphabétique #}
@@ -287,9 +283,8 @@
 		{# ROLE_ADMIN : Ajout stagiaire à la session + Ajout d'un module au programme de la session #}
 		{% if is_granted('ROLE_ADMIN') %}
 
-			<div
-				class="section-infos">
-				{# Ajout d'un stagiaire à la session #}
+			{# Ajout d'un stagiaire à la session #}
+			<div class="section-infos">
 				<h3>Ajouter un stagiaire à la session</h3>
 
 				<label for="stagiaire-select">Liste des stagiaires :</label>
@@ -306,8 +301,10 @@
 					<p>Le nombre maximal de stagiaires a été atteint.</p>
 
 				{% endif %}
+			</div>
 
-				{# Créer un stagiaire s'il n'existe pas #}
+			{# Créer un stagiaire s'il n'existe pas #}
+			<div class="section-infos">
 				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
 				{{ form_start(formNewStagiaire) }}
@@ -320,9 +317,8 @@
 				{{ form_end(formNewStagiaire) }}
 			</div>
 
-			<div
-				class="section-infos">
-				{# Ajout modoule au programme d la session #}
+			{# Ajout modoule au programme à la session #}
+			<div class="section-infos">
 				<h3>Ajouter un programme à la session</h3>
 
 				{{ form_start(formAddProgramme) }}
