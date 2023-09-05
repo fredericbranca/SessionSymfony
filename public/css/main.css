@@ -15,6 +15,8 @@
   --bg-color-2: #ffffed;
   /* font color */
   --font-color-1: #000000;
+  /* overlay color */
+  --ov-bg-color: rgb(0, 0, 0, 0.85)
 }
 
 #wrapper[data-theme="dark"] {
@@ -68,13 +70,14 @@ body {
 #overlay {
   display: none;
   position: fixed;
-  top: -10%;
-  left: -10%;
-  width: 100%;
+  width: 100vw;
   height: 110%;
-  /* background-color: var(--ov-bg-color); */
-  border-right: solid 1.5em #fff;
+  background-color: var(--ov-bg-color);
   z-index: -1;
+}
+
+.overflow {
+  overflow: hidden;
 }
 
 @keyframes slide-in {
