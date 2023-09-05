@@ -311,14 +311,19 @@ a {
 /* Styles pour les petits écran */
 @media only screen and (min-width: 576px) and (max-width: 768px) {
   .section-session {
-    border: 1px solid #dddddd;
-    width: 100%;
-    margin: 0 5px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding-top: 10px;
+    background: var(--bg-color-3);
   }
 
   .table-session {
-    border: 1px solid #dddddd;
-    width: 100%;
+    border: none;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin: 10px;
     padding: 5px;
   }
 }
