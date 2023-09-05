@@ -19,13 +19,12 @@
 		{% endif %}
 
 		{# Affiche la liste des session #}
-		<div
-			class="tables-sessions">
+		<div class="sessions">
 			{# En cours #}
-			<div class="table-sessions">
+			<div class="section-session">
 				<h2>Sessions en cours</h2>
 
-				<table class="table-sessions">
+				<table class="table-session">
 					<thead>
 						<tr>
 							<th>Statut</th>
@@ -59,10 +58,10 @@
 			</div>
 
 			{# Session à venir #}
-			<div class="table-sessions">
+			<div class="section-session">
 				<h2>Sessions à venir</h2>
 
-				<table>
+				<table class="table-session">
 					<thead>
 						<tr>
 							<th>Statut</th>
@@ -96,10 +95,10 @@
 			</div>
 
 			{# Session terminées #}
-			<div class="table-sessions">
+			<div class="section-session">
 				<h2>Sessions terminées</h2>
 
-				<table>
+				<table class="table-session">
 					<thead>
 						<tr>
 							<th>Statut</th>
@@ -112,7 +111,9 @@
 					<tbody>
 						{% for session in terminees %}
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-								<td><div class="terminee">Terminée</div></td>
+								<td>
+									<div class="terminee">Terminée</div>
+								</td>
 								<td>
 									{{ session.formation_nom }}</td>
 								<td>
