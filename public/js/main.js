@@ -2,7 +2,6 @@
 let hamburger_button, nav_list, nav_overlay, body, content, links;
 // Attend que le DOM soit chargé
 document.addEventListener("DOMContentLoaded", function () {
-
   // Initialisation des variables
   hamburger_button = document.querySelector(".hamburger");
   nav_list = document.querySelector(".nav-links");
@@ -16,24 +15,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (open) {
       hamburger_button.classList.add("is-active");
       nav_list.classList.add("is-active");
+      nav_list.style.animation = "slide-in 0.5s both;"
+      body.classList.add('overflow');
       nav_overlay.style.zIndex = 1;
-      nav_overlay.style.display = "block";
-      nav_overlay.style.backgroundColor = "rgb(0, 0, 0, 0.85)";
       content.style.zIndex = "-1";
-      nav_list.classList.remove("nav-out");
-      content.classList.remove("content-out");
-      content.classList.add("content-active");
-      nav_list.classList.add("nav-active");
+      nav_overlay.style.display = "block";
     } else {
       hamburger_button.classList.remove("is-active");
       nav_list.classList.remove("is-active");
-      nav_overlay.style.zIndex = -1;
+      body.classList.remove('overflow');
+      nav_list.style.animation = "slide-out 0.5s both;"
       nav_overlay.style.display = "none";
+      nav_overlay.style.zIndex = -1;
       content.style.zIndex = "0";
-      nav_list.classList.remove("nav-active");
-      content.classList.remove("content-active");
-      nav_list.classList.add("nav-out");
-      content.classList.add("content-out");
     }
   }
 
@@ -50,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Écoute les clics
   document.addEventListener("click", function (event) {
-    console.log(event.target);
+    // console.log(event.target);
     // Si le menu est ouvert et que le clic n'est ni sur le bouton hamburger, ni dans le menu lui-même, alors fermez le menu
     if (hamburger_button.classList.contains("is-active")) {
       if (
@@ -60,23 +54,17 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleMenu(false);
       }
     } else {
-      toggleMenu(true);
+      hamburger_button.contains(event.target) ? toggleMenu(true) : "";
     }
   });
 
-  window.addEventListener('resize', function() {
-
-    toggleMenu(false);
-    
-    if (this.innerWidth > 992) {
-
-      
+  window.addEventListener("resize", function() {
+    console.log(this.innerWidth);
+    if (this.innerWidth > 991) {
+      toggleMenu(false);
       nav_list.classList.remove("nav-active");
       nav_list.classList.remove("nav-out");
-      content.classList.remove("content-active");
-      content.classList.remove("content-out");
+    } 
 
-    }
-});
-
+  })
 });
