@@ -7,7 +7,11 @@
 */
 
 .content {
-  padding: 0 30px;
+  padding: 0px;
+}
+
+h2 {
+  padding-left: 30px;
 }
 
 a {
@@ -19,13 +23,12 @@ a {
   display: flex;
   flex-direction: column;
   gap: 57px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .table-sessions {
   display: flex;
   flex-direction: column;
-  gap: 39px;
 }
 
 /* Force table to not be like tables anymore */
@@ -49,26 +52,32 @@ thead tr {
 tr {
   border: 1px solid #000000;
   margin: 5px 0;
-}
-
-tr:nth-child(2n + 1) {
-  background: rgba(0, 0, 0, 0.08);
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 
 table,
 tbody,
 tr,
-td:last-child {
-  border-radius: 10px;
+td {
+  border: none;
+}
+
+tr {
+  background: #fff;
+  border-radius: 5px;
+}
+
+table,
+tbody,
+tr {
+  padding: 5px;
 }
 
 td {
-  /* Behave  like a "row" */
   border: none;
-  border-bottom: 1px solid #eee;
   position: relative;
   padding-left: 50%;
-  box-shadow: 0px 0.3px rgb(0, 0, 0);
 }
 
 td:before {
@@ -82,32 +91,74 @@ td:before {
   white-space: nowrap;
 }
 
+.table-sessions .en-cours,
+.table-sessions .complet,
+.table-sessions .terminee,
+.table-sessions .ouvert {
+  display: block;
+  background: #5a70d3;
+  color: #fff;
+  padding: 5px 5px;
+  transform: none;
+  width: 120px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.table-sessions .en-cours {
+  background-image: linear-gradient(315deg, #5bc4c4 0%, #1d9397 74%);
+}
+.table-sessions .terminee {
+  background-image: linear-gradient(315deg, #1e9afe 0%, #645ff0 74%);
+}
+.table-sessions .complet {
+  background-image: linear-gradient(315deg, #da4b4b 0%, #920a0a 74%);
+}
+.table-sessions .ouvert {
+  background-image: linear-gradient(315deg, #98a803 0%, #0d8517 74%);
+}
+
 /*
 	Label table-sessions
 	*/
 .table-sessions td:nth-of-type(1):before {
   content: "Statut";
+  font-weight: 600;
 }
 .table-sessions td:nth-of-type(2):before {
   content: "Formation";
+  font-weight: 600;
 }
 .table-sessions td:nth-of-type(3):before {
   content: "Date de début";
+  font-weight: 600;
 }
 .table-sessions td:nth-of-type(4):before {
   content: "Date de fin";
+  font-weight: 600;
 }
 .table-sessions td:nth-of-type(5):before {
   content: "Inscrits";
+  font-weight: 600;
 }
 
 .clickable-row {
-  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px;
 }
 
-.clickable-row:hover {
-  background-color: #bbb7b7;
-  cursor: pointer;
+.clickable-row::after {
+  content: url(/img/arrow-up.svg);
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 
 /*
@@ -125,7 +176,7 @@ td:before {
 }
 
 /* Information de la session */
-.section-infos {
+*[class^="section-infos"] {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -184,6 +235,29 @@ td:before {
 .list-stagiaires a {
   text-decoration: none;
   color: #000000;
+}
+
+/* Créer un stagiarie */
+.input-stagiaire {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.section-infos-create-stagiaire form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-infos-create-stagiaire .btn {
+  width: 80px;
+  height: 30px;
+  justify-content: center;
+}
+
+.input-stagiaire .required {
+  width: 70px;
 }
 
 /* Table programme */
