@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_list.classList.add("is-active");
       nav_overlay.style.zIndex = 1;
       nav_overlay.style.display = "block";
-      body.style.backgroundColor = "rgb(0, 0, 0, 0.85)";
+      nav_overlay.style.backgroundColor = "rgb(0, 0, 0, 0.85)";
       content.style.zIndex = "-1";
       nav_list.classList.remove("nav-out");
       content.classList.remove("content-out");
@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_list.classList.remove("is-active");
       nav_overlay.style.zIndex = -1;
       nav_overlay.style.display = "none";
-      body.style.backgroundColor = "var(--bg-color-1)";
       content.style.zIndex = "0";
       nav_list.classList.remove("nav-active");
       content.classList.remove("content-active");
@@ -37,11 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
       content.classList.add("content-out");
     }
   }
-
-  // Ajoute un écouteur d'événement au bouton hamburger pour basculer le menu
-  hamburger_button.addEventListener("click", function () {
-    toggleMenu();
-  });
 
   // Ajout d'une confirmation de suppression sur les liens ayant la classe confirm-delete
   if (links.length > 0) {
@@ -56,18 +50,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Écoute les clics
   document.addEventListener("click", function (event) {
+    console.log(event.target);
     // Si le menu est ouvert et que le clic n'est ni sur le bouton hamburger, ni dans le menu lui-même, alors fermez le menu
     if (hamburger_button.classList.contains("is-active")) {
       if (
-        !hamburger_button.contains(event.target)
+        hamburger_button.contains(event.target) ||
+        nav_overlay.contains(event.target)
       ) {
         toggleMenu(false);
       }
+    } else {
+      toggleMenu(true);
     }
   });
 
   window.addEventListener('resize', function() {
+
     toggleMenu(false);
+    
+    if (this.innerWidth > 992) {
+
+      
+      nav_list.classList.remove("nav-active");
+      nav_list.classList.remove("nav-out");
+      content.classList.remove("content-active");
+      content.classList.remove("content-out");
+
+    }
 });
 
 });
