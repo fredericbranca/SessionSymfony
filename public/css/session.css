@@ -110,16 +110,16 @@ td:before {
 }
 
 .table-sessions .en-cours {
-  background-image: linear-gradient(315deg, #5bc4c4 0%, #1d9397 74%);
+  background-image: linear-gradient(315deg, #5bc4c4 0%, #1d9397 75%);
 }
 .table-sessions .terminee {
-  background-image: linear-gradient(315deg, #1e9afe 0%, #645ff0 74%);
+  background-image: linear-gradient(315deg, #1e9afe 0%, #645ff0 75%);
 }
 .table-sessions .complet {
-  background-image: linear-gradient(315deg, #da4b4b 0%, #920a0a 74%);
+  background-image: linear-gradient(315deg, #ca2424 0%, #aa0c0c 75%);
 }
 .table-sessions .ouvert {
-  background-image: linear-gradient(315deg, #98a803 0%, #0d8517 74%);
+  background-image: linear-gradient(315deg, #98a803 0%, #319939 75%);
 }
 
 /*
