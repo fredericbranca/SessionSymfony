@@ -1,0 +1,204 @@
+/* Mobile Styles (Mobile First) */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.btn-return {
+  margin-left: 15px;
+}
+
+.section-border {
+  border: 0;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+  border-radius: 5px;
+  margin: 0 5px;
+  padding-top: 10px;
+  background: var(--bg-color-3);
+}
+
+.div-border {
+  margin: 5px 0;
+  padding: 15px;
+  background: #fff;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.session-info h2,
+.stagiaires-list h3,
+.session-programme h3,
+.add-stagiaire h3,
+.create-stagiaire h3,
+.add-module h3 {
+  color: var(--font-color-2);
+  padding-left: 30px;
+}
+
+.session-details div {
+  margin: 20px;
+}
+
+.session-details p {
+  margin: 0;
+  font-weight: bold;
+  color: #555;
+}
+
+.btn {
+  margin: 20px 15px;
+}
+
+.fa-solid {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.stagiaire {
+  padding: 10px 0;
+}
+
+.stagiaire {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.stagiaire-link,
+.categorie-link,
+.module-link {
+  display: block;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.table-programme {
+  border: 0;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 15px;
+}
+.table-programme thead tr {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+.table-programme tr {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  margin: 5px 0;
+  background: #fff;
+  border-radius: 5px;
+}
+.table-programme td {
+  border: 0;
+  position: relative;
+  padding-left: 50%;
+}
+.table-programme td:before {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 45%;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.table-programme td {
+  font-weight: 600;
+}
+.session-programme {
+  padding: 10px 0;
+}
+.session-programme b {
+  padding-left: 15px;
+}
+
+/*
+	Label table-programme
+	*/
+.table-programme td:nth-of-type(1):before {
+  content: "Module";
+}
+.table-programme td:nth-of-type(2):before {
+  content: "Catégorie";
+}
+.table-programme td:nth-of-type(3):before {
+  content: "Durée";
+}
+.table-programme td:nth-of-type(4):before {
+  content: "Déprogrammer";
+}
+
+.edit-jour {
+  display: flex;
+  flex-direction: row;
+}
+
+.edit-jour .btn {
+  font-size: 13px;
+  max-width: fit-content;
+  margin: 0;
+  padding: 9px;
+}
+
+.edit-jour input[type="number"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 35px;
+  margin-right: 10px;
+}
+
+.add-stagiaire select,
+.create-stagiaire select,
+.add-module select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.add-stagiaire p,
+.create-stagiaire p {
+  color: #ff0000;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .content {
+    padding: 40px;
+  }
+
+  .session-details div {
+    display: inline-block;
+    width: 19%;
+    margin-right: 1%;
+    vertical-align: top;
+  }
+
+  .session-details div:last-child {
+    margin-right: 0;
+  }
+}
+
+/* Desktop Styles */
+@media (min-width: 992px) {
+  .content {
+    padding: 60px;
+  }
+}

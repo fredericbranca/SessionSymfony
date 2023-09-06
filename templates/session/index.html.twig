@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block additional_css %}
-	<link rel="stylesheet" href="{{ asset('css/sessions.css') }}">
+	{% if session is null %}
+		<link rel="stylesheet" href="{{ asset('css/sessions.css') }}">
+	{% else %}
+		<link rel="stylesheet" href="{{ asset('css/infos-session.css') }}">
+	{% endif %}
 {% endblock %}
 
 {% block body %}
@@ -19,7 +23,8 @@
 		{% endif %}
 
 		{# Affiche la liste des session #}
-		<div class="sessions">
+		<div
+			class="sessions">
 			{# En cours #}
 			<div class="section-session">
 				<h2>Sessions en cours</h2>
@@ -141,48 +146,45 @@
 			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
 		{# Infos Session #}
-		<div class="section-infos-infos">
+		<section class="session-info section-border">
 			<h2>Information de la session</h2>
 
 			{# Formation #}
-			<div class="infos-session">
-
-				<div class="info">
+			<div class="session-details div-border">
+				<div>
 					<p>Formation</p>
-					<a class="link" href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
+					<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
 				</div>
-				<div class="info">
+				<div>
 					<p>Date de début</p>
 					<p>{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
 				</div>
-				<div class="info">
+				<div>
 					<p>Date de fin</p>
 					<p>{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
 				</div>
-				<div class="info">
+				<div>
 					<p>Nombre de place</p>
 					<p>{{ session.nbPlace }}</p>
 				</div>
-				<div class="info">
+				<div>
 					<p>Nombre de place disponible</p>
 					<p>{{ session.nbPlace - nb_disponible }}</p>
 				</div>
 
-				{# ROLE_ADMIN : Lien vers la vue pour modifier les infos de la session -> nom de la Formation, date de début et de fin, nombre de place #}
-				{% if is_granted('ROLE_ADMIN') %}
-					<a class="btn" href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a>
-				{% endif %}
-
 			</div>
-		</div>
+			{# ROLE_ADMIN : Lien vers la vue pour modifier les infos de la session -> nom de la Formation, date de début et de fin, nombre de place #}
+			{% if is_granted('ROLE_ADMIN') %}
+				<a class="btn" href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a>
+			{% endif %}
+		</section>
 
 		{# Liste des stagiaires inscrit, les visiteurs ne peuvent pas voir les stagiaires #}
 		{% if app.user %}
-			<div class="section-infos-liste-inscrit">
+			<section class="stagiaires-list section-border">
 				<h3>Liste des stagiaires inscrits</h3>
 				<div
-					class="list-stagiaires">
-
+					class="stagiaires div-border">
 
 					{# Si aucun stagiaire n'est inscrit affiche un message #}
 					{% if session.stagiaires is empty %}
@@ -196,7 +198,7 @@
 							<p
 								class="stagiaire">
 								{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
-								<a class="link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
+								<a class="stagiaire-link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
 									{{ stagiaire.prenom }}</a>
 
 								{# ROLE_ADMIN : Affiche le lien bouton pour supprimer le stagiaire de la session. La classe confirm-delete permet la confirmation de suppression avec un script js #}
@@ -210,11 +212,11 @@
 
 					{% endif %}
 				</div>
-			</div>
+			</section>
 		{% endif %}
 
 		{# Programme #}
-		<div class="section-infos-programme">
+		<section class="session-programme section-border">
 			<h3>Programme</h3>
 
 			{# Trie les modules par ordre alphabétique #}
@@ -248,14 +250,14 @@
 							<tbody>
 								<tr>
 									<td>
-										<a class="link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+										<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 									</td>
 									<td>
-										<a class="link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
+										<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
 									</td>
 									{# ROLE_ADMIN #}
 									{% if is_granted('ROLE_ADMIN') %}
-										<td class="maj-jour">
+										<td class="edit-jour">
 											<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
 											<button class="btn" type="submit">Mettre à jour</button>
 										</td>
@@ -263,7 +265,7 @@
 										<td>{{ programme.nbJour }}</td>
 									{% endif %}
 									{% if is_granted('ROLE_ADMIN') %}
-										<td class="deprogrammer">
+										<td class="delete-module">
 											<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">
 												<i class="fa-solid fa-file-excel" style="color: #ff0000;"></i>
 											</a>
@@ -279,13 +281,13 @@
 
 
 			{% endif %}
-		</div>
+		</section>
 
 		{# ROLE_ADMIN : Ajout stagiaire à la session + Ajout d'un module au programme de la session #}
 		{% if is_granted('ROLE_ADMIN') %}
 
 			{# Ajout d'un stagiaire à la session #}
-			<div class="section-infos-add-stagiaire">
+			<section class="add-stagiaire">
 				<h3>Ajouter un stagiaire à la session</h3>
 
 				<label for="stagiaire-select">Liste des stagiaires :</label>
@@ -302,25 +304,25 @@
 					<p>Le nombre maximal de stagiaires a été atteint.</p>
 
 				{% endif %}
-			</div>
+			</section>
 
 			{# Créer un stagiaire s'il n'existe pas #}
-			<div class="section-infos-create-stagiaire">
+			<section class="create-stagiaire">
 				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
 				{{ form_start(formNewStagiaire) }}
 
-				<div class="input-stagiaire">
+				<div>
 					{{ form_label(formNewStagiaire.nom) }}
 					{{ form_errors(formNewStagiaire.nom) }}
 					{{ form_widget(formNewStagiaire.nom) }}
 				</div>
-				<div class="input-stagiaire">
+				<div>
 					{{ form_label(formNewStagiaire.prenom) }}
 					{{ form_errors(formNewStagiaire.prenom) }}
 					{{ form_widget(formNewStagiaire.prenom) }}
 				</div>
-				<div class="input-stagiaire">
+				<div>
 					{{ form_label(formNewStagiaire.telephone) }}
 					{{ form_errors(formNewStagiaire.telephone) }}
 					{{ form_widget(formNewStagiaire.telephone) }}
@@ -328,10 +330,10 @@
 				{{ form_row(formNewStagiaire.Valider) }}
 
 				{{ form_end(formNewStagiaire) }}
-			</div>
+			</section>
 
 			{# Ajout modoule au programme à la session #}
-			<div class="section-infos-add-module">
+			<section class="add-module">
 				<h3>Ajouter un programme à la session</h3>
 
 				{{ form_start(formAddProgramme) }}
@@ -348,7 +350,7 @@
 
 				{{ form_end(formAddProgramme) }}
 
-			</div>
+			</section>
 		{% endif %}
 
 	{% endif %}
