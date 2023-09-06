@@ -23,16 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_overlay.style.zIndex = 1;
       nav_overlay.style.display = "block";
       wrapper.classList.add('overflow');
-      body.style.overflow = 'hidden';
+      body.classList.add('overflow');
     } else {
       hamburger_button.classList.remove("is-active");
       wrapper.classList.remove('overflow');
+      body.classList.remove('overflow');
       nav_list.style.animation = "slide-out 0.5s both";
       content.style.transform = "translateX(0%)";
       nav_overlay.style.display = "none";
       nav_overlay.style.zIndex = -1;
       content.style.zIndex = "0";
-      body.style.overflow = 'none';
     }
   }
 
