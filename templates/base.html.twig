@@ -12,12 +12,14 @@
 
 		{# CSS links #}
 		{% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
 			<link rel="stylesheet" href="{{ asset('css/main.css') }}">
 		{% endblock %}
 		{% block additional_css %}{% endblock %}
 
 		{# JavaScript links #}
 		{% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
 			<script rel="preload" src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous" as="style"></script>
 			<script src="{{ asset('js/navbar.js') }}" defer></script>
 			<script src="{{ asset('js/confirm-suppr.js') }}" defer></script>
