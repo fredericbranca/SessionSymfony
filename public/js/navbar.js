@@ -1,5 +1,5 @@
 // Déclaration des variables sans initialisation
-let hamburger_button, nav_list, nav_overlay, body, content, links;
+let hamburger_button, nav_list, nav_overlay, body, content;
 // Attend que le DOM soit chargé
 document.addEventListener("DOMContentLoaded", function () {
   // Initialisation des variables
@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   nav_overlay = document.querySelector("#overlay");
   body = document.querySelector("body");
   content = document.querySelector(".content");
-  links = document.querySelectorAll(".confirm-delete");
   wrapper = document.querySelector('#wrapper');
 
   // Fonction pour ouvrir ou fermer le bandeau de la navbar
@@ -42,17 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
       nav_list.classList.remove("is-active");
     }
   });
-
-  // Ajout d'une confirmation de suppression sur les liens ayant la classe confirm-delete
-  if (links.length > 0) {
-    links.forEach(function (link) {
-      link.addEventListener("click", function (event) {
-        if (!confirm("Êtes-vous sûr de vouloir supprimer cet élément ?")) {
-          event.preventDefault();
-        }
-      });
-    });
-  }
 
   // Écoute les clics
   document.addEventListener("click", function (event) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +20,8 @@
 		{# JavaScript links #}
 		{% block javascripts %}
 			<script src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous"></script>
-			<script src="{{ asset('js/main.js') }}"></script>
+			<script src="{{ asset('js/navbar.js') }}" defer></script>
+			<script src="{{ asset('js/confirm-suppr.js') }}" defer></script>
 		{% endblock %}
 
 	</head>
@@ -31,7 +32,7 @@
 				<nav
 					id="navbar">
 					{# Hamburger  #}
-					<button class="hamburger hamburger-animation" type="button">
+					<button class="hamburger hamburger-animation" type="button" aria-label="Menu">
 						<span class="hamburger-box">
 							<span class="hamburger-inner"></span>
 						</span>
