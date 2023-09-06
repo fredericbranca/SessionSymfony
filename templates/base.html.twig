@@ -13,13 +13,12 @@
 		{# CSS links #}
 		{% block stylesheets %}
 			<link rel="stylesheet" href="{{ asset('css/main.css') }}">
-			<link rel="stylesheet" href="{{ asset('css/hamburger.css') }}">
 		{% endblock %}
 		{% block additional_css %}{% endblock %}
 
 		{# JavaScript links #}
 		{% block javascripts %}
-			<script src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous"></script>
+			<script rel="preload" src="https://kit.fontawesome.com/de7e6c09fa.js" crossorigin="anonymous" as="style"></script>
 			<script src="{{ asset('js/navbar.js') }}" defer></script>
 			<script src="{{ asset('js/confirm-suppr.js') }}" defer></script>
 		{% endblock %}

@@ -1,115 +1,90 @@
 /*
 *
-*
 * VUE DES SESSIONS
-*
 *
 */
 
 .content {
-  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
 }
-
 h2 {
   padding-left: 30px;
 }
-
+.list-stagiaires a,
 a {
   text-decoration: none;
   color: #000;
 }
-
 .sessions {
   display: flex;
   flex-direction: column;
   gap: 25px;
   width: 100%;
 }
-
 @media only screen and (max-width: 575px) {
   .section-session {
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
     border-radius: 5px;
     margin: 0 5px;
     padding-top: 10px;
     background: var(--bg-color-3);
   }
-
   .table-session {
-    border: none;
+    border: 0;
     border-radius: 5px;
     padding: 5px;
     width: 100%;
     font-size: 15px;
   }
-
-  /* Hide table headers (but not display: none;, for accessibility) */
   .table-session thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-
-  tr {
-    border: 1px solid #000000;
+  .table-session tr {
     margin: 5px 0;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-
-  table,
-  tbody,
-  tr,
-  td {
-    border: none;
-  }
-
-  tr {
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
     background: #fff;
     border-radius: 5px;
   }
-
   .table-session td {
-    border: none;
+    border: 0;
     position: relative;
     padding-left: 50%;
   }
-
   .table-session td:before {
-    /* Now like a table header */
     position: absolute;
-    /* Top/left values mimic padding */
     top: 0;
     left: 6px;
     width: 45%;
     padding-right: 10px;
     white-space: nowrap;
   }
-
+  .table-session td {
+    font-weight: 600;
+  }
   /*
 	Label table-session
 	*/
   .table-session td:nth-of-type(1):before {
     content: "Statut";
-    font-weight: 600;
   }
   .table-session td:nth-of-type(2):before {
     content: "Formation";
-    font-weight: 600;
   }
   .table-session td:nth-of-type(3):before {
     content: "Date de début";
-    font-weight: 600;
   }
   .table-session td:nth-of-type(4):before {
     content: "Date de fin";
-    font-weight: 600;
   }
   .table-session td:nth-of-type(5):before {
     content: "Inscrits";
-    font-weight: 600;
   }
-
   .clickable-row {
     position: relative;
     display: flex;
@@ -117,7 +92,6 @@ a {
     gap: 5px;
     padding: 15px;
   }
-
   .clickable-row::after {
     content: url(/img/arrow-up.svg);
     position: absolute;
@@ -125,85 +99,65 @@ a {
     right: 15px;
   }
 }
-
-.table-session .en-cours,
 .table-session .complet,
-.table-session .terminee,
-.table-session .ouvert {
+.table-session .en-cours,
+.table-session .ouvert,
+.table-session .terminee {
   display: block;
   background: #5a70d3;
   color: #fff;
-  padding: 5px 5px;
+  padding: 5px;
   transform: none;
   width: 120px;
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 1px;
-  border: none;
+  border: 0;
   border-radius: 10px;
   text-align: center;
 }
-
 .table-session .en-cours {
-  background-image: linear-gradient(315deg, #5bc4c4 0%, #1d9397 75%);
+  background-image: linear-gradient(315deg, #5bc4c4 0, #1d9397 75%);
 }
 .table-session .terminee {
-  background-image: linear-gradient(315deg, #1e9afe 0%, #645ff0 75%);
+  background-image: linear-gradient(315deg, #1e9afe 0, #645ff0 75%);
 }
 .table-session .complet {
-  background-image: linear-gradient(315deg, #c95151 0%, #b31818 75%);
+  background-image: linear-gradient(315deg, #c95151 0, #b31818 75%);
 }
 .table-session .ouvert {
-  background-image: linear-gradient(315deg, #98a803 0%, #319939 75%);
+  background-image: linear-gradient(315deg, #98a803 0, #319939 75%);
 }
 
 /*
-*
-*
 * VUE D'UNE SESSION
-*
-*
 */
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 /* Information de la session */
-*[class^="section-infos"] {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+[class^="section-infos"] {
   margin-top: 20px;
 }
-
 .infos-session {
   display: flex;
   flex-direction: column;
   margin: 0 5px;
   gap: 5px;
 }
-
 .infos-session .info {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
-
-.infos-session .info p,
-.infos-session .info a {
+.infos-session .info a,
+.infos-session .info p {
   width: 50%;
   text-decoration: none;
   color: #000;
 }
-
-.infos-session .info p:nth-child(2),
-.infos-session .info a:nth-child(2) {
+.infos-session .info a:nth-child(2),
+.infos-session .info p:nth-child(2) {
   padding-left: 5px;
 }
-
 .infos-session .info:nth-child(2n + 1) {
   background: #dfdada;
 }
@@ -214,44 +168,33 @@ a {
   flex-direction: column;
   gap: 5px;
 }
-
 .list-stagiaires p {
-  display: flex;
-  flex-direction: row;
   gap: 10px;
 }
-
+.input-stagiaire,
+.list-stagiaires p,
 .stagiaire {
   display: flex;
   flex-direction: row;
+}
+.stagiaire {
   justify-content: space-between;
   max-width: 500px;
 }
-
-.list-stagiaires a {
-  text-decoration: none;
-  color: #000000;
-}
-
 /* Créer un stagiarie */
 .input-stagiaire {
-  display: flex;
-  flex-direction: row;
   gap: 10px;
 }
-
 .section-infos-create-stagiaire form {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-
 .section-infos-create-stagiaire .btn {
   width: 80px;
   height: 30px;
   justify-content: center;
 }
-
 .input-stagiaire .required {
   width: 70px;
 }
@@ -274,32 +217,27 @@ a {
 .table-programme td:nth-of-type(5):before {
   content: "Total de jours : ";
 }
-
 .table-programme input {
   max-width: 50px;
   max-height: 20px;
   text-align: center;
 }
-
 .table-programme .deprogrammer {
   display: flex;
   justify-content: center;
 }
-
 .table-programme .deprogrammer a {
   font-size: 25px;
 }
-
 .maj-jour {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 5px;
 }
-
 .maj-jour .btn {
   height: fit-content;
-  margin: 5px 0px;
+  margin: 5px 0;
 }
 
 /* Styles pour les petits écran */
@@ -307,22 +245,20 @@ a {
   .content {
     align-items: flex-end;
   }
-  
   .section-session {
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
     border-radius: 5px;
     margin: 0 10px;
     padding: 10px;
     background: var(--bg-color-3);
   }
-
   .table-session {
     border-collapse: separate;
     border-spacing: 10px 20px;
-    border: none;
+    border: 0;
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
     padding: 5px;
     margin-top: 10px;
     width: 100%;
@@ -341,26 +277,24 @@ a {
 @media only screen and (min-width: 992px) {
   .content {
     padding: 0 15%;
-    gap: 0px
+    gap: 0;
   }
-
   .section-session {
-    border: none;
+    border: 0;
     box-shadow: none;
     border-radius: none;
-    background: none;
+    background: 0 0;
     margin: 0;
   }
-
   .table-session {
     background: var(--bg-color-3);
   }
 }
 
 /* Styles pour les écrans extra large (écran de bureau) */
-@media only screen and (min-width: 1199px) {
-}
+/* @media only screen and (min-width: 1199px) {
+} */
 
 /* Styles pour les écrans extra extra large */
-@media only screen and (min-width: 1400px) {
-}
+/* @media only screen and (min-width: 1400px) {
+} */
