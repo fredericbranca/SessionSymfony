@@ -46,6 +46,10 @@ body {
   min-height: 100vh;
 }
 
+a {
+  text-decoration: none;
+}
+
 /*
 *
 * 
@@ -243,6 +247,25 @@ body {
   height: 100px;
 }
 
+/* Footer */
+
+#footer {
+  width: 100%;
+  min-height: 117px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 30px;
+  background: #9C9C9C;
+}
+
+#footer a {
+  color: #000;
+}
+
 /* Styles pour les petits écran */
 @media only screen and (min-width: 576px) and (max-width: 768px) {
   .btn {
@@ -269,6 +292,11 @@ body {
 
 /* Styles pour les écrans large */
 @media only screen and (min-width: 992px) {
+  .content {
+    padding: 0 15%;
+    gap: 0;
+  }
+
   .hamburger {
     display: none;
   }

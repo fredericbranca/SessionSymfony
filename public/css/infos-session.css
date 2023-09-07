@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 0;
 }
 
 a {
@@ -20,7 +19,7 @@ a {
   box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   border-radius: 5px;
   margin: 0 5px;
-  padding-top: 10px;
+  padding: 10px 0;
   background: var(--bg-color-3);
 }
 
@@ -29,6 +28,10 @@ a {
   background: #fff;
   border-radius: 5px;
   width: 100%;
+}
+
+.stagiaires p:nth-child(2n+1) {
+  background:rgba(77, 85, 196, 0.1);
 }
 
 .session-info h2,
@@ -51,10 +54,6 @@ a {
   color: #555;
 }
 
-.btn {
-  margin: 20px 15px;
-}
-
 .fa-solid {
   font-size: 20px;
   margin-right: 5px;
@@ -70,7 +69,6 @@ a {
   justify-content: space-between;
 }
 
-.stagiaire-link,
 .categorie-link,
 .module-link {
   display: block;
@@ -95,14 +93,15 @@ a {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+.session-programme .items-module {
   padding: 15px;
-  margin: 5px 0;
+  margin: 5px;
   background: #fff;
-  border-radius: 5px;
-  margin: 5px 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   border-radius: 5px;
 }
+
 .table-programme td {
   border: 0;
   position: relative;
@@ -137,9 +136,6 @@ a {
 }
 .table-programme td:nth-of-type(3):before {
   content: "Durée";
-}
-.table-programme td:nth-of-type(4):before {
-  content: "Déprogrammer";
 }
 
 .edit-jour {
@@ -184,10 +180,10 @@ a {
 
 .create-stagiaire form {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 20px;
-  align-items: flex-end;
-  padding: 10px 0;
+  align-items: center;
+  padding-top: 10px;
 }
 
 .add-module form {
@@ -216,9 +212,11 @@ a {
   height: 35px;
 }
 
-.create-stagiaire form .champ div {
+.create-stagiaire form div {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: center;
 }
 
 .create-stagiaire form label {
@@ -235,6 +233,7 @@ a {
 .create-stagiaire form .btn {
   margin: 0;
   padding: 10px 10px;
+  min-width: 100%;
 }
 
 .create-stagiaire form input,
@@ -250,7 +249,7 @@ a {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
+  max-width: 300px;
   margin-bottom: 0px;
 }
 
@@ -259,12 +258,20 @@ a {
   color: #ff0000;
 }
 
+.delete-module .btn {
+  max-width: 150px;
+  padding: 5px;
+  margin: 35px 0 0 0;
+  background: rgb(255,98,0);
+  background: linear-gradient(106deg, rgba(255,98,0,1) 0%, rgba(214,38,26,1) 78%);
+}
+
+.delete-module {
+  display: flex;
+}
+
 /* Tablet Styles */
 @media (min-width: 768px) {
-  .content {
-    padding: 40px;
-  }
-
   .session-details div {
     display: inline-block;
     width: 19%;
@@ -279,7 +286,4 @@ a {
 
 /* Desktop Styles */
 @media (min-width: 992px) {
-  .content {
-    padding: 60px;
-  }
 }

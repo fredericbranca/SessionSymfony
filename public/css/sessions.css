@@ -159,10 +159,6 @@ h2 {
 
 /* Styles pour les écrans large */
 @media only screen and (min-width: 992px) {
-  .content {
-    padding: 0 15%;
-    gap: 0;
-  }
   .section-session {
     border: 0;
     box-shadow: none;
