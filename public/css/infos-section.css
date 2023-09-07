@@ -1,0 +1,165 @@
+h1 {
+  padding-left: 5px;
+}
+
+h2 {
+  color: var(--font-color-2);
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: var(--font-color-2);
+  padding-left: 15px;
+  margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+.btn {
+  max-width: 300px;
+  padding: 5px;
+  margin: 10px 0 0 0;
+}
+
+.btn-return {
+  margin: 10px 15px;
+}
+
+.btn-delete {
+  background: rgb(255, 98, 0);
+  background: linear-gradient(
+    106deg,
+    rgba(255, 98, 0, 1) 0%,
+    rgba(214, 38, 26, 1) 78%
+  );
+}
+
+.informations {
+  border: 0;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+  border-radius: 5px;
+  margin: 0 5px;
+  padding: 10px 0;
+  background: var(--bg-color-3);
+}
+
+.section {
+  padding: 15px;
+  margin: 5px;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  border-radius: 5px;
+}
+
+.categorie {
+    margin: 15px;
+}
+
+@media only screen and (max-width: 575px) {
+  .table-session {
+    border: 0;
+    border-radius: 5px;
+    padding: 5px;
+    width: 100%;
+    font-size: 15px;
+  }
+  .table-session thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .table-session tr {
+    margin: 5px 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+    background: #fff;
+    border-radius: 5px;
+  }
+  .table-session td {
+    border: 0;
+    position: relative;
+    padding-left: 50%;
+  }
+  .table-session td:before {
+    position: absolute;
+    top: 0;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+  .table-session td::before {
+    font-weight: 600;
+  }
+  /*
+      Label table-session
+      */
+  .table-session td:nth-of-type(1):before {
+    content: "Date de début";
+  }
+  .table-session td:nth-of-type(2):before {
+    content: "Date de fin";
+  }
+  .table-session td:nth-of-type(3):before {
+    content: "Inscrits";
+  }
+  .clickable-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+  .clickable-row::after {
+    content: url(/img/arrow-up.svg);
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* Styles pour les petits écran */
+@media only screen and (min-width: 576px) {
+  .table-session {
+    position: relative;
+    border-spacing: 10px 20px;
+    border: 0;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .table-session th {
+    background-color: #e8eef7;
+    box-shadow: 10px 0 0 #e8eef7, -10px 0 0 #e8eef7;
+  }
+
+  .clickable-row::after {
+    content: url(/img/arrow-up.svg);
+    position: absolute;
+    left: 25px;
+  }
+}
+
+/* Styles pour les écrans de taille moyenne */
+@media only screen and (min-width: 769px) {
+  .table-session {
+    font-size: 18px;
+  }
+}
+
+/* Styles pour les écrans large */
+@media only screen and (min-width: 992px) {
+  .table-session {
+    background: var(--bg-color-3);
+  }
+
+  .clickable-row::after {
+    content: none;
+  }
+}

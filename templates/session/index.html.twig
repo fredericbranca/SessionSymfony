@@ -156,7 +156,7 @@
 			<div class="session-details div-border">
 				<div>
 					<p>Formation</p>
-					<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
+					<a class="link-right" href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
 				</div>
 				<div>
 					<div>
@@ -205,7 +205,7 @@
 							<p
 								class="stagiaire">
 								{# Stagiaire inscrit sous forme de lien vers les infos du stagiaire #}
-								<a class="stagiaire-link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
+								<a class="stagiaire-link link" href="{{ path('infos_stagiaire', {'id': stagiaire.id}) }}" target="_blank">{{ stagiaire.nom }}
 									{{ stagiaire.prenom }}</a>
 
 								{# ROLE_ADMIN : Affiche le lien bouton pour supprimer le stagiaire de la session. La classe confirm-delete permet la confirmation de suppression avec un script js #}
@@ -245,11 +245,11 @@
 							<div class="table-programme">
 								<div>
 									<div>Module</div>
-									<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+									<a class="module-link link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 								</div>
 								<div>
 									<div>Catégorie</div>
-									<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
+									<a class="categorie-link link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
 								</div>
 								<div>
 									<div>Duréee</div>

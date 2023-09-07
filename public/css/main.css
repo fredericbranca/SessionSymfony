@@ -239,13 +239,23 @@ a {
   font-weight: 500;
   text-decoration: none;
   color: #000;
+  margin-left: 15px;
 }
+
 .link::before {
   content: url(/img/arrow-up.svg);
   padding-right: 5px;
   width: 100px;
   height: 100px;
 }
+
+.link-right::after {
+  content: url(/img/arrow-up.svg);
+  padding-left: 5px;
+  width: 100px;
+  height: 100px;
+}
+
 
 /* Footer */
 
@@ -332,6 +342,20 @@ a {
   .btn {
     margin-right: 10px;
     max-width: 300px;
+  }
+
+  .link::before {
+    content: none;
+    padding-right: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .link-right::after {
+    content: none;
+    padding-left: 0;
+    width: 0;
+    height: 0;
   }
 
   /* Styles pour les écrans extra large (écran de bureau) */

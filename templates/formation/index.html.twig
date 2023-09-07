@@ -43,121 +43,128 @@
 		{# Sinon renvoi les infos d'une formation spécifique /formation/{id} #}
 	{% else %}
 
-		<a href="{{ path('app_formation')}}">Retour</a>
+		<a class="btn-return" href="{{ path('app_formation')}}">
+			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-		<h2>Informations :</h2>
+		<div class="informations">
+			<h2>Informations</h2>
 
-		<h3>Formation :
-			{{ formation.nom }}</h3>
+			<div class="section">
+				<h3>Formation :
+					{{ formation.nom }}</h3>
 
-		{# ROLE_ADMIN : Affiche les liens vers la modification et la suppression de la formation #}
-		{% if is_granted('ROLE_ADMIN') %}
-			<a href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
-			<a class="confirm-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
-		{% endif %}
+				{# ROLE_ADMIN : Affiche les liens vers la modification et la suppression de la formation #}
+				{% if is_granted('ROLE_ADMIN') %}
+					<a class="btn" href="{{ path('edit_formation', {'id': formation.id}) }}">Modifier</a>
+					<a class="confirm-delete btn btn-delete" href="{{ path('delete_formation', {'id': formation.id}) }}">Supprimer</a>
+				{% endif %}
+			</div>
 
-		{# Affiche les sessions liées à l'intitulé de cette formation #}
-		<h3>Les session</h3>
+			<div
+				class="section">
+				{# Affiche les sessions liées à l'intitulé de cette formation #}
+				<h3>Les session</h3>
 
-		{# Sessions en cours #}
-		<h4>Sessions en cours</h4>
+				{# Sessions en cours #}
+				<h4>Sessions en cours</h4>
 
-		{% if sessionsEnCours is empty %}
+				{% if sessionsEnCours is empty %}
 
-			<p>Aucune sessions en cours</p>
+					<p>Aucune sessions en cours</p>
 
-		{% else %}
+				{% else %}
 
-			<table>
-				<thead>
-					<th>Date de début</th>
-					<th>Date de fin</th>
-					<th>Inscrit</th>
-				</thead>
+					<table class="table-session">
+						<thead>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrit</th>
+						</thead>
 
-				<tbody>
-					{% for session in sessionsEnCours %}
+						<tbody>
+							{% for session in sessionsEnCours %}
 
-						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.nb_stagiaire }}
-								/
-								{{ session.nb_place }}</td>
-						</tr>
+								<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+									<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.nb_stagiaire }}
+										/
+										{{ session.nb_place }}</td>
+								</tr>
 
-					{% endfor %}
-				</tbody>
-			</table>
+							{% endfor %}
+						</tbody>
+					</table>
 
-		{% endif %}
+				{% endif %}
 
-		{# Session à venir #}
-		<h4>Sessions à venir</h4>
+				{# Session à venir #}
+				<h4>Sessions à venir</h4>
 
-		{% if sessionsFuture is empty %}
+				{% if sessionsFuture is empty %}
 
-			<p>Aucune sessions en cours</p>
+					<p>Aucune sessions en cours</p>
 
-		{% else %}
+				{% else %}
 
-			<table>
-				<thead>
-					<th>Date de début</th>
-					<th>Date de fin</th>
-					<th>Inscrit</th>
-				</thead>
+					<table class="table-session">
+						<thead>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrit</th>
+						</thead>
 
-				<tbody>
-					{% for session in sessionsFuture %}
+						<tbody>
+							{% for session in sessionsFuture %}
 
-						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.nb_stagiaire }}
-								/
-								{{ session.nb_place }}</td>
-						</tr>
+								<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+									<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.nb_stagiaire }}
+										/
+										{{ session.nb_place }}</td>
+								</tr>
 
-					{% endfor %}
-				</tbody>
-			</table>
+							{% endfor %}
+						</tbody>
+					</table>
 
-		{% endif %}
+				{% endif %}
 
-		{# Session terminées #}
-		<h4>Session terminées</h4>
+				{# Session terminées #}
+				<h4>Session terminées</h4>
 
-		{% if sessionsTerminee is empty %}
+				{% if sessionsTerminee is empty %}
 
-			<p>Aucune sessions en cours</p>
+					<p>Aucune sessions en cours</p>
 
-		{% else %}
+				{% else %}
 
-			<table>
-				<thead>
-					<th>Date de début</th>
-					<th>Date de fin</th>
-					<th>Inscrit</th>
-				</thead>
+					<table class="table-session">
+						<thead>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+							<th>Inscrit</th>
+						</thead>
 
-				<tbody>
-					{% for session in sessionsTerminee %}
+						<tbody>
+							{% for session in sessionsTerminee %}
 
-						<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
-							<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-							<td>{{ session.nb_stagiaire }}
-								/
-								{{ session.nb_place }}</td>
-						</tr>
+								<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+									<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
+									<td>{{ session.nb_stagiaire }}
+										/
+										{{ session.nb_place }}</td>
+								</tr>
 
-					{% endfor %}
-				</tbody>
-			</table>
+							{% endfor %}
+						</tbody>
+					</table>
 
-		{% endif %}
-
+				{% endif %}
+			</div>
+		</div>
 	{% endif %}
 
 	{# JavaScript #}

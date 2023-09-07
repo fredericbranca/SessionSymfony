@@ -7,12 +7,9 @@
 {% endblock %}
 
 {% block additional_css %}
-	{% if categorie is null %}
-		<link rel="stylesheet" href="{{ asset('css/section.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
-	{% else %}
-		<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
-	{% endif %}
+	<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
 {% endblock %}
 
 {%block body %}
@@ -45,26 +42,29 @@
 		{# Si un id est présent : /catégorie/{id}, affiche une catégorie spécifique #}
 	{% else %}
 
-		<a href="{{ path('app_categorie') }}">Retour</a>
+		<a class="btn-return" href="{{ path('app_categorie') }}">
+			<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-		{# Affiche le nom de la catégorie #}
-		<h2>{{ categorie.nom }}</h2>
+		<div
+			class="informations">
+			{# Affiche le nom de la catégorie #}
+			<h2>{{ categorie.nom }}</h2>
 
-		{# ROLE_ADMIN : Lien vers /categorie/{id}/edit pour modifier/supprimer une catégorie #}
-		{% if is_granted('ROLE_ADMIN') %}
+			{# ROLE_ADMIN : Lien vers /categorie/{id}/edit pour modifier/supprimer une catégorie #}
+			{% if is_granted('ROLE_ADMIN') %}
 
-			<a href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
+				<a class="btn categorie" href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
 
-		{% endif %}
-
-		<h3>Liste des modules</h3>
-
-		{% for module in modulesCategorie %}
-			<p>
-				<a href="{{ path('infos_module', { id: module.id }) }}">{{ module }}</a>
-			</p>
-		{% endfor %}
-
+			{% endif %}
+			<div class="section">
+				<h3>Liste des modules</h3>
+				<div class="items">
+					{% for module in modulesCategorie %}
+						<a class="link" href="{{ path('infos_module', { id: module.id }) }}">{{ module }}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
 	{% endif %}
 
 {% endblock %}
