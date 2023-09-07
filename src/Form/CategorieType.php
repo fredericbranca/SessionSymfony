@@ -15,11 +15,16 @@ class CategorieType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
+                'required' => true,
                 'attr' => [
                     'autocomplete' => 'off'
                 ]
             ])
-            ->add('Valider', SubmitType::class);
+            ->add('Valider', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

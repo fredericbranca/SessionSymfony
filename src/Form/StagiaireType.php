@@ -15,13 +15,22 @@ class StagiaireType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'autocomplete' => 'off'
+                ]
             ])
             ->add('prenom', TextType::class, [
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'autocomplete' => 'off'
+                ]
             ])
             ->add('telephone', TextType::class, [
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'autocomplete' => 'off'
+                ]
             ])
             ->add('Valider', SubmitType::class, [
                 'attr' => [

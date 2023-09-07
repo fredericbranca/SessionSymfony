@@ -24,6 +24,7 @@ class ProgrammeType extends AbstractType
                 'label' => 'Nombre de jours'
             ])
             ->add('module', EntityType::class, [
+                'required' => true,
                 'class' => Module::class,
                 'choices' => $modulesNonProgrammes, // liste des modules non programmés
                 'placeholder' => 'Choisir un module',

@@ -18,18 +18,23 @@ class LogType extends AbstractType
 
         $builder
             ->add('email', EmailType::class, [
+                'required' => true,
                 'attr' => [
                     'name' => 'email',
                     'value' => $lastUsername
                 ] 
             ])
             ->add('password', PasswordType::class, [
+                'required' => true,
                 'attr' => [
                     'name' => 'password',
                 ]
             ])
             ->add('valider', SubmitType::class, [
-                'label' => 'Se connecter'
+                'label' => 'Se connecter',
+                'attr' => [
+                    'class' => 'btn'
+                ]
             ])
         ;
     }
