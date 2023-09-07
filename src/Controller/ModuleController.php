@@ -6,6 +6,7 @@ use App\Entity\Module;
 use App\Form\ModuleType;
 use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,9 +63,13 @@ class ModuleController extends AbstractController
     // Route pour avoir les modules
     #[Route('/module', name: 'app_module')]
     #[Route('/module/{id}', name: 'infos_module')]
-    public function index(ModuleRepository $moduleRepository, Module $module = null): Response
+    public function index(Request $request, PaginatorInterface $paginator, ModuleRepository $moduleRepository, Module $module = null): Response
     {
-        $modules = $moduleRepository->findBy([], ['nom' => 'ASC']);
+        $modules = $paginator->paginate(
+            $moduleRepository->findBy([], ['nom' => 'ASC']),
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('module/index.html.twig', [
             'modules' => $modules,
             'module' => $module

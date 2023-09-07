@@ -7,6 +7,7 @@ use App\Form\FormationType;
 use App\Repository\SessionRepository;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,10 +65,14 @@ class FormationController extends AbstractController
     // Route pour la liste des formations et les infos d'une formations avec son ID
     #[Route('/formation', name: 'app_formation')]
     #[Route('/formation/{id}', name: 'infos_formation')]
-    public function index(Formation $formation = null, FormationRepository $formationRepository, SessionRepository $sessionRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator, Formation $formation = null, FormationRepository $formationRepository, SessionRepository $sessionRepository): Response
     {
         if ($formation == null) {
-            $formations = $formationRepository->findBy([], ['nom' => 'ASC']);
+            $formations = $paginator->paginate(
+                $formationRepository->findBy([], ['nom' => 'ASC']),
+                $request->query->getInt('page', 1),
+                10
+            );
             return $this->render('formation/index.html.twig', [
                 'formations' => $formations,
                 'formation' => $formation
