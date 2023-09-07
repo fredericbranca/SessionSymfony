@@ -237,47 +237,43 @@
 				{% for programme in sortedProgrammes %}
 					{% set totalJours = totalJours + programme.nbJour %}
 					{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
-					<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
-						<table class="table-programme">
-							<thead>
-								<tr>
-									<th>Module</th>
-									<th>Catégorie</th>
-									<th>Durée</th>
-									{# ROLE_ADMIN #}
-									{% if is_granted('ROLE_ADMIN') %}
-										<th>Déprogrammer</th>
-									{% endif %}
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>
-										<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-									</td>
-									<td>
-										<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
-									</td>
-									{# ROLE_ADMIN #}
-									{% if is_granted('ROLE_ADMIN') %}
-										<td class="edit-jour">
-											<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
-											<button class="btn" type="submit">Mettre à jour</button>
+					<div class="items-module">
+						<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
+							<table class="table-programme">
+								<thead>
+									<tr>
+										<th>Module</th>
+										<th>Catégorie</th>
+										<th>Durée</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
 										</td>
-									{% else %}
-										<td>{{ programme.nbJour }}</td>
-									{% endif %}
-									{% if is_granted('ROLE_ADMIN') %}
-										<td class="delete-module">
-											<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">
-												<i class="fa-solid fa-file-excel" style="color: #a12623;"></i>
-											</a>
+										<td>
+											<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
 										</td>
-									{% endif %}
-								</tr>
-							</tbody>
-						</table>
-					</form>
+										{# ROLE_ADMIN #}
+										{% if is_granted('ROLE_ADMIN') %}
+											<td class="edit-jour">
+												<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+												<button class="btn" type="submit">Mettre à jour</button>
+											</td>
+										{% else %}
+											<td>{{ programme.nbJour }}</td>
+										{% endif %}
+									</tr>
+								</tbody>
+							</table>
+						</form>
+						{% if is_granted('ROLE_ADMIN') %}
+							<div class="delete-module">
+								<a class="confirm-delete btn btn-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Déprogrammer</a>
+							</div>
+						</div>
+					{% endif %}
 				{% endfor %}
 				<b>Total de jours :
 					{{ totalJours }}</b>
@@ -314,24 +310,24 @@
 				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
 				{{ form_start(formNewStagiaire) }}
-				<div class="champ">
-					<div>
-						{{ form_label(formNewStagiaire.nom) }}
-						{{ form_errors(formNewStagiaire.nom) }}
-						{{ form_widget(formNewStagiaire.nom) }}
-					</div>
-					<div>
-						{{ form_label(formNewStagiaire.prenom) }}
-						{{ form_errors(formNewStagiaire.prenom) }}
-						{{ form_widget(formNewStagiaire.prenom) }}
-					</div>
-					<div>
-						{{ form_label(formNewStagiaire.telephone) }}
-						{{ form_errors(formNewStagiaire.telephone) }}
-						{{ form_widget(formNewStagiaire.telephone) }}
-					</div>
+
+				<div>
+					{{ form_label(formNewStagiaire.nom) }}
+					{{ form_errors(formNewStagiaire.nom) }}
+					{{ form_widget(formNewStagiaire.nom) }}
+				</div>
+				<div>
+					{{ form_label(formNewStagiaire.prenom) }}
+					{{ form_errors(formNewStagiaire.prenom) }}
+					{{ form_widget(formNewStagiaire.prenom) }}
+				</div>
+				<div>
+					{{ form_label(formNewStagiaire.telephone) }}
+					{{ form_errors(formNewStagiaire.telephone) }}
+					{{ form_widget(formNewStagiaire.telephone) }}
 				</div>
 				{{ form_row(formNewStagiaire.Valider) }}
+
 
 				{{ form_end(formNewStagiaire) }}
 			</section>
