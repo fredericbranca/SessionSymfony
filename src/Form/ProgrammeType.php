@@ -29,7 +29,11 @@ class ProgrammeType extends AbstractType
                 'placeholder' => 'Choisir un module',
                 'required' => true
             ])
-            ->add('Valider', SubmitType::class);
+            ->add('Valider', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
