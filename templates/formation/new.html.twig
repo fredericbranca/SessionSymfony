@@ -3,27 +3,35 @@
 {% block title %}Ajouter une formation
 {% endblock %}
 
+{% block additional_css %}
+	<link rel="stylesheet" href="{{ asset('css/edit-section.css') }}">
+{% endblock %}
+
 {% block body %}
 	<h1>Formation</h1>
 
-	{% if isNew %}
-		<a href="{{ path('app_formation') }}">Retour à la liste</a>
-		<h2>Ajouter une formation</h2>
-	{% else %}
-		<a href="{{ path('app_formation') }}">Retour à la liste</a>
-		<h2>Modifier/Supprimer une formation</h2>
+	<div class="section">
+		{% if isNew %}
+			<a class="btn-return" href="{{ path('app_formation') }}">
+				<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-	{% endif %}
+			<h2>Ajouter une formation</h2>
+		{% else %}
+			<a class="btn-return" href="{{ path('app_formation') }}">
+				<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
+			<h2>Modifier / Supprimer une formation</h2>
 
-	{# Formulaire #}
-	{{ form_start(formAddFormation) }}
-	{{ form_row(formAddFormation.nom) }}
-	{{ form_row(formAddFormation.Valider) }}
+		{% endif %}
 
-	{% if isNew == false %}
-		<a href="{{ path('infos_formation', {'id': formation}) }}">Annuler</a>
-		<a class="confirm-delete" href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
-	{% endif %}
-	{{ form_end(formAddFormation) }}
+		{# Formulaire #}
+		{{ form_start(formAddFormation) }}
+			{{ form_row(formAddFormation.nom) }}
+			{{ form_row(formAddFormation.Valider) }}
+		{{ form_end(formAddFormation) }}
 
+		{% if isNew == false %}
+			<a class="btn-return" href="{{ path('infos_formation', {'id': formation}) }}">Annuler</a>
+			<a class="confirm-delete btn btn-delete" href="{{ path('delete_formation', {'id' : formation}) }}">Supprimer</a>
+		{% endif %}
+	</div>
 {% endblock %}

@@ -5,32 +5,39 @@
 	{% if isNew  %}
 
 		Ajouter une session
-		
+
 	{% else %}
 
 		Modifier une session
 
 	{% endif %}
-	
+
+	{% block additional_css %}
+		<link rel="stylesheet" href="{{ asset('css/edit-section.css') }}">
+	{% endblock %}
+
 {% endblock %}
 
 {% block body %}
 
 	<h1>Session</h1>
 
-	{% if isNew  %}
+	<div class="section">
 
-		<a href="{{ path('app_session') }}">Retour</a>
-		<h2>Ajouter une session</h2>
+		{% if isNew  %}
 
-	{% else %}
+			<a class="btn-return" href="{{ path('app_session') }}">
+				<i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
+			<h2>Ajouter une session</h2>
 
-		<a href="{{ path('infos_session', {'id': session.id}) }}">Retour</a>
-		<h2>Modifier / Supprimer une session</h2>
+		{% else %}
 
-	{% endif %}
+			<a class="btn-return" href="{{ path('infos_session', {'id': session.id}) }}"><i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
+			<h2>Modifier / Supprimer une session</h2>
 
-	{{ form_start(formAddSession) }}
+		{% endif %}
+
+		{{ form_start(formAddSession) }}
 
 		<div>
 			{{ form_label(formAddSession.formation) }}
@@ -53,23 +60,26 @@
 			{{ form_widget(formAddSession.nb_place) }}
 
 			{% for message in app.flashes('danger') %}
-				<p> {{ message }} </p>
+				<p>
+					{{ message }}
+				</p>
 			{% endfor %}
 		</div>
 
 		{{ form_row(formAddSession.Valider) }}
+		{% if isNew %}
+			<a class="btn-return" href="{{ path('app_session')}}">Annuler</a>
+		{% endif %}
 
-	{{ form_end(formAddSession) }}
+		{{ form_end(formAddSession) }}
 
-	{% if isNew %}
+		{% if isNew is empty %}
 
-		<a href="{{ path('app_session')}}">Annuler</a>
+			<a class="btn-return" href="{{ path('infos_session', {'id': session.id}) }}">Annuler</a>
+			<a class="confirm-delete btn btn-delete" href="{{ path('delete_session', {'id' : session.id}) }}">Supprimer la session</a>
 
-	{% else %}
+		{% endif %}
 
-		<a href="{{ path('infos_session', {'id': session.id}) }}">Annuler</a>
-		<a class="confirm-delete" href="{{ path('delete_session', {'id' : session.id}) }}">Supprimer la session</a>
-
-	{% endif %}
+	</div>
 
 {% endblock %}

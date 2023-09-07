@@ -13,43 +13,50 @@
 
 	{% endif %}
 
+	{% block additional_css %}
+		<link rel="stylesheet" href="{{ asset('css/edit-section.css') }}">
+	{% endblock %}
+
 {% endblock %}
 
 {% block body %}
 
 	<h1>Stagiaire</h1>
 
-	<a href="{{ path('app_stagiaire') }}">Retour à la liste</a>
+	<div class="section">
 
-	{% if isNew %}
+		<a class="btn-return" href="{{ path('app_stagiaire') }}"><i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
 
-		<h2>Ajouter un stagiaire</h2>
+		{% if isNew %}
 
-	{% else %}
+			<h2>Ajouter un stagiaire</h2>
 
-		<h2>Modifier ou supprimer le stagiaire</h2>
-		
-	{% endif %}
+		{% else %}
+
+			<h2>Modifier ou supprimer le stagiaire</h2>
+
+		{% endif %}
 
 
-	{{ form_start(formAddStagiaire) }}
-
-		{{ form_row(formAddStagiaire.nom) }}
-		{{ form_row(formAddStagiaire.prenom) }}
-		{{ form_row(formAddStagiaire.telephone) }}
+		{{ form_start(formAddStagiaire) }}
+			{{ form_row(formAddStagiaire.nom) }}
+			{{ form_row(formAddStagiaire.prenom) }}
+			{{ form_row(formAddStagiaire.telephone) }}
 		{{ form_row(formAddStagiaire.Valider) }}
 
 		{% if isNew == false %}
 
-			<a href="{{ path('infos_stagiaire', {'id' : stagiaire}) }}">Annuler</a>
-			<a class="confirm-delete" href="{{ path('delete_stagiaire', {'id' : stagiaire}) }}">Supprimer</a>
+			<a class="btn-return" href="{{ path('infos_stagiaire', {'id' : stagiaire}) }}">Annuler</a>
+			<a class="confirm-delete btn btn-delete" href="{{ path('delete_stagiaire', {'id' : stagiaire}) }}">Supprimer</a>
 
 		{% else %}
 
-			<a href="{{ path('app_stagiaire')}}">Annuler</a>
-			
+			<a class="btn-return" href="{{ path('app_stagiaire')}}">Annuler</a>
+
 		{% endif %}
 
-	{{ form_end(formAddStagiaire) }}
+		{{ form_end(formAddStagiaire) }}
+
+	</div>
 
 {% endblock %}

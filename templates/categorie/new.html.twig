@@ -6,35 +6,43 @@
 
 {% endblock %}
 
+{% block additional_css %}
+	<link rel="stylesheet" href="{{ asset('css/edit-section.css') }}">
+{% endblock %}
+
 {% block body %}
 
 	<h1>Catégorie</h1>
 
-	{% if isNew %}
+	<div class="section">
 
-		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
-		<h2>Ajouter une catégorie</h2>
+		{% if isNew %}
 
-	{% else %}
+			<a class="btn-return" href="{{ path('app_categorie') }}"><i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
+			<h2>Ajouter une catégorie</h2>
 
-		<a href="{{ path('app_categorie') }}">Retour à la liste</a>
-		<h2>Modifier/Supprimer une catégorie</h2>
+		{% else %}
 
-	{% endif %}
+			<a class="btn-return" href="{{ path('app_categorie') }}"><i class="fa-solid fa-caret-left" style="color: #000000; font-size: 40px;"></i>Retour</a>
+			<h2>Modifier / Supprimer une catégorie</h2>
 
-	{# Formulaire #}
-	{{ form_start(formAddCategorie) }}
+		{% endif %}
+
+		{# Formulaire #}
+		{{ form_start(formAddCategorie) }}
 
 		{{ form_row(formAddCategorie.nom) }}
 		{{ form_row(formAddCategorie.Valider) }}
 
 		{% if isNew == false %}
-		
-			<a href="{{ path('app_categorie') }}">Annuler</a>
-			<a class="confirm-delete" href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
+
+			<a class="btn-return" href="{{ path('app_categorie') }}">Annuler</a>
+			<a class="confirm-delete btn btn-delete" href="{{ path('delete_categorie', {'id' : categorie}) }}">Supprimer</a>
 
 		{% endif %}
 
-	{{ form_end(formAddCategorie) }}
+		{{ form_end(formAddCategorie) }}
+
+	</div>
 
 {% endblock %}
