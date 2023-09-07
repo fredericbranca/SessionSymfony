@@ -8,11 +8,7 @@
 
 a {
   text-decoration: none;
-  color: #007bff;
-}
-
-a:hover {
-  text-decoration: underline;
+  color: 2600A3;
 }
 
 .btn-return {
@@ -29,7 +25,6 @@ a:hover {
 }
 
 .div-border {
-  margin: 5px 0;
   padding: 15px;
   background: #fff;
   border-radius: 5px;
@@ -50,7 +45,7 @@ a:hover {
   margin: 20px;
 }
 
-.session-details p {
+.session-details p:first-child {
   margin: 0;
   font-weight: bold;
   color: #555;
@@ -88,6 +83,7 @@ a:hover {
   border-radius: 5px;
   width: 100%;
   font-size: 15px;
+  padding: 0 5px;
 }
 .table-programme thead tr {
   position: absolute;
@@ -102,6 +98,9 @@ a:hover {
   padding: 15px;
   margin: 5px 0;
   background: #fff;
+  border-radius: 5px;
+  margin: 5px 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   border-radius: 5px;
 }
 .table-programme td {
@@ -163,14 +162,96 @@ a:hover {
   margin-right: 10px;
 }
 
+.add-stagiaire,
+.create-stagiaire,
+.add-module {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5px;
+}
+
+.champ div {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 5px;
+}
+
+.create-stagiaire
+.champ {
+  gap: 10px;
+  padding: 0;
+}
+
+.create-stagiaire form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-end;
+  padding: 10px 0;
+}
+
+.add-module form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.select-module {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-jours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.field-jours input[type="number"] {
+  padding: 5px;
+  border-radius: 4px;
+  min-width: 35px;
+  margin-right: 10px;
+  height: 35px;
+}
+
+.create-stagiaire form .champ div {
+  display: flex;
+  flex-direction: row;
+}
+
+.create-stagiaire form label {
+  width: 100px;
+}
+
+.add-stagiaire label {
+  padding: 10px;
+}
+.add-module label {
+  padding: 10px 0 10px 10px;
+}
+
+.create-stagiaire form .btn {
+  margin: 0;
+  padding: 10px 10px;
+}
+
+.create-stagiaire form input,
+.add-module input {
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  padding-left: 5px;
+}
+
 .add-stagiaire select,
-.create-stagiaire select,
 .add-module select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
 }
 
 .add-stagiaire p,
