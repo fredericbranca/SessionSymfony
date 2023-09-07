@@ -44,7 +44,8 @@
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? '<div class="complet">Complet</div>' : '<div class="en-cours">En cours</div>' }}</td>
 								<td>
-									{{ session.formation_nom }}</td>
+									<b>{{ session.formation_nom }}<b/></td>
+								</td>
 								<td>
 									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>
@@ -81,7 +82,8 @@
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
 								<td>{{ session.nb_place - session.nb_stagiaire == 0 ? '<div class="complet">Complet</div>' : '<div class="ouvert">Ouvert</div>' }}</td>
 								<td>
-									{{ session.formation_nom }}</td>
+									<b>{{ session.formation_nom }}</b>
+								</td>
 								<td>
 									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>
@@ -120,7 +122,8 @@
 									<div class="terminee">Terminée</div>
 								</td>
 								<td>
-									{{ session.formation_nom }}</td>
+									<b>{{ session.formation_nom }}</b>
+								</td>
 								<td>
 									{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>
@@ -204,7 +207,7 @@
 								{# ROLE_ADMIN : Affiche le lien bouton pour supprimer le stagiaire de la session. La classe confirm-delete permet la confirmation de suppression avec un script js #}
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="confirm-delete" href="{{ path('deleteStagiaire_session', {'id': session.id, 'idStagiaire': stagiaire.id}) }}">
-										<i class="fa-solid fa-user-minus" style="color: #ff0000;"></i>
+										<i class="fa-solid fa-user-minus" style="color: #a12623;"></i>
 									</a>
 								{% endif %}
 							</p>
@@ -267,7 +270,7 @@
 									{% if is_granted('ROLE_ADMIN') %}
 										<td class="delete-module">
 											<a class="confirm-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">
-												<i class="fa-solid fa-file-excel" style="color: #ff0000;"></i>
+												<i class="fa-solid fa-file-excel" style="color: #a12623;"></i>
 											</a>
 										</td>
 									{% endif %}
@@ -287,7 +290,7 @@
 		{% if is_granted('ROLE_ADMIN') %}
 
 			{# Ajout d'un stagiaire à la session #}
-			<section class="add-stagiaire">
+			<section class="add-stagiaire section-border">
 				<h3>Ajouter un stagiaire à la session</h3>
 
 				<label for="stagiaire-select">Liste des stagiaires :</label>
@@ -307,25 +310,26 @@
 			</section>
 
 			{# Créer un stagiaire s'il n'existe pas #}
-			<section class="create-stagiaire">
+			<section class="create-stagiaire section-border">
 				<h3>Créer un stagiaire s'il n'existe pas</h3>
 
 				{{ form_start(formNewStagiaire) }}
-
-				<div>
-					{{ form_label(formNewStagiaire.nom) }}
-					{{ form_errors(formNewStagiaire.nom) }}
-					{{ form_widget(formNewStagiaire.nom) }}
-				</div>
-				<div>
-					{{ form_label(formNewStagiaire.prenom) }}
-					{{ form_errors(formNewStagiaire.prenom) }}
-					{{ form_widget(formNewStagiaire.prenom) }}
-				</div>
-				<div>
-					{{ form_label(formNewStagiaire.telephone) }}
-					{{ form_errors(formNewStagiaire.telephone) }}
-					{{ form_widget(formNewStagiaire.telephone) }}
+				<div class="champ">
+					<div>
+						{{ form_label(formNewStagiaire.nom) }}
+						{{ form_errors(formNewStagiaire.nom) }}
+						{{ form_widget(formNewStagiaire.nom) }}
+					</div>
+					<div>
+						{{ form_label(formNewStagiaire.prenom) }}
+						{{ form_errors(formNewStagiaire.prenom) }}
+						{{ form_widget(formNewStagiaire.prenom) }}
+					</div>
+					<div>
+						{{ form_label(formNewStagiaire.telephone) }}
+						{{ form_errors(formNewStagiaire.telephone) }}
+						{{ form_widget(formNewStagiaire.telephone) }}
+					</div>
 				</div>
 				{{ form_row(formNewStagiaire.Valider) }}
 
@@ -333,18 +337,21 @@
 			</section>
 
 			{# Ajout modoule au programme à la session #}
-			<section class="add-module">
+			<section class="add-module section-border">
 				<h3>Ajouter un programme à la session</h3>
 
 				{{ form_start(formAddProgramme) }}
 
-				{{ form_label(formAddProgramme.module) }}
-				{{ form_errors(formAddProgramme.module) }}
-				{{ form_widget(formAddProgramme.module) }}
-
-				{{ form_label(formAddProgramme.nb_jour) }}
-				{{ form_errors(formAddProgramme.nb_jour) }}
-				{{ form_widget(formAddProgramme.nb_jour) }}
+				<div class="select-module">
+					{{ form_label(formAddProgramme.module) }}
+					{{ form_errors(formAddProgramme.module) }}
+					{{ form_widget(formAddProgramme.module) }}
+				</div>
+				<div class="field-jours">
+					{{ form_label(formAddProgramme.nb_jour) }}
+					{{ form_errors(formAddProgramme.nb_jour) }}
+					{{ form_widget(formAddProgramme.nb_jour) }}
+				</div>
 
 				{{ form_widget(formAddProgramme.Valider) }}
 
