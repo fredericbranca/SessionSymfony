@@ -1,0 +1,38 @@
+.navigation {
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination span {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination a {
+  color: #007bff;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination a:hover {
+  background: #5a70d3;
+  background-image: linear-gradient(315deg, #1e9afe 0, #645ff0 74%);
+  color: #fff;
+}
+
+.pagination .current {
+  padding: 5px 10px;
+  color: #fff;
+  background: #5a70d3;
+  background-image: linear-gradient(315deg, #1e9afe 0, #645ff0 74%);
+  border-radius: 4px;
+}
