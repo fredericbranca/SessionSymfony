@@ -30,8 +30,8 @@ a {
   width: 100%;
 }
 
-.stagiaires p:nth-child(2n+1) {
-  background:rgba(77, 85, 196, 0.1);
+.stagiaires p:nth-child(2n + 1) {
+  background: rgba(77, 85, 196, 0.1);
 }
 
 .session-info h2,
@@ -44,8 +44,14 @@ a {
   padding-left: 30px;
 }
 
-.session-details div {
-  margin: 20px;
+.session-details > div,
+.session-details > div > div {
+  margin-top: 20px;
+  min-width: 150px;
+}
+
+.session-info .btn {
+  margin-top: 10px;
 }
 
 .session-details p:first-child {
@@ -77,23 +83,31 @@ a {
 }
 
 .table-programme {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   border: 0;
   border-radius: 5px;
   width: 100%;
   font-size: 15px;
   padding: 0 5px;
 }
-.table-programme thead tr {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
-.table-programme tr {
-  position: relative;
+
+.table-programme div {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
 }
+
+.table-programme div > div,
+.table-programme div > a {
+  width: 170px;
+  max-width: 160px;
+}
+
+.session-programme b {
+  padding-left: 15px;
+}
+
 .session-programme .items-module {
   padding: 15px;
   margin: 5px;
@@ -102,40 +116,8 @@ a {
   border-radius: 5px;
 }
 
-.table-programme td {
-  border: 0;
-  position: relative;
-  padding-left: 50%;
-}
-.table-programme td:before {
-  position: absolute;
-  top: 0;
-  left: 6px;
-  width: 45%;
-  padding-right: 10px;
-  white-space: nowrap;
-}
-.table-programme td {
-  font-weight: 600;
-}
 .session-programme {
   padding: 10px 0;
-}
-.session-programme b {
-  padding-left: 15px;
-}
-
-/*
-	Label table-programme
-	*/
-.table-programme td:nth-of-type(1):before {
-  content: "Module";
-}
-.table-programme td:nth-of-type(2):before {
-  content: "Catégorie";
-}
-.table-programme td:nth-of-type(3):before {
-  content: "Durée";
 }
 
 .edit-jour {
@@ -172,8 +154,7 @@ a {
   padding: 10px 5px;
 }
 
-.create-stagiaire
-.champ {
+.create-stagiaire .champ {
   gap: 10px;
   padding: 0;
 }
@@ -182,7 +163,6 @@ a {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-items: center;
   padding-top: 10px;
 }
 
@@ -196,12 +176,14 @@ a {
 .select-module {
   display: flex;
   flex-direction: column;
+  padding-left: 15px;
 }
 
 .field-jours {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   gap: 10px;
+  padding-left: 10px;
 }
 
 .field-jours input[type="number"] {
@@ -214,9 +196,16 @@ a {
 
 .create-stagiaire form div {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 100%;
+  padding: 0 15px;
+}
+
+.create-stagiaire form div:nth-child(4) {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  justify-content: center;
+  padding: 0 15px;
 }
 
 .create-stagiaire form label {
@@ -233,15 +222,20 @@ a {
 .create-stagiaire form .btn {
   margin: 0;
   padding: 10px 10px;
-  min-width: 100%;
+}
+
+.btn {
+  max-width: 300px;
 }
 
 .create-stagiaire form input,
 .add-module input {
   border: none;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   padding-left: 5px;
+  min-width: none;
 }
 
 .add-stagiaire select,
@@ -253,6 +247,10 @@ a {
   margin-bottom: 0px;
 }
 
+.add-module select {
+  padding-left: 10px;
+}
+
 .add-stagiaire p,
 .create-stagiaire p {
   color: #ff0000;
@@ -262,23 +260,33 @@ a {
   max-width: 150px;
   padding: 5px;
   margin: 35px 0 0 0;
-  background: rgb(255,98,0);
-  background: linear-gradient(106deg, rgba(255,98,0,1) 0%, rgba(214,38,26,1) 78%);
+  background: rgb(255, 98, 0);
+  background: linear-gradient(
+    106deg,
+    rgba(255, 98, 0, 1) 0%,
+    rgba(214, 38, 26, 1) 78%
+  );
 }
 
 .delete-module {
   display: flex;
 }
 
-/* Tablet Styles */
-@media (min-width: 768px) {
-  .session-details div {
-    display: inline-block;
-    width: 19%;
-    margin-right: 1%;
-    vertical-align: top;
+@media (min-width: 576px) {
+  .create-stagiaire form .btn {
+    min-width: 300px;
   }
 
+  .session-details > div:nth-child(2),
+  .session-details > div:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    gap: 30%;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
   .session-details div:last-child {
     margin-right: 0;
   }
@@ -286,4 +294,7 @@ a {
 
 /* Desktop Styles */
 @media (min-width: 992px) {
+  .stagiaires p:nth-child(2n + 1) {
+    background: none;
+  }
 }
