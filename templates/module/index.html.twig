@@ -4,6 +4,15 @@
 	Module
 {% endblock %}
 
+{% block additional_css %}
+	{% if module is null %}
+		<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+	{% else %}
+		<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
+	{% endif %}
+{% endblock %}
+
 {% block body %}
 
 	<h1>Module</h1>
@@ -13,19 +22,22 @@
 		{# ROLE_ADMIN : Lien pour ajouter un module /module/new #}
 		{% if is_granted('ROLE_ADMIN') %}
 
-			<a href="{{ path('new_module')}}">Ajouter un module</a>
-			
+			<a class="btn" href="{{ path('new_module')}}">Ajouter un module</a>
+
 		{% endif %}
-		
+
 		<h2>Les modules</h2>
 
 		{# Affiche la liste de toutes les modules sous forme de lien vers les infos d'un module spécifique #}
-		{% for module in modules %}
-			<p>
+		<div class="items">
+			{% for module in modules %}
 				<a href="{{ path('infos_module', {'id' : module.id}) }}">{{ module }}</a>
-			</p>
+			{% endfor %}
+		</div>
 
-		{% endfor %}
+		<div class="navigation">
+			{{ knp_pagination_render(modules) }}
+		</div>
 
 	{% else %}
 
@@ -33,7 +45,8 @@
 
 		<h2>Informations :</h2>
 
-		<p>Module : {{ module.nom }}</p>
+		<p>Module :
+			{{ module.nom }}</p>
 
 		{# Affiche la catégorie du module sélectionné sous forme de lien vers le module en question #}
 		<p>Catégorie :

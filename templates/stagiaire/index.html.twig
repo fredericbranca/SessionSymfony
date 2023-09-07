@@ -3,18 +3,23 @@
 {% block title %}Stagiaire
 {% endblock %}
 
+{% block additional_css %}
+	<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+{% endblock %}
+
 {% block body %}
 	<h1>Stagiaire</h1>
 
-	<a href="{{ path('new_stagiaire') }}">Ajouter un stagiaire</a>
+	<a class="btn" href="{{ path('new_stagiaire') }}">Ajouter un stagiaire</a>
 
 	<h2>Les stagiaires</h2>
 
-	{% for stagiaire in stagiaires %}
-		<p>
+	<div class="items">
+		{% for stagiaire in stagiaires %}
 			<a href="{{ path('infos_stagiaire', {'id' : stagiaire.id}) }}">{{ stagiaire }}</a>
-		</p>
-	{% endfor %}
+		{% endfor %}
+	</div>
 
 	<div class="navigation">
 		{{ knp_pagination_render(stagiaires) }}

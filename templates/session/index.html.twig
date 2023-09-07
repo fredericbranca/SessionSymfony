@@ -159,20 +159,24 @@
 					<a href="{{ path('infos_formation', {'id': session.formation.id}) }}" target="_blank">{{ session.formation }}</a>
 				</div>
 				<div>
-					<p>Date de début</p>
-					<p>{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+					<div>
+						<p>Date de début</p>
+						<p>{{ session.dateDebut|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+					</div>
+					<div>
+						<p>Date de fin</p>
+						<p>{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
+					</div>
 				</div>
 				<div>
-					<p>Date de fin</p>
-					<p>{{ session.dateFin|format_datetime(pattern='d MMMM y', locale='fr') }}</p>
-				</div>
-				<div>
-					<p>Nombre de place</p>
-					<p>{{ session.nbPlace }}</p>
-				</div>
-				<div>
-					<p>Nombre de place disponible</p>
-					<p>{{ session.nbPlace - nb_disponible }}</p>
+					<div>
+						<p>Nombre de place</p>
+						<p>{{ session.nbPlace }}</p>
+					</div>
+					<div>
+						<p>Nombre de place disponible</p>
+						<p>{{ session.nbPlace - nb_disponible }}</p>
+					</div>
 				</div>
 
 			</div>
@@ -231,7 +235,6 @@
 
 				{# Sinon affiche le programme : la liste des modules avec le nombre de jour #}
 			{% else %}
-
 				{# Liste des programmes #}
 				{% set totalJours = 0 %}
 				{% for programme in sortedProgrammes %}
@@ -239,51 +242,65 @@
 					{# Formulaire pour pouvoir modifier le nombre de jour d'un module #}
 					<div class="items-module">
 						<form action="{{ path('edit_jour_programme_session', {'id': session.id, 'id_programme': programme.id}) }}" method="post">
-							<table class="table-programme">
-								<thead>
-									<tr>
-										<th>Module</th>
-										<th>Catégorie</th>
-										<th>Durée</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
-										</td>
-										<td>
-											<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
-										</td>
-										{# ROLE_ADMIN #}
-										{% if is_granted('ROLE_ADMIN') %}
-											<td class="edit-jour">
-												<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
-												<button class="btn" type="submit">Mettre à jour</button>
-											</td>
-										{% else %}
-											<td>{{ programme.nbJour }}</td>
-										{% endif %}
-									</tr>
-								</tbody>
-							</table>
+							<div class="table-programme">
+								<div>
+									<div>Module</div>
+									<a class="module-link" href="{{ path('infos_module', {'id': programme.module.id }) }}" target="_blank">{{ programme.module }}</a>
+								</div>
+								<div>
+									<div>Catégorie</div>
+									<a class="categorie-link" href="{{ path('infos_categorie', {'id': programme.module.categorie.id }) }}" target="_blank">{{ programme.module.categorie }}</a>
+								</div>
+								<div>
+									<div>Duréee</div>
+									{% if is_granted('ROLE_ADMIN') %}
+										<div class="edit-jour">
+											<input type="number" name="nbJour" value="{{ programme.nbJour }}"/>
+											<button class="btn" type="submit">Mettre à jour</button>
+										</div>
+									{% else %}
+										<div>{{ programme.nbJour }}</div>
+									{% endif %}
+								</div>
+							</div>
 						</form>
 						{% if is_granted('ROLE_ADMIN') %}
 							<div class="delete-module">
 								<a class="confirm-delete btn btn-delete" href="{{ path('deleteProgramme_session', {'id' : session.id, 'idProgramme': programme.id}) }}">Déprogrammer</a>
 							</div>
-						</div>
-					{% endif %}
+						{% endif %}
+					</div>
 				{% endfor %}
 				<b>Total de jours :
 					{{ totalJours }}</b>
 
-
 			{% endif %}
 		</section>
 
-		{# ROLE_ADMIN : Ajout stagiaire à la session + Ajout d'un module au programme de la session #}
+		{# ROLE_ADMIN : Ajout stagiaire à la session + Ajout d'un module au programme de la session + créer un stagiaire #}
 		{% if is_granted('ROLE_ADMIN') %}
+			{# Ajout modoule au programme à la session #}
+			<section class="add-module section-border">
+				<h3>Ajouter un programme à la session</h3>
+
+				{{ form_start(formAddProgramme) }}
+
+				<div class="select-module">
+					{{ form_label(formAddProgramme.module) }}
+					{{ form_errors(formAddProgramme.module) }}
+					{{ form_widget(formAddProgramme.module) }}
+				</div>
+				<div class="field-jours">
+					{{ form_label(formAddProgramme.nb_jour) }}
+					{{ form_errors(formAddProgramme.nb_jour) }}
+					{{ form_widget(formAddProgramme.nb_jour) }}
+				</div>
+
+				{{ form_widget(formAddProgramme.Valider) }}
+
+				{{ form_end(formAddProgramme) }}
+
+			</section>
 
 			{# Ajout d'un stagiaire à la session #}
 			<section class="add-stagiaire section-border">
@@ -331,36 +348,11 @@
 
 				{{ form_end(formNewStagiaire) }}
 			</section>
-
-			{# Ajout modoule au programme à la session #}
-			<section class="add-module section-border">
-				<h3>Ajouter un programme à la session</h3>
-
-				{{ form_start(formAddProgramme) }}
-
-				<div class="select-module">
-					{{ form_label(formAddProgramme.module) }}
-					{{ form_errors(formAddProgramme.module) }}
-					{{ form_widget(formAddProgramme.module) }}
-				</div>
-				<div class="field-jours">
-					{{ form_label(formAddProgramme.nb_jour) }}
-					{{ form_errors(formAddProgramme.nb_jour) }}
-					{{ form_widget(formAddProgramme.nb_jour) }}
-				</div>
-
-				{{ form_widget(formAddProgramme.Valider) }}
-
-				{{ form_end(formAddProgramme) }}
-
-			</section>
 		{% endif %}
-
 	{% endif %}
 
 	{# JavaScript #}
 	{% block additional_javascripts %}
 		<script src="{{ asset('js/session.js') }}"></script>
 	{% endblock %}
-
 {% endblock %}

@@ -4,6 +4,15 @@
 	Formation
 {% endblock %}
 
+{% block additional_css %}
+	{% if formation is null %}
+		<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+	{% else %}
+		<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
+	{% endif %}
+{% endblock %}
+
 {% block body %}
 
 	<h1>Formation</h1>
@@ -14,18 +23,22 @@
 		{# ROLE_ADMIN : Lien vers /formation/new créer une Formation #}
 		{% if is_granted('ROLE_ADMIN') %}
 
-			<a href="{{ path('new_formation')}}">Ajouter une formation</a>
+			<a class="btn" href="{{ path('new_formation')}}">Ajouter une formation</a>
 
 		{% endif %}
 
 		<h2>Les formations</h2>
 
 		{# Affiche toutes les formations dans un lien vers les infos de la formation #}
-		{% for formation in formations %}
-			<p>
+		<div class="items">
+			{% for formation in formations %}
 				<a href="{{ path('infos_formation', {'id' : formation.id}) }}">{{ formation }}</a>
-			</p>
-		{% endfor %}
+			{% endfor %}
+		</div>
+
+		<div class="navigation">
+			{{ knp_pagination_render(formations) }}
+		</div>
 
 		{# Sinon renvoi les infos d'une formation spécifique /formation/{id} #}
 	{% else %}

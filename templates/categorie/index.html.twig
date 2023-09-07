@@ -6,30 +6,43 @@
 
 {% endblock %}
 
+{% block additional_css %}
+	{% if categorie is null %}
+		<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+	{% else %}
+		<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
+	{% endif %}
+{% endblock %}
+
 {%block body %}
 
 	<h1>Catégorie</h1>
-	
+
 	{# Si aucun ID est renseigné dans l'URL #}
 	{% if categorie is null %}
 
 		{# ROLE_ADMIN : Lien vers /categorie/new pour créer une nouvelle catégorie #}
 		{% if is_granted('ROLE_ADMIN') %}
 
-			<a href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
+			<a class="btn" href="{{ path('new_categorie') }}">Ajouter une catégorie</a>
 
 		{% endif %}
 
 		<h2>Les catégories</h2>
 
 		{# Affiche les catégories sous forme de lien vers les infos de la catégorie choisit #}
-		{% for categorie in categories %}
-			<p>
+		<div class="items">
+			{% for categorie in categories %}
 				<a href="{{ path('infos_categorie', { id: categorie.id }) }}">{{ categorie }}</a>
-			</p>
-		{% endfor %}
+			{% endfor %}
+		</div>
 
-	{# Si un id est présent : /catégorie/{id}, affiche une catégorie spécifique #}
+		<div class="navigation">
+			{{ knp_pagination_render(categories) }}
+		</div>
+
+		{# Si un id est présent : /catégorie/{id}, affiche une catégorie spécifique #}
 	{% else %}
 
 		<a href="{{ path('app_categorie') }}">Retour</a>
@@ -41,9 +54,9 @@
 		{% if is_granted('ROLE_ADMIN') %}
 
 			<a href="{{ path('edit_categorie', { id: categorie.id }) }}">Modifier</a>
-			
+
 		{% endif %}
-		
+
 		<h3>Liste des modules</h3>
 
 		{% for module in modulesCategorie %}
