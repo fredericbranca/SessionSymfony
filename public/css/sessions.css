@@ -7,8 +7,9 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 0;
+}
+.btn {
+  margin: 20px 30px;
 }
 h2 {
   padding-left: 30px;
@@ -90,7 +91,7 @@ h2 {
   .clickable-row::after {
     content: url(/img/arrow-up.svg);
     position: absolute;
-    top: 15px;
+    bottom: 15px;
     right: 15px;
   }
 }
@@ -103,7 +104,7 @@ h2 {
   color: #fff;
   padding: 5px;
   transform: none;
-  width: 120px;
+  max-width: 120px;
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 1px;
@@ -126,9 +127,6 @@ h2 {
 
 /* Styles pour les petits écran */
 @media only screen and (min-width: 576px) {
-  .content {
-    align-items: flex-end;
-  }
   .section-session {
     border: 0;
     box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
