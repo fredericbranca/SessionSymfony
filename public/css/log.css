@@ -1,0 +1,76 @@
+h1 {
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Form styles */
+form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-control, .password-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.form-control:focus, .password-field:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.radio {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Error messages */
+.alerte {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+/* Button styles */
+.btn-log {
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-log {
+  color: #fff;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  background-image: linear-gradient(315deg, #1e9afe 0, #645ff0 74%);
+}

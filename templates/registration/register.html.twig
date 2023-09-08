@@ -4,6 +4,10 @@
 	Inscription
 {% endblock %}
 
+{% block additional_css %}
+	<link rel="stylesheet" href="{{ asset('css/log.css') }}">
+{% endblock %}
+
 {% block body %}
 
 	{% for flash_error in app.flashes('verify_email_error') %}
@@ -16,13 +20,25 @@
 
 	{{ form_start(registrationForm) }}
 
-		{{ form_row(registrationForm.email) }}
-		{{ form_row(registrationForm.nom) }}
-		{{ form_row(registrationForm.prenom) }}
-		{{ form_row(registrationForm.plainPassword) }}
-		{{ form_row(registrationForm.agreeTerms) }}
+	{{ form_row(registrationForm.email) }}
+	{{ form_label(registrationForm.nom) }}
+	{{ form_errors(registrationForm.nom) }}
+	{{ form_widget(registrationForm.nom) }}
 
-		<button type="submit" class="btn">Register</button>
+	{{ form_label(registrationForm.prenom) }}
+	{{ form_errors(registrationForm.prenom) }}
+	{{ form_widget(registrationForm.prenom) }}
+
+	{# {{ form_label(registrationForm.plainPassword) }} #}
+	{{ form_errors(registrationForm.plainPassword) }}
+	{{ form_widget(registrationForm.plainPassword) }}
+
+	<div class="radio">
+		{{ form_widget(registrationForm.agreeTerms) }}
+		{{ form_label(registrationForm.agreeTerms) }}
+		{{ form_errors(registrationForm.agreeTerms) }}
+	</div>
+	<button type="submit" class="btn-log">S'incrire</button>
 
 	{{ form_end(registrationForm) }}
 

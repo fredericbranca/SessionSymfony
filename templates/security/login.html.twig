@@ -4,6 +4,10 @@
 	Connexion
 {% endblock %}
 
+{% block additional_css %}
+	<link rel="stylesheet" href="{{ asset('css/log.css') }}">
+{% endblock %}
+
 {% block body %}
 
 	<form method="post">
@@ -28,23 +32,11 @@
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-		<button class="btn btn-lg btn-primary" type="submit">
+		<button class="btn-log " type="submit">
 			Se connecter
 		</button>
 
 
 	</form>
-
-	{# {{ form_start(form) }}
-						{{ form_label(form.email) }}
-						{{ form_errors(form.email) }}
-						{{ form_widget(form.email) }}
-				
-						{{ form_label(form.password) }}
-						{{ form_errors(form.password) }}
-						{{ form_widget(form.password) }}
-				
-						{{ form_row(form.valider) }}
-					{{ form_end(form) }} #}
 
 {% endblock %}

@@ -23,19 +23,22 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'required' => true,
                 'attr' => [
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ]
             ])
             ->add('nom', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ]
             ])
             ->add('prenom', TextType::class, [
                 'required' => true,
                 'attr' => [
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
+                    'class' => 'form-control'
                 ]
             ])
             ->add('plainPassword', RepeatedType::class, [
