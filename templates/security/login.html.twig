@@ -16,10 +16,10 @@
 
 		{# Email #}
 		<label for="inputEmail">Email</label>
-		<input type="email" value="" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required>
 
 		{% if error and (error.getMessage() == 'Bad credentials.') %}
-				<div class="alerte alerte-danger">Email incorrect</div>
+				<div class="alerte alert-danger">Email incorrect</div>
 		{% endif %}
 
 		{# Mot de passe #}
@@ -27,7 +27,7 @@
 		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
 		{% if error and (error.getMessage() == 'The presented password is invalid.') %}
-			<div class="alerte alerte-danger">Mot de passe incorrect</div>
+			<div class="alerte alert-danger">Mot de passe incorrect</div>
 		{% endif %}
 
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
