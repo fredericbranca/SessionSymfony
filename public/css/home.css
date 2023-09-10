@@ -1,0 +1,144 @@
+.header {
+  padding: 0 30px;
+}
+
+.titre {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.content-header {
+  margin-top: 20px;
+  position: relative;
+}
+
+.img-formation,
+.content-header img {
+  max-width: 100%;
+  max-height: 565px;
+  width: auto;
+  height: auto;
+}
+
+.cards {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  padding: 0 8%;
+  top: 70%;
+}
+
+.card {
+  position: relative;
+  min-width: 33%;
+  max-width: 280px;
+  min-height: 130px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.card > div i {
+  font-size: 15px;
+}
+
+.card p {
+  margin-bottom: 10px;
+}
+
+.fa-arrow-right-long {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+}
+
+.card h2 {
+  font-size: 15px;
+}
+
+.card p {
+  font-size: 12px;
+}
+
+/* Styles pour les petits écran */
+@media only screen and (min-width: 576px) {
+  .header {
+    margin-bottom: 20%;
+    margin-top: 5%;
+  }
+
+  .card {
+    max-width: 280px;
+    min-height: 230px;
+    max-height: 380px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card h2 {
+    font-size: 20px;
+  }
+
+  .card p {
+    font-size: 18px;
+  }
+}
+
+/* Styles pour les écrans de taille moyenne */
+@media only screen and (min-width: 992px) {
+  .content {
+    padding: 0 15%;
+  }
+
+  .content-header {
+    align-items: center;
+  }
+
+  .header {
+    width: 100%;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 25px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
+  .img-formation {
+    width: 100%;
+    max-height: 565px;
+    overflow: hidden;
+  }
+
+  .content-header img {
+    width: 100%;
+    max-height: 100%;
+  }
+
+  .cards {
+    top: 80%;
+  }
+
+  .card {
+    max-width: 280px;
+    max-height: 380px;
+  }
+}
