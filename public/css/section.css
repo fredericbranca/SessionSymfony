@@ -15,7 +15,12 @@
   width: fit-content;
 
   /* Création du gradient */
-  background-image: linear-gradient(90deg, rgba(0,85,163,1) 0%, rgba(9,9,121,1) 38%, rgba(0,116,255,1) 100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 85, 163, 1) 0%,
+    rgba(9, 9, 121, 1) 38%,
+    rgba(0, 116, 255, 1) 100%
+  );
   background-size: 100%;
   background-repeat: repeat;
 
@@ -29,4 +34,21 @@
 .items a::before {
   content: url(/img/arrow-up.svg);
   margin-right: 8px;
+}
+
+@media only screen and (min-width: 992px) {
+  .items a::before {
+    content: none;
+    margin-right: 0;
+  }
+  .items a:hover {
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 125, 225, 1) 0%,
+      rgba(9, 9, 190, 1) 38%,
+      rgba(0, 156, 255, 1) 100%
+    );
+    transform: scale(1.2);
+    transition: tranform 0.3s ease;
+  }
 }

@@ -79,6 +79,14 @@
     margin-top: 5%;
   }
 
+  h1 {
+    font-size: 25px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+
   .card {
     max-width: 280px;
     min-height: 230px;
@@ -96,6 +104,10 @@
 
   .card p {
     font-size: 18px;
+  }
+  
+  .fa-arrow-right-long {
+    font-size: 35px;
   }
 }
 
@@ -115,11 +127,11 @@
   }
 
   h1 {
-    font-size: 25px;
+    font-size: 30px;
   }
 
   p {
-    font-size: 18px;
+    font-size: 22px;
   }
 
   .img-formation {

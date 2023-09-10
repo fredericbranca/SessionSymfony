@@ -21,7 +21,8 @@ label {
   color: #555;
 }
 
-.form-control, .password-field {
+.form-control,
+.password-field {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -30,16 +31,17 @@ label {
   font-size: 16px;
 }
 
-.form-control:focus, .password-field:focus {
+.form-control:focus,
+.password-field:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .radio {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Error messages */
@@ -73,4 +75,11 @@ label {
   font-weight: 500;
   letter-spacing: 1px;
   background-image: linear-gradient(315deg, #1e9afe 0, #645ff0 74%);
+}
+
+/* Styles pour les écrans large */
+@media only screen and (min-width: 992px) {
+  .btn-log:hover {
+    transform: scale(1.05);
+  }
 }

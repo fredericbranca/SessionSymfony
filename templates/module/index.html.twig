@@ -5,12 +5,9 @@
 {% endblock %}
 
 {% block additional_css %}
-	{% if module is null %}
-		<link rel="stylesheet" href="{{ asset('css/section.css') }}">
-		<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
-	{% else %}
-		<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
-	{% endif %}
+	<link rel="stylesheet" href="{{ asset('css/section.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/pagination.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/infos-section.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -45,13 +42,13 @@
 
 		<div class="informations">
 			<h2>Informations :</h2>
-			<div class="section">
+			<div class="section items">
 				<p><b>Module</b> :
 					{{ module.nom }}</p>
 
 				{# Affiche la catégorie du module sélectionné sous forme de lien vers le module en question #}
 				<p><b>Catégorie</b> :
-					<a class="link-right" href="{{ path('infos_categorie', {'id': module.categorie.id}) }}">{{ module.categorie }}</a>
+					<a class="link" href="{{ path('infos_categorie', {'id': module.categorie.id}) }}">{{ module.categorie }}</a>
 				</p>
 
 				{# ROLE_ADMIN : Lien pour modifier/supprimer un module  #}
