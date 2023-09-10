@@ -263,9 +263,9 @@ class SessionRepository extends ServiceEntityRepository
     // Requete pour récupérer les sessions en cours
     public function sessionsEnCours($formation_id = null, $stagiaire_id = null)
     { 
-        $andWhere = $formation_id ? 'se.formation = :formation' : '';
-        $param1 = $formation_id ? 'formation' : '';
-        $param2 = $formation_id ? $formation_id : '';
+        $andWhere = $formation_id ? 'se.formation = :formation' : 'st.id = :stagiaire';
+        $param1 = $formation_id ? 'formation' : 'stagiaire';
+        $param2 = $formation_id ? $formation_id : $stagiaire_id;
 
         // Initialisation de l'Entity Manager et du Query Builder
         $em = $this->getEntityManager();
@@ -315,9 +315,9 @@ class SessionRepository extends ServiceEntityRepository
     // Requete pour récupérer les sessions terminées
     public function sessionsTerminee($formation_id = null, $stagiaire_id = null)
     {
-        $andWhere = $formation_id ? 'se.formation = :formation' : '';
-        $param1 = $formation_id ? 'formation' : '';
-        $param2 = $formation_id ? $formation_id : '';
+        $andWhere = $formation_id ? 'se.formation = :formation' : 'st.id = :stagiaire';
+        $param1 = $formation_id ? 'formation' : 'stagiaire';
+        $param2 = $formation_id ? $formation_id : $stagiaire_id;
 
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -344,6 +344,8 @@ class SessionRepository extends ServiceEntityRepository
             )
             ->where('se.date_fin < :today')
             ->setParameter('today', $today)
+            ->andWhere($andWhere)
+            ->setParameter($param1, $param2)
             ->groupBy('se.id')
             ->orderBy('se.date_debut', 'ASC')
             ->getQuery();
@@ -354,7 +356,7 @@ class SessionRepository extends ServiceEntityRepository
     // Requete pour récupérer les sessions à venir
     public function sessionsFuture($formation_id = null, $stagiaire_id = null)
     {
-        $andWhere = $formation_id ? 'se.formation = :formation' : 'st.stagiaire = :stagiaire';
+        $andWhere = $formation_id ? 'se.formation = :formation' : 'st.id = :stagiaire';
         $param1 = $formation_id ? 'formation' : 'stagiaire';
         $param2 = $formation_id ? $formation_id : $stagiaire_id;
 
@@ -383,6 +385,8 @@ class SessionRepository extends ServiceEntityRepository
             )
             ->where('se.date_debut > :today')
             ->setParameter('today', $today)
+            ->andWhere($andWhere)
+            ->setParameter($param1, $param2)
             ->groupBy('se.id')
             ->orderBy('se.date_debut', 'ASC')
             ->getQuery();

@@ -82,9 +82,9 @@ class StagiaireController extends AbstractController
         SessionRepository $sessionRepository
     ): Response
     {
-        $sessionsEnCours = $sessionRepository->sessionsEnCours($stagiaire, null);
-        $sessionsFuture = $sessionRepository->sessionsFuture($stagiaire, null);
-        $sessionsTerminee = $sessionRepository->sessionsTerminee($stagiaire, null);
+        $sessionsEnCours = $sessionRepository->sessionsEnCours(null, $stagiaire);
+        $sessionsFuture = $sessionRepository->sessionsFuture(null, $stagiaire);
+        $sessionsTerminee = $sessionRepository->sessionsTerminee(null, $stagiaire);
         return $this->render('stagiaire/infos.html.twig', [
             'stagiaire' => $stagiaire,
             'sessionsEnCours' => $sessionsEnCours,

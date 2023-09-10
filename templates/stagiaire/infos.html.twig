@@ -43,20 +43,18 @@
 
 				<table class="table-session">
 					<thead>
+						<th>Formation</th>
 						<th>Date de début</th>
 						<th>Date de fin</th>
-						<th>Inscrit</th>
 					</thead>
 
 					<tbody>
 						{% for session in sessionsEnCours %}
 
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>{{ session.formation_nom }}</td>
 								<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-								<td>{{ session.nb_stagiaire }}
-									/
-									{{ session.nb_place }}</td>
 							</tr>
 
 						{% endfor %}
@@ -76,20 +74,18 @@
 
 				<table class="table-session">
 					<thead>
+						<th>Formation</th>
 						<th>Date de début</th>
 						<th>Date de fin</th>
-						<th>Inscrit</th>
 					</thead>
 
 					<tbody>
 						{% for session in sessionsFuture %}
 
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>{{ session.formation_nom }}</td>
 								<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-								<td>{{ session.nb_stagiaire }}
-									/
-									{{ session.nb_place }}</td>
 							</tr>
 
 						{% endfor %}
@@ -110,20 +106,18 @@
 
 				<table class="table-session">
 					<thead>
+						<th>Formation</th>
 						<th>Date de début</th>
 						<th>Date de fin</th>
-						<th>Inscrit</th>
 					</thead>
 
 					<tbody>
 						{% for session in sessionsTerminee %}
 
 							<tr class="clickable-row" data-url="{{ path('infos_session', {'id': session.id}) }}">
+								<td>{{ session.formation_nom }}</td>
 								<td>{{ session.date_debut|format_datetime(pattern='d MMM y', locale='fr') }}</td>
 								<td>{{ session.date_fin|format_datetime(pattern='d MMM y', locale='fr') }}</td>
-								<td>{{ session.nb_stagiaire }}
-									/
-									{{ session.nb_place }}</td>
 							</tr>
 
 						{% endfor %}
