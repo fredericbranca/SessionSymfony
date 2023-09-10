@@ -18,7 +18,7 @@ class SecurityController extends AbstractController
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $error && $error->getMessage() === 'Bad credentials.' ? '' : $authenticationUtils->getLastUsername();
+        $lastUsername = $error && $error->getMessage() !== 'Bad credentials.' ? $authenticationUtils->getLastUsername() : '';
 
         $autofocusField = $lastUsername === '' ? 'email' : 'password';
 

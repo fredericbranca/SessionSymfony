@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -25,6 +26,11 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'off',
                     'class' => 'form-control'
+                ],
+                'constraints' => [
+                    new Email([
+                        'message' => 'L\'email fourni n\'est pas valide.'
+                    ])
                 ]
             ])
             ->add('nom', TextType::class, [

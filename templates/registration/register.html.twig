@@ -20,24 +20,82 @@
 
 	{{ form_start(registrationForm) }}
 
-	{{ form_row(registrationForm.email) }}
+	{# Email #}
+	{{ form_label(registrationForm.email) }}
+	{{ form_widget(registrationForm.email) }}
+	{% if registrationForm.email.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.email.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
+
+
 	{{ form_label(registrationForm.nom) }}
-	{{ form_errors(registrationForm.nom) }}
 	{{ form_widget(registrationForm.nom) }}
+	{{ form_errors(registrationForm.nom) }}
+	{% if registrationForm.nom.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.nom.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
 
 	{{ form_label(registrationForm.prenom) }}
-	{{ form_errors(registrationForm.prenom) }}
 	{{ form_widget(registrationForm.prenom) }}
+	{{ form_errors(registrationForm.prenom) }}
+	{% if registrationForm.prenom.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.prenom.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
 
-	{# {{ form_label(registrationForm.plainPassword) }} #}
-	{{ form_errors(registrationForm.plainPassword) }}
-	{{ form_widget(registrationForm.plainPassword) }}
+	{# Mot de passe #}
+	{{ form_label(registrationForm.plainPassword.first) }}
+	{{ form_widget(registrationForm.plainPassword.first) }}
+	{% if registrationForm.plainPassword.first.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.plainPassword.first.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{# Confirmation de mot de passe #}
+	{{ form_label(registrationForm.plainPassword.second) }}
+	{{ form_widget(registrationForm.plainPassword.second) }}
+	{% if registrationForm.plainPassword.second.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.plainPassword.second.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% if registrationForm.plainPassword.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.plainPassword.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
 
 	<div class="radio">
 		{{ form_widget(registrationForm.agreeTerms) }}
 		{{ form_label(registrationForm.agreeTerms) }}
-		{{ form_errors(registrationForm.agreeTerms) }}
 	</div>
+	{% if registrationForm.agreeTerms.vars.errors|length %}
+		<div class="alerte alert-danger">
+			{% for error in registrationForm.agreeTerms.vars.errors %}
+				{{ error.message }}
+			{% endfor %}
+		</div>
+	{% endif %}
+
 	<button type="submit" class="btn-log">S'incrire</button>
 
 	{{ form_end(registrationForm) }}
