@@ -168,6 +168,12 @@ h2 {
   .table-session {
     background: var(--bg-color-3);
   }
+  .table-session .clickable-row:hover{
+    cursor: pointer;
+  }
+  .table-session tr:hover td:nth-child(n+1) {
+    transform: scale(1.1);
+  }
 }
 
 /* Styles pour les écrans extra large (écran de bureau) */

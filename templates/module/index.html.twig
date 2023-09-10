@@ -28,7 +28,7 @@
 		{# Affiche la liste de toutes les modules sous forme de lien vers les infos d'un module spécifique #}
 		<div class="items">
 			{% for module in modules %}
-				<a href="{{ path('infos_module', {'id' : module.id}) }}">{{ module }}</a>
+				<a class="list-link" href="{{ path('infos_module', {'id' : module.id}) }}">{{ module }}</a>
 			{% endfor %}
 		</div>
 

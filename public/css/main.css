@@ -367,17 +367,51 @@ a {
     margin-right: 10px;
     max-width: 300px;
   }
+  .btn:hover,
+  .btn-return:hover {
+    transform: scale(1.1);
+  }
+  .section > .btn-return:hover, .content > .btn-return:hover {
+    transform: scale(1);
+    font-size: 22px;
+  }
+  .session-details .link-right:hover {
+    transform: scale(1.05);
+  }
+  .btn-return {
+    font-size: 18px;
+  }
+  .link-right::after {
+    content: none;
+    padding-left: 0;
+    width: 0;
+    height: 0;
+  }
+  .link-right, .stagiaire-link, .module-link, .categorie-link, .list-link {
+    width: fit-content;
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 85, 163, 1) 0%,
+      rgba(9, 9, 121, 1) 38%,
+      rgba(0, 116, 255, 1) 100%
+    );
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;  .link-right::after {
+    content: none;
+    padding-left: 0;
+    width: 0;
+    height: 0;
+  }
+    -webkit-text-fill-color: transparent;
+  }
+  .stagiaire-link:hover, .module-link:hover, .categorie-link:hover, .list-link:hover {
+    transform: scale(1.05);
+  }
 
   .link::before {
     content: none;
     padding-right: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .link-right::after {
-    content: none;
-    padding-left: 0;
     width: 0;
     height: 0;
   }

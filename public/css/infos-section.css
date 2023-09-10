@@ -162,4 +162,10 @@ p {
   .clickable-row::after {
     content: none;
   }
+  .clickable-row:hover td{
+    cursor: pointer;
+    width: fit-content;
+    color: rgba(0, 85, 163, 1);
+    transform: scale(1.1);
+  }
 }

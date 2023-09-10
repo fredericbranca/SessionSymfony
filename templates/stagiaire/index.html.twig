@@ -17,7 +17,7 @@
 
 	<div class="items">
 		{% for stagiaire in stagiaires %}
-			<a href="{{ path('infos_stagiaire', {'id' : stagiaire.id}) }}">{{ stagiaire }}</a>
+			<a class="list-link"  href="{{ path('infos_stagiaire', {'id' : stagiaire.id}) }}">{{ stagiaire }}</a>
 		{% endfor %}
 	</div>
 

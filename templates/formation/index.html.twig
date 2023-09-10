@@ -32,7 +32,7 @@
 		{# Affiche toutes les formations dans un lien vers les infos de la formation #}
 		<div class="items">
 			{% for formation in formations %}
-				<a href="{{ path('infos_formation', {'id' : formation.id}) }}">{{ formation }}</a>
+				<a class="list-link" href="{{ path('infos_formation', {'id' : formation.id}) }}">{{ formation }}</a>
 			{% endfor %}
 		</div>
 

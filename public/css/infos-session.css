@@ -290,7 +290,7 @@ a {
 
 /* Desktop Styles */
 @media (min-width: 992px) {
-  .stagiaires p:nth-child(2n + 1) {
-    background: none;
+  .fa-user-minus:hover {
+    transform: scale(1.1);
   }
 }

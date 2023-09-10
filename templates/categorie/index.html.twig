@@ -31,7 +31,7 @@
 		{# Affiche les catégories sous forme de lien vers les infos de la catégorie choisit #}
 		<div class="items">
 			{% for categorie in categories %}
-				<a href="{{ path('infos_categorie', { id: categorie.id }) }}">{{ categorie }}</a>
+				<a class="list-link" href="{{ path('infos_categorie', { id: categorie.id }) }}">{{ categorie }}</a>
 			{% endfor %}
 		</div>
 
@@ -60,7 +60,7 @@
 				<h3>Liste des modules</h3>
 				<div class="items">
 					{% for module in modulesCategorie %}
-						<a class="link" href="{{ path('infos_module', { id: module.id }) }}">{{ module }}</a>
+						<a class="link list-link" href="{{ path('infos_module', { id: module.id }) }}">{{ module }}</a>
 					{% endfor %}
 				</div>
 			</div>

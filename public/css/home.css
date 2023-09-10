@@ -54,6 +54,10 @@
   font-size: 15px;
 }
 
+.card .fa-arrow-right-long {
+  color: #000;
+}
+
 .card p {
   margin-bottom: 10px;
 }
@@ -152,5 +156,17 @@
   .card {
     max-width: 280px;
     max-height: 380px;
+  }
+
+  .card > div i {
+    font-size: 20px;
+  }
+
+  .card:hover {
+    transform: scale(1.01);
+  }
+  .card:hover .fa-arrow-right-long {
+    color: rgba(0, 85, 163, 1);
+    transform: scale(1.3);
   }
 }
