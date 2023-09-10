@@ -20,7 +20,13 @@ class SecurityController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $error && $error->getMessage() === 'Bad credentials.' ? '' : $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        $autofocusField = $lastUsername === '' ? 'email' : 'password';
+
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername, 
+            'error' => $error,
+            'autofocus_field' => $autofocusField
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
